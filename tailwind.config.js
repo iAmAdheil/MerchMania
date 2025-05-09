@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+import animate from "tailwindcss-animate";
+
+export default {
     darkMode: ["class"],
     content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,6 +13,9 @@ module.exports = {
   ],
   theme: {
   	extend: {
+		fontFamily: {
+			roboto: ['var(--font-roboto)'],
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
@@ -60,5 +65,5 @@ module.exports = {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 }
