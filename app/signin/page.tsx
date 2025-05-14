@@ -1,12 +1,11 @@
 import Navbar from '@/components/app/navbar/main';
-import CustomerSigninCard from '@/components/app/pages/signin/customerSignin';
+import SigninSection from '@/components/app/pages/signin/signinSection';
 
 export default function SignIn() {
-    return (
-        <div>
-            <div className="flex flex-col items-center w-full">
-                <CustomerSigninCard />
-            </div>
-        </div>
-    );
+	return (
+		<div>
+			<Navbar />
+			<SigninSection />
+		</div>
+	);
 }
