@@ -11,12 +11,16 @@ export default function Navbar() {
 				</span>
 				<Searchbar />
 			</div>
+			<div className='flex-1 flex flex-row justify-between px-12'>
+				<button className='text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200'>Explore</button>
+				<button className='text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200'>Our Influencers</button>
+			</div>
 			<div className="flex flex-row items-center gap-6">
 				<CartIcon />
 				<Button className="ml-4 text-xs font-semibold font-roboto text-white bg-purple-500 border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60">
 					Log In
 				</Button>
-				<Button className="text-xs font-semibold font-roboto bg-rgba(0, 0, 0, 0.8) text-white border border-solid border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60">
+				<Button className="text-xs font-semibold font-roboto bg-black text-white border border-solid border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60">
 					Sign Up
 				</Button>
 			</div>

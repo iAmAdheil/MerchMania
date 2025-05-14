@@ -62,7 +62,46 @@ export default {
 					4: 'hsl(var(--chart-4))',
 					5: 'hsl(var(--chart-5))',
 				},
+				brand: {
+					purple: '#8B5CF6',
+					'light-purple': '#C4B5FD',
+					orange: '#F97316',
+					'dark-gray': '#222222',
+					'light-gray': '#F3F4F6',
+				},				
 			},
+			keyframes: {
+				'accordion-down': {
+					from: {
+						height: '0'
+					},
+					to: {
+						height: 'var(--radix-accordion-content-height)'
+					}
+				},
+				'accordion-up': {
+					from: {
+						height: 'var(--radix-accordion-content-height)'
+					},
+					to: {
+						height: '0'
+					}
+				},
+				fadeIn: {
+					from: { opacity: '0' },
+					to: { opacity: '1' }
+				},
+				marquee: {
+					'0%': { transform: 'translateX(0%)' },
+					'100%': { transform: 'translateX(-100%)' }
+				},
+			},
+			animation: {
+				'accordion-down': 'accordion-down 0.2s ease-out',
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fadeIn 0.5s ease-out',
+				'marquee': 'marquee 25s linear infinite',
+			}
 		},
 	},
 	plugins: [animate],
