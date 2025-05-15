@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 const heroImages = [
 	'https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=800&auto=format',
-	'https://images.unsplash.com/photo-1626948683848-3b74a93458e8?w=800&auto=format',
+	// 'https://images.unsplash.com/photo-1626948683848-3b74a93458e8?w=800&auto=format',
 	'https://images.unsplash.com/photo-1506634572416-48cdfe530110?w=800&auto=format',
 ];
 

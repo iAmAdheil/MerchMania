@@ -1,11 +1,19 @@
+import FeaturedCreators from '@/components/app/pages/landing/featuredCreators';
+import { CreatorCard } from '@/components/app/pages/landing/featuredCreators';
 
-import TrendingCarousel from "@/components/app/pages/landing/trendingCarousel"
-import ProductCard from "@/components/app/pages/landing/productCard"
+const CREATOR = {
+	id: '1',
+	name: 'GamingWithAlex',
+	avatar: '/placeholder.svg',
+	followers: '1.2M',
+	category: 'Gaming',
+	productCount: 24,
+};
 
 export default function Test() {
 	return (
-		<div>			
-			<ProductCard />
+		<div>
+			<CreatorCard creator={CREATOR} />
 		</div>
-	)
+	);
 }

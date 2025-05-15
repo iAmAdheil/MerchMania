@@ -2,6 +2,9 @@ import LeftMain from './leftMain';
 import RightMain from './rightMain';
 import Marquee from './marquee';
 import TrendingCarousel from './trendingCarousel';
+import FeaturedProducts from './featuredProducts';
+import TestimonialSlider from './testimonials';
+import FeaturedCreators from './featuredCreators';
 
 export default function MainSection() {
 	return (
@@ -15,6 +18,9 @@ export default function MainSection() {
 				<p className='pl-20 w-full text-2xl font-roboto font-bold'>Trending Designs</p>				
 				<TrendingCarousel />				
 			</div>
+			<FeaturedProducts />
+			<TestimonialSlider />
+			<FeaturedCreators />				
 		</div>
 	);
 }

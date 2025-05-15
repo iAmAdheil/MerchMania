@@ -77,7 +77,7 @@ const featuredProducts: Product[] = [
 
 export default function ProductCard() {
 	return (
-		<div className="w-[20rem] flex flex-col border border-solid border-gray-200 rounded-xl">
+		<div className="group w-[20rem] flex flex-col border border-solid border-gray-200 rounded-xl hover:scale-105 hover:shadow-lg duration-150">
 			<div className="relative w-full">
 				<img
 					src={
@@ -101,8 +101,8 @@ export default function ProductCard() {
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-col gap-1 py-4 px-4">
-				<h2 className="font-semibold text-wrap">Air Force 1</h2>
+			<div className="flex flex-col gap-1 py-3 px-4">
+				<h2 className="font-semibold text-wrap group-hover:text-purple-500 duration-150">Air Force 1</h2>
 				<h3 className="font-bold text-sm">$ 49.99</h3>
 			</div>
 		</div>
