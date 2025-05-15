@@ -1,5 +1,4 @@
-import FeaturedCreators from '@/components/app/pages/landing/featuredCreators';
-import { CreatorCard } from '@/components/app/pages/landing/featuredCreators';
+import FeaturedCreators, { CreatorCard } from '@/components/app/pages/landing/featuredCreators';
 
 const CREATOR = {
 	id: '1',
@@ -13,7 +12,8 @@ const CREATOR = {
 export default function Test() {
 	return (
 		<div>
-			<CreatorCard creator={CREATOR} />
+			<FeaturedCreators />
+			{/* <CreatorCard creator={CREATOR} /> */}
 		</div>
 	);
 }
