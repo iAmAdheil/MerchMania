@@ -5,6 +5,7 @@ import TrendingCarousel from './trendingCarousel';
 import FeaturedProducts from './featuredProducts';
 import TestimonialSlider from './testimonials';
 import FeaturedCreators from './featuredCreators';
+import HowItWorksSection from './howItWorksSection';
 
 export default function MainSection() {
 	return (
@@ -20,7 +21,8 @@ export default function MainSection() {
 			</div>
 			<FeaturedProducts />
 			<TestimonialSlider />
-			<FeaturedCreators />				
+			<FeaturedCreators />
+			<HowItWorksSection />				
 		</div>
 	);
 }
