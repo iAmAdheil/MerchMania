@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, JSX } from 'react';
+import { useState, useEffect, JSX, useMemo } from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type Direction = 'left' | 'right';
 
@@ -56,23 +56,58 @@ const featuredCreators: Creator[] = [
 		category: 'Gaming',
 		productCount: 15,
 	},
+	{
+		id: '6',
+		name: 'Adheil',
+		avatar: '/placeholder.svg',
+		followers: '100M',
+		category: 'Sim Racing',
+		productCount: 15,
+	},
 ];
 
+// const cardVariants = {
+// 	initial: (direction: string) => ({
+// 		x: direction === 'left' ? -100 : 100,
+// 		opacity: 0,
+// 	}),
+// 	animate: {
+// 		x: 0,
+// 		opacity: 1,
+// 		transition: { type: 'spring', stiffness: 300, damping: 25 },
+// 	},
+// 	exit: (direction: string) => ({
+// 		position: 'absolute',
+// 		x: direction === 'left' ? 100 : -100,
+// 		opacity: 0,
+// 		transition: { duration: 0.25 },
+// 	}),
+// };
+
+const OFFSCREEN = 120;
+const DURATION = 0.35;
+const EASE = [0.45, 0.05, 0.55, 0.95];
+
 const cardVariants = {
-	initial: (direction: number) => ({
-		x: direction > 0 ? 100 : -100,
+	/** Only the new card */
+	initial: (dir: string) => ({
+		x: dir === 'right' ? OFFSCREEN : -OFFSCREEN,
 		opacity: 0,
 	}),
+
+	/** Every card on every frame */
 	animate: {
 		x: 0,
 		opacity: 1,
-		transition: { type: 'spring', stiffness: 300, damping: 25 },
+		transition: { type: 'tween', ease: EASE, duration: DURATION },
 	},
-	exit: (direction: number) => ({
-		x: direction > 0 ? -100 : 100,
+
+	/** Only the exiting card */
+	exit: (dir: string) => ({
+		position: 'absolute',
+		x: dir === 'right' ? -OFFSCREEN : OFFSCREEN,
 		opacity: 0,
-		transition: { duration: 0.2 },
-		layout: { duration: 0.4 },
+		transition: { type: 'tween', ease: EASE, duration: DURATION },
 	}),
 };
 
@@ -80,17 +115,26 @@ export default function FeaturedCreators() {
 	const [activeIndexes, setActiveIndexes] = useState([0, 1, 2, 3]);
 	const [direction, setDirection] = useState<Direction>('left');
 
+	const hideLeft: boolean = useMemo(() => {
+		if (activeIndexes.includes(0)) {
+			return true;
+		}
+		return false;
+	}, [activeIndexes]);
+	const hideRight: boolean = useMemo(() => {
+		if (activeIndexes.includes(featuredCreators.length - 1)) {
+			return true;
+		}
+		return false;
+	}, [activeIndexes]);
+
 	const handleLeftClick = () => {
 		setDirection('left');
 		setActiveIndexes(prevState => {
 			const modifiedActiveIndexes: number[] = [];
 
 			prevState.map(prevActiveIndex => {
-				if (prevActiveIndex === 0) {
-					modifiedActiveIndexes.push(featuredCreators.length - 1);
-				} else {
-					modifiedActiveIndexes.push(prevActiveIndex - 1);
-				}
+				modifiedActiveIndexes.push(prevActiveIndex - 1);
 			});
 
 			return modifiedActiveIndexes;
@@ -103,11 +147,7 @@ export default function FeaturedCreators() {
 			const modifiedActiveIndexes: number[] = [];
 
 			prevState.map(prevActiveIndex => {
-				if (prevActiveIndex === featuredCreators.length - 1) {
-					modifiedActiveIndexes.push(0);
-				} else {
-					modifiedActiveIndexes.push(prevActiveIndex + 1);
-				}
+				modifiedActiveIndexes.push(prevActiveIndex + 1);
 			});
 
 			return modifiedActiveIndexes;
@@ -115,51 +155,50 @@ export default function FeaturedCreators() {
 	};
 
 	return (
-		<div className="relative w-full">
-			<div className="w-full px-12 flex flex-row justify-between items-center">
-				{getActiveIndexCreators(activeIndexes, direction)}
+		<div className="w-full flex flex-col gap-8 py-10">
+			<p className="pl-20 w-full text-2xl font-roboto font-bold">Featured Creators</p>
+			<div className="relative w-full">
+				<div className="w-full px-12 flex flex-row justify-between items-center">
+					<AnimatePresence mode="popLayout" initial={false} custom={direction}>
+						{activeIndexes.map(activeIndex => (
+							<CreatorCard
+								key={featuredCreators[activeIndex].id}
+								creator={featuredCreators[activeIndex]}
+								direction={direction}
+							/>
+						))}
+					</AnimatePresence>
+				</div>
+				{!hideLeft && (
+					<button
+						className="absolute flex justify-center items-center h-8 w-8 bottom-1/2 left-2 rounded-full bg-gray-400 opacity-90 hover:opacity-70 active:scale-95"
+						onClick={handleLeftClick}
+					>
+						<FaAngleLeft color="white" />
+					</button>
+				)}
+				{!hideRight && (
+					<button
+						className="absolute flex justify-center items-center h-8 w-8 right-2 bottom-1/2 rounded-full bg-gray-400 opacity-90 hover:opacity-70 active:scale-95"
+						onClick={handleRightClick}
+					>
+						<FaAngleRight color="white" />
+					</button>
+				)}
 			</div>
-			<button
-				className="absolute flex justify-center items-center h-8 w-8 bottom-1/2 left-2 rounded-full bg-gray-400 opacity-90 hover:opacity-70 active:scale-95"
-				onClick={handleLeftClick}
-			>
-				<FaAngleLeft color="white" />
-			</button>
-			<button
-				className="absolute flex justify-center items-center h-8 w-8 right-2 bottom-1/2 rounded-full bg-gray-400 opacity-90 hover:opacity-70 active:scale-95"
-				onClick={handleRightClick}
-			>
-				<FaAngleRight color="white" />
-			</button>
 		</div>
 	);
 }
 
-const getActiveIndexCreators = (activeIndexes: number[], direction: Direction) => {
-	const activeIndexCreatorCards: JSX.Element[] = [];
-
-	activeIndexes.map(activeIndex => {
-		activeIndexCreatorCards.push(
-			<CreatorCard
-				key={activeIndex}
-				creator={featuredCreators[activeIndex]}
-				direction={direction}
-			/>
-		);
-	});
-
-	return activeIndexCreatorCards;
-};
-
 export function CreatorCard({ creator, direction }: { creator: Creator; direction: Direction }) {
 	return (
 		<motion.div
+			layout="position"
 			custom={direction}
 			variants={cardVariants}
 			initial="initial"
 			animate="animate"
 			exit="exit"
-			layout
 			className="group w-[18rem] flex flex-col gap-4 px-6 py-6 rounded-lg border-[1px] border-solid border-gray-200 hover:shadow-lg hover:scale-105 duration-150 hover:z-10"
 		>
 			<div className="flex flex-row items-center gap-4">
@@ -170,14 +209,14 @@ export function CreatorCard({ creator, direction }: { creator: Creator; directio
 						className="h-full w-full object-cover"
 					/>
 				</div>
-				<div>
+				<div className="flex-1 text-left">
 					<h3 className="font-semibold text-lg group-hover:text-purple-500">
 						{creator.name}
 					</h3>
 					<p className="text-sm text-gray-500">{creator.category}</p>
 				</div>
 			</div>
-			<div className="w-full flex flex-col justify-center items-center gap-2">
+			<div className="flex-1 w-full flex flex-col justify-center items-center gap-2">
 				<div className="w-full flex items-center justify-between text-sm text-gray-600">
 					<span>Followers</span>
 					<span className="text-sm text-black">{creator.followers}</span>
