@@ -157,7 +157,7 @@ export default function FeaturedCreators() {
 	return (
 		<div className="w-full flex flex-col gap-10 py-10 bg-gray-100">
 			<p className="pl-20 w-full text-2xl font-roboto font-bold">Featured Creators</p>
-			<div className="relative w-full">
+			{/* <div className="relative w-full">
 				<div className="w-full px-14 flex flex-row justify-between items-center">
 					<AnimatePresence mode="popLayout" initial={false} custom={direction}>
 						{activeIndexes.map(activeIndex => (
@@ -185,7 +185,7 @@ export default function FeaturedCreators() {
 						<FaAngleRight color="white" />
 					</button>
 				)}
-			</div>
+			</div> */}
 			<div className='w-full flex justify-center'>
 				<button className='w-fit px-5 py-2 bg-purple-600 text-white text-sm font-roboto font-semibold rounded-lg'>
 					Discover All Creators

@@ -25,9 +25,9 @@ const steps = [
 
 const HowItWorksSection = () => {
 	return (
-		<section className="py-16 bg-white flex flex-col gap-12">
+		<section className="py-12 bg-white flex flex-col gap-8">
 			<div className="text-center max-w-3xl mx-auto">
-				<h2 className="text-3xl font-bold mb-4">How It Works For Creators</h2>
+				<h2 className="text-3xl font-bold mb-3">How It Works For Creators</h2>
 				<p className="text-lg text-gray-600">
 					Launch your own merchandise line without the hassle. We handle production,
 					shipping, and customer service while you focus on creating.
@@ -41,7 +41,7 @@ const HowItWorksSection = () => {
 					>
 						<div className="mb-4">{step.icon}</div>
 						<h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-						<p className="text-gray-600">{step.description}</p>
+						<p className="text-gray-600 text-base">{step.description}</p>
 						<div className="w-full flex flex-row items-center gap-4 absolute bottom-4 pr-12">
 							<span className="bg-brand-purple/10 text-brand-purple font-semibold rounded-full w-8 h-8 flex items-center justify-center">
 								{index + 1}
