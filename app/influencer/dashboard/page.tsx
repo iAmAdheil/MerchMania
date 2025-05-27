@@ -1,5 +1,6 @@
 import Navbar from "@/components/app/navbar/main"
 import Header from "@/components/app/pages/influencer-dashboard/header";
+import InfoTabs from "@/components/app/pages/influencer-dashboard/infoTabs";
 
 import { 
   TrendingUp, 
@@ -19,6 +20,7 @@ export default function InfluencerDashBoard() {
 		<div className="w-full border-[0.5px] border-solid border-gray-300">
 			<Navbar />
 			<Header />
+			<InfoTabs />
 		</div>
 	)
 }
