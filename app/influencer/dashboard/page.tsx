@@ -14,6 +14,7 @@ import {
   Star,
   Settings
 } from "lucide-react";
+import Footer from "@/components/app/ui/footer";
 
 export default function InfluencerDashBoard() {
 	return (
@@ -21,6 +22,7 @@ export default function InfluencerDashBoard() {
 			<Navbar />
 			<Header />
 			<InfoTabs />
+			<Footer />
 		</div>
 	)
 }
