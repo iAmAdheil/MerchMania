@@ -2,20 +2,19 @@
 
 import { useState } from 'react';
 import { Tabs } from '@chakra-ui/react';
-import CustomerSigninCard from '@/components/app/pages/signin/customerSigninCard';
-import InfluencerSigninCard from '@/components/app/pages/signin/influencerSigninCard';
+import SigninCard from '@/components/app/pages/signin/signinCard';
 
 export default function SigninSection() {
 	const [tab, setTab] = useState<'customer' | 'creator'>('customer');
 
 	return (
-		<div className="w-full flex justify-center items-center pt-6 pb-12 border-b-[0.2px] border-solid border-gray-700">
+		<div className="w-full bg-white flex justify-center items-center py-12 border-b-[0.2px] border-solid border-gray-200">
 			<div className="flex flex-col items-center w-full">
-				<Tabs.Root value={tab} variant={'subtle'} className="flex flex-col gap-6">
-					<Tabs.List className="flex flex-row justify-between bg-[#1A202C]">
+				{/* <Tabs.Root value={tab} variant={'subtle'} className="flex flex-col gap-6">
+					<Tabs.List className="flex flex-row justify-between bg-gray-100 p-1 border border-solid border-gray-200 rounded-md">
 						<Tabs.Trigger
-							className={`flex justify-center items-center flex-1 text-sm font-roboto text-light text-white ${
-								tab === 'customer' ? 'bg-purple-600' : ''
+							className={`flex justify-center items-center flex-1 text-sm font-roboto ${
+								tab === 'customer' ? 'bg-white font-semibold text-purple-500' : 'text-black'
 							}`}
 							value="customer"
 							onClick={() => setTab('customer')}
@@ -23,8 +22,8 @@ export default function SigninSection() {
 							Customer
 						</Tabs.Trigger>
 						<Tabs.Trigger
-							className={`flex justify-center items-center flex-1 text-sm font-roboto text-light text-white ${
-								tab === 'creator' ? 'bg-purple-600' : ''
+							className={`flex justify-center items-center flex-1 text-sm font-roboto text-light ${
+								tab === 'creator' ? 'bg-white font-semibold text-purple-500' : 'text-black'
 							}`}
 							value="creator"
 							onClick={() => setTab('creator')}
@@ -38,7 +37,8 @@ export default function SigninSection() {
 					<Tabs.Content value="creator">
 						<InfluencerSigninCard />
 					</Tabs.Content>
-				</Tabs.Root>
+				</Tabs.Root> */}
+				<SigninCard />
 			</div>
 		</div>
 	);

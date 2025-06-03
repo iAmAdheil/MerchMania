@@ -1,21 +1,22 @@
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { FcGoogle } from 'react-icons/fc';
+import { purple } from '@mui/material/colors';
 
-export default function CustomerSigninCard() {
+export default function SigninCard() {
 	return (
-		<div className="w-[25rem] flex flex-col gap-3 border border-solid border-gray-500 px-10 py-6">
-			<div className="flex flex-col gap-3">
-				<div className="flex flex-col gap-2">
-					<h1 className="text-2xl font-roboto font-bold">Customer Login</h1>
-					<h2 className="text-xs font-roboto font-light text-gray-300">
+		<div className="w-[25rem] bg-white flex flex-col gap-5 border border-solid border-gray-200 px-10 py-6">
+			<div className="flex flex-col gap-5">
+				<div className="flex flex-col">
+					<h1 className="text-2xl font-roboto font-bold">Login</h1>
+					<h2 className="text-xs font-roboto font-light text-gray-600">
 						Enter your email and password to access your account
 					</h2>
 				</div>
 				<Button
 					colorPalette="teal"
 					variant="solid"
-					className="py-2 border border-solid border-gray-600 text-xs font-roboto font-semibold"
+					className="py-2 border border-solid border-gray-300 text-xs font-roboto font-semibold hover:bg-slate-100"
 				>
 					<FcGoogle /> Continue With Google
 				</Button>
@@ -23,14 +24,14 @@ export default function CustomerSigninCard() {
 			<HStack>
 				<Separator
 					flex="1"
-					className="border-[0.1px] border-solid border-gray-500 flex-1"
+					className="border-[0.1px] border-solid border-gray-200 flex-1"
 				/>
 				<Text flexShrink="0" className="font-roboto font-light text-[10px] text-gray-500">
 					OR
 				</Text>
 				<Separator
 					flex="1"
-					className="border-[0.1px] border-solid border-gray-500 flex-1"
+					className="border-[0.1px] border-solid border-gray-200 flex-1"
 				/>
 			</HStack>
 			<div className="flex flex-col gap-4">
@@ -40,7 +41,7 @@ export default function CustomerSigninCard() {
 					</Field.Label>
 					<Input
 						placeholder="you@example.com"
-						className="border border-solid border-gray-500 text-xs font-light rounded-sm pl-3 py-1"
+						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
 					/>
 				</Field.Root>
 				<Field.Root required className="flex flex-col gap-2 w-full">
@@ -48,22 +49,24 @@ export default function CustomerSigninCard() {
 						<div className="text-xs font-roboto">
 							Password <Field.RequiredIndicator color={'purple.500'} />
 						</div>
-						<a href="" className="hover:underline">
+						<a href="" className="hover:text-purple-500 duration-200">
 							<p className="font-light text-xs">Forgot Password</p>
 						</a>
 					</Field.Label>
 					<Stack className="w-full">
 						<div className="flex flex-col gap-4">
-							<PasswordInput className="border border-solid border-gray-500 text-xs font-light rounded-sm px-3 py-1" />
-							<PasswordStrengthMeter value={2} />
+							<PasswordInput className="border border-solid border-gray-200 text-xs font-light rounded-sm px-3 py-1" />
+							{/* <PasswordStrengthMeter value={2} /> */}
 						</div>
 					</Stack>
 				</Field.Root>
-				<Button className="text-xs font-semibold text-white bg-purple-600">Sign In</Button>
-				<p className="flex flex-row justify-center items-end gap-1 text-xs font-roboto text-gray-300">
+			</div>
+			<div className='w-full flex flex-col gap-3 mt-1'>
+				<Button className="w-full text-xs font-semibold text-white bg-purple-600 hover:opacity-80">Sign In</Button>
+				<p className="flex flex-row justify-center items-end gap-1 text-xs font-roboto text-gray-600">
 					Don't have an account?{' '}
-					<a href="" className="text-sm hover:underline">
-						<span className="font-semibold text-purple-400">Sign up</span>
+					<a href="" className="text-sm decoration-purple-500 hover:underline">
+						<span className="font-semibold text-purple-500">Sign up</span>
 					</a>
 				</p>
 			</div>

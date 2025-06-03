@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { Tabs } from '@chakra-ui/react';
 import OverviewTab from './overviewTab';
 import ProductsTab from './productsTab';
+import OrdersTab from './ordersTab';
+import AnalyticsTab from './analyticsTab';
 
 export default function InfoTabs() {
-	const [activeTab, setActiveTab] = useState('overview');	
+	const [activeTab, setActiveTab] = useState('overview');
 
 	return (
-		<div className='bg-gray-50 px-12 py-10'>
+		<div className="bg-gray-50 px-12 py-10">
 			<Tabs.Root value={activeTab} variant={'subtle'} className="flex flex-col gap-6">
 				<Tabs.List className="flex flex-row justify-between bg-gray-200 p-1">
 					<Tabs.Trigger
@@ -54,6 +56,12 @@ export default function InfoTabs() {
 				</Tabs.Content>
 				<Tabs.Content value="products">
 					<ProductsTab />
+				</Tabs.Content>
+				<Tabs.Content value="orders">
+					<OrdersTab />
+				</Tabs.Content>
+				<Tabs.Content value="analytics">
+					<AnalyticsTab />
 				</Tabs.Content>
 			</Tabs.Root>
 		</div>
