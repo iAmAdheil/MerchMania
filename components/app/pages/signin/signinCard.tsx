@@ -1,7 +1,6 @@
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { FcGoogle } from 'react-icons/fc';
-import { purple } from '@mui/material/colors';
 
 export default function SigninCard() {
 	return (
