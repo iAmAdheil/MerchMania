@@ -2,18 +2,43 @@ import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { Dispatch, SetStateAction } from 'react';
 import { Display } from '@/app/signup/page';
+import { FcGoogle } from 'react-icons/fc';
 
-export default function CreatorSignup({ setDisplay } : {
+export default function CreatorSignup({
+	setDisplay,
+}: {
 	setDisplay: Dispatch<SetStateAction<Display>>;
 }) {
 	return (
-		<div className="w-[25rem] flex flex-col items-center justify-center gap-6 bg-white px-8 py-6 rounded-lg shadow-xl">
+		<div className="w-[25rem] flex flex-col items-center justify-center gap-5 bg-white px-8 py-6 rounded-lg shadow-xl">
 			<div className="flex flex-col items-center">
 				<h2 className="text-2xl font-bold">Creator Signup</h2>
 				<p className="text-sm font-roboto text-gray-600">
 					Begin your creator journey with us
 				</p>
 			</div>
+			<div className="w-full">
+				<Button
+					colorPalette="teal"
+					variant="solid"
+					className="py-2 w-full border border-solid border-gray-300 text-xs font-roboto font-semibold hover:bg-slate-100"
+				>
+					<FcGoogle /> Signup With Google
+				</Button>
+			</div>
+			<HStack className="w-full">
+				<Separator
+					flex="1"
+					className="border-[0.1px] border-solid border-gray-200 flex-1"
+				/>
+				<Text flexShrink="0" className="font-roboto font-light text-[10px] text-gray-500">
+					OR
+				</Text>
+				<Separator
+					flex="1"
+					className="border-[0.1px] border-solid border-gray-200 flex-1"
+				/>
+			</HStack>
 			<div className="w-full flex flex-col gap-4">
 				<Field.Root required className="flex flex-col gap-2">
 					<Field.Label className="text-xs font-roboto">
@@ -65,13 +90,14 @@ export default function CreatorSignup({ setDisplay } : {
 					</Stack>
 				</Field.Root>
 			</div>
-			<div className='w-full flex flex-col gap-4'>
+			<div className="w-full flex flex-col gap-4">
 				<div className="w-full flex flex-row justify-between items-center">
 					<button
 						onClick={() => {
-							setDisplay('options')
+							setDisplay('options');
 						}}
-						className="w-[10rem] py-2 rounded-md text-xs font-roboto font-semibold border border-solid border-gray-200 hover:bg-slate-100 duration-200">
+						className="w-[10rem] py-2 rounded-md text-xs font-roboto font-semibold border border-solid border-gray-200 hover:bg-slate-100 duration-200"
+					>
 						Back
 					</button>
 					<button className="w-[10rem] py-2 rounded-md bg-purple-500 text-white text-xs font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200">

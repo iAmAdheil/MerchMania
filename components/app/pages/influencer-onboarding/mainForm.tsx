@@ -5,6 +5,8 @@ import { Progress } from '@chakra-ui/react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import StoreDetailsForm from './storeDetailsForm';
 import ProductDetails from './productsDetails';
+import ProductDesign from './productDesign';
+import ProductPrice from './productPrice';
 
 export default function OnboardingForm() {
 	const [progressValue, setProgressValue] = useState(25);
@@ -19,7 +21,7 @@ export default function OnboardingForm() {
 				<div className="flex flex-col gap-3">
 					<div className="flex flex-row justify-between items-end">
 						<h2 className="text-3xl font-bold">Store setup steps</h2>
-						<p className="text-xs text-gray-600">Step 1 of 4</p>
+						<p className="text-xs text-gray-600">Step {progressValue / 25} of 4</p>
 					</div>
 					<Progress.Root
 						max={100}
@@ -36,8 +38,10 @@ export default function OnboardingForm() {
 					</Progress.Root>
 				</div>
 				<div className="bg-white w-full flex flex-col items-center py-6 px-16 gap-5">
-					{/* <StoreDetailsForm /> */}
-					<ProductDetails />
+					{progressValue ===  25 && <StoreDetailsForm />}
+					{progressValue ===  50 && <ProductDetails />}
+					{progressValue ===  75 && <ProductDesign />}
+					{progressValue ===  100 && <ProductPrice />}					
 					<div className="w-full flex flex-row justify-between mt-2">
 						<button
 							onClick={() => {

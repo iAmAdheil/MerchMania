@@ -51,25 +51,21 @@ export default function ProductDetails() {
 					className="text-xs py-1.5 px-2 border border-solid border-gray-300"
 				/>
 			</div>
-			{/* <div className="w-full">
-				<Box sx={{ minWidth: 120 }}>
-					<FormControl fullWidth className='text-xs'>
-						<InputLabel id="demo-simple-select-label" className='text-xs'>Gender</InputLabel>
-						<Select
-							labelId="demo-simple-select-label"
-							id="demo-simple-select"
-							value={gender}
-							label="Gender"
-							onChange={handleChange}
-							className='h-12 text-xs'
-						>
-							<MenuItem className='text-xs' value={'male'}>Male</MenuItem>
-							<MenuItem value={'female'}>Female</MenuItem>
-							<MenuItem value={'unisex'}>Unisex</MenuItem>
-						</Select>
-					</FormControl>
-				</Box>
-			</div> */}
+			<div className='w-full mt-4'>
+				<FormControl sx={{ minWidth: 120, width: '100%' }} size="small">
+					<InputLabel sx={{ fontSize: 12 }}>Gender</InputLabel>
+					<Select						
+						value={gender}
+						label="Gender"
+						onChange={handleChange}
+						sx={{ fontSize: 12, paddingY: 1 }}
+					>						
+						<MenuItem sx={{ fontSize: 12 }} value={'male'}>Male</MenuItem>
+						<MenuItem sx={{ fontSize: 12 }} value={'female'}>Female</MenuItem>
+						<MenuItem sx={{ fontSize: 12 }} value={'unisex'}>Unisex</MenuItem>
+					</Select>
+				</FormControl>
+			</div>
 		</>
 	);
 }
