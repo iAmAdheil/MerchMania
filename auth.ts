@@ -10,6 +10,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				email: { label: 'Email', type: 'email' },
 				password: { label: 'Password', type: 'password' },
 			},
+			authorize: async (credentials) => {
+				// let user = null;
+				// check if user exists, if not take to signup
+				// if user exists check password				
+				return null;
+			}
 		}),
 	],
 });
