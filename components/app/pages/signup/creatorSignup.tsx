@@ -1,14 +1,29 @@
+'use client'
+
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { Dispatch, SetStateAction } from 'react';
 import { Display } from '@/app/signup/page';
 import { FcGoogle } from 'react-icons/fc';
+import { signIn } from 'next-auth/react';
+
+import { signupCreds } from '@/actions/auth';
 
 export default function CreatorSignup({
 	setDisplay,
 }: {
 	setDisplay: Dispatch<SetStateAction<Display>>;
 }) {
+
+	const handleSignupClick = async () => {
+		try {
+			const res = await signupCreds()
+			console.log(res.msg)
+		} catch(e: any) {
+
+		}
+	}
+
 	return (
 		<div className="w-[25rem] flex flex-col items-center justify-center gap-5 bg-white px-8 py-6 rounded-lg shadow-xl">
 			<div className="flex flex-col items-center">
@@ -100,13 +115,17 @@ export default function CreatorSignup({
 					>
 						Back
 					</button>
-					<button className="w-[10rem] py-2 rounded-md bg-purple-500 text-white text-xs font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200">
+					<button
+						onClick={handleSignupClick}
+						className="w-[10rem] py-2 rounded-md bg-purple-500 text-white text-xs font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200">
 						Create Account
 					</button>
 				</div>
 				<p className="flex flex-row justify-center items-end gap-1 text-xs font-roboto text-gray-600">
 					Already have an account?{' '}
-					<a href="" className="text-sm decoration-purple-500 hover:underline">
+					<a
+						href='/signin'						
+						className="text-sm decoration-purple-500 hover:underline">
 						<span className="font-semibold text-purple-500">Sign in</span>
 					</a>
 				</p>

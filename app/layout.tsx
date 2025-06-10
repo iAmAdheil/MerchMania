@@ -1,12 +1,9 @@
-import { Provider as ChakraProvider } from '@/components/ui/provider';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
-import { ThemeProvider } from 'next-themes';
-import theme from '../theme';
+
 
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Roboto } from 'next/font/google';
 import './globals.css';
+import ProviderWrapper from '@/provider';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -38,13 +35,9 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
-				<ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-					<AppRouterCacheProvider>
-						<MUIThemeProvider theme={theme}>
-							<ChakraProvider>{children}</ChakraProvider>
-						</MUIThemeProvider>
-					</AppRouterCacheProvider>
-				</ThemeProvider>
+				<ProviderWrapper>
+					{children}
+				</ProviderWrapper>
 			</body>
 		</html>
 	);

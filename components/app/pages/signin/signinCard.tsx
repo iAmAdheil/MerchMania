@@ -1,7 +1,7 @@
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
-import { FcGoogle } from 'react-icons/fc';
-import handleClick from '@/actions';
+import { FcGoogle } from 'react-icons/fc'
+
 
 export default function SigninCard() {
 	
@@ -66,13 +66,13 @@ export default function SigninCard() {
 			<div className="w-full flex flex-col gap-3 mt-1">
 				<Button
 					className="w-full text-xs font-semibold text-white bg-purple-600 hover:opacity-80"
-					onClick={async () => await handleClick()}
+					// onClick={async () => await handleClick()}
 				>
 					Sign In
 				</Button>
 				<p className="flex flex-row justify-center items-end gap-1 text-xs font-roboto text-gray-600">
 					Don't have an account?{' '}
-					<a href="" className="text-sm decoration-purple-500 hover:underline">
+					<a href="/signup" className="text-sm decoration-purple-500 hover:underline">
 						<span className="font-semibold text-purple-500">Sign up</span>
 					</a>
 				</p>
