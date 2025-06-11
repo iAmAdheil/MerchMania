@@ -4,6 +4,7 @@ import { Provider as ChakraProvider } from '@/components/ui/provider';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
 import { ThemeProvider } from 'next-themes';
+import { SessionProvider } from 'next-auth/react';
 import theme from './theme';
 
 const ProviderWrapper = ({

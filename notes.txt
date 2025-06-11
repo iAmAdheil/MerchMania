@@ -1,0 +1,84 @@
+http://localhost:3000 http://localhost:3000
+{
+  name: 'Adheil Gupta',
+  email: 'adheilgupta@gmail.com',
+  picture: 'https://lh3.googleusercontent.com/a/ACg8ocKr608Mi9H6LJndFuEMZ4FX4sWRMyo3HCJCMaWvSuRhRyAD-w=s96-c',
+  sub: '6e42bb28-8164-490e-9d1d-548b3666ae50',
+  iat: 1749669657,
+  exp: 1752261657,
+  jti: 'c3e355e6-9b96-40bf-a5e2-dd6d15d3d89f'
+} undefined undefined undefined
+{
+  user: {
+  name: 'Adheil Gupta',
+  email: 'adheilgupta@gmail.com',
+  image: 'https://lh3.googleusercontent.com/a/ACg8ocKr608Mi9H6LJndFuEMZ4FX4sWRMyo3HCJCMaWvSuRhRyAD-w=s96-c'
+},
+  expires: '2025-07-11T19:21:28.838Z'
+} undefined {
+  name: 'Adheil Gupta',
+  email: 'adheilgupta@gmail.com',
+  picture: 'https://lh3.googleusercontent.com/a/ACg8ocKr608Mi9H6LJndFuEMZ4FX4sWRMyo3HCJCMaWvSuRhRyAD-w=s96-c',
+  sub: '6e42bb28-8164-490e-9d1d-548b3666ae50',
+  iat: 1749669657,
+  exp: 1752261657,
+  jti: 'c3e355e6-9b96-40bf-a5e2-dd6d15d3d89f'
+}
+http://localhost:3000 http://localhost:3000
+{
+  name: 'Adheil Gupta',
+  email: 'adheilgupta@gmail.com',
+  picture: 'https://lh3.googleusercontent.com/a/ACg8ocKr608Mi9H6LJndFuEMZ4FX4sWRMyo3HCJCMaWvSuRhRyAD-w=s96-c',
+  sub: '6e42bb28-8164-490e-9d1d-548b3666ae50',
+  iat: 1749669657,
+  exp: 1752261657,
+  jti: 'c3e355e6-9b96-40bf-a5e2-dd6d15d3d89f'
+} undefined undefined undefined
+{
+  user: {
+    name: 'Adheil Gupta',
+    email: 'adheilgupta@gmail.com',
+    image: 'https://lh3.googleusercontent.com/a/ACg8ocKr608Mi9H6LJndFuEMZ4FX4sWRMyo3HCJCMaWvSuRhRyAD-w=s96-c'
+  },
+  expires: '2025-07-11T19:21:28.909Z'
+} undefined {
+  name: 'Adheil Gupta',
+  email: 'adheilgupta@gmail.com',
+  picture: 'https://lh3.googleusercontent.com/a/ACg8ocKr608Mi9H6LJndFuEMZ4FX4sWRMyo3HCJCMaWvSuRhRyAD-w=s96-c',
+  sub: '6e42bb28-8164-490e-9d1d-548b3666ae50',
+  iat: 1749669657,
+  exp: 1752261657,
+  jti: 'c3e355e6-9b96-40bf-a5e2-dd6d15d3d89f'
+}
+
+
+
+
+callback logs
+
+http://localhost:3000 http://localhost:3000
+{
+  name: 'Adheil Gupta',
+  email: 'adheilgupta@gmail.com',
+  picture: 'https://lh3.googleusercontent.com/a/ACg8ocKr608Mi9H6LJndFuEMZ4FX4sWRMyo3HCJCMaWvSuRhRyAD-w=s96-c',
+  sub: '14ebd66d-7644-4a23-a849-932e37d63d87',
+  iat: 1749670341,
+  exp: 1752262341,
+  jti: '027e08d2-9235-46e0-8970-695879c2fe0a'
+} undefined undefined undefined
+{
+  user: {
+  name: 'Adheil Gupta',
+  email: 'adheilgupta@gmail.com',
+  image: 'https://lh3.googleusercontent.com/a/ACg8ocKr608Mi9H6LJndFuEMZ4FX4sWRMyo3HCJCMaWvSuRhRyAD-w=s96-c'
+},
+  expires: '2025-07-11T19:32:24.090Z'
+} undefined {
+  name: 'Adheil Gupta',
+  email: 'adheilgupta@gmail.com',
+  picture: 'https://lh3.googleusercontent.com/a/ACg8ocKr608Mi9H6LJndFuEMZ4FX4sWRMyo3HCJCMaWvSuRhRyAD-w=s96-c',
+  sub: '14ebd66d-7644-4a23-a849-932e37d63d87',
+  iat: 1749670341,
+  exp: 1752262341,
+  jti: '027e08d2-9235-46e0-8970-695879c2fe0a'
+}

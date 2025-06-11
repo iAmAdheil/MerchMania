@@ -1,28 +1,47 @@
-'use client'
+'use client';
 
+import { useEffect, useState } from 'react';
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { Dispatch, SetStateAction } from 'react';
 import { Display } from '@/app/signup/page';
 import { FcGoogle } from 'react-icons/fc';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
-import { signupCreds } from '@/actions/auth';
+type UserDetails = {
+	username: string;
+	email: string;
+	password: string;
+	confirmPassword: string;
+};
 
 export default function CreatorSignup({
 	setDisplay,
 }: {
 	setDisplay: Dispatch<SetStateAction<Display>>;
 }) {
+	const [userDetails, setUserDetails] = useState<UserDetails>({
+		username: '',
+		email: '',
+		password: '',
+		confirmPassword: '',
+	});
 
-	const handleSignupClick = async () => {
+	const { data: session, status } = useSession();
+
+	const handleSignup = async () => {
 		try {
-			const res = await signupCreds()
-			console.log(res.msg)
-		} catch(e: any) {
+			signIn('google');
+		} catch (e: any) {}
+	};
 
-		}
-	}
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		if(status === 'authenticated') {
+	// 		console.log(session)
+	// 	}
+	// 	}, 10000)
+	// }, [status])
 
 	return (
 		<div className="w-[25rem] flex flex-col items-center justify-center gap-5 bg-white px-8 py-6 rounded-lg shadow-xl">
@@ -60,6 +79,11 @@ export default function CreatorSignup({
 						Full Name <Field.RequiredIndicator color={'purple.500'} />
 					</Field.Label>
 					<Input
+						onChange={e =>
+							setUserDetails(prevState => {
+								return { ...prevState, username: e.target.value };
+							})
+						}
 						placeholder="John Doe"
 						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
 					/>
@@ -69,6 +93,11 @@ export default function CreatorSignup({
 						Email <Field.RequiredIndicator color={'purple.500'} />
 					</Field.Label>
 					<Input
+						onChange={e =>
+							setUserDetails(prevState => {
+								return { ...prevState, email: e.target.value };
+							})
+						}
 						placeholder="you@example.com"
 						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
 					/>
@@ -84,7 +113,14 @@ export default function CreatorSignup({
 					</Field.Label>
 					<Stack className="w-full">
 						<div className="flex flex-col gap-4">
-							<PasswordInput className="border border-solid border-gray-200 text-xs font-light rounded-sm px-3 py-1" />
+							<PasswordInput
+								onChange={e =>
+									setUserDetails(prevState => {
+										return { ...prevState, password: e.target.value };
+									})
+								}
+								className="border border-solid border-gray-200 text-xs font-light rounded-sm px-3 py-1"
+							/>
 							<PasswordStrengthMeter value={2} />
 						</div>
 					</Stack>
@@ -100,7 +136,14 @@ export default function CreatorSignup({
 					</Field.Label>
 					<Stack className="w-full">
 						<div className="flex flex-col gap-4">
-							<PasswordInput className="border border-solid border-gray-200 text-xs font-light rounded-sm px-3 py-1" />
+							<PasswordInput
+								onChange={e =>
+									setUserDetails(prevState => {
+										return { ...prevState, confirmPassword: e.target.value };
+									})
+								}
+								className="border border-solid border-gray-200 text-xs font-light rounded-sm px-3 py-1"
+							/>
 						</div>
 					</Stack>
 				</Field.Root>
@@ -116,16 +159,15 @@ export default function CreatorSignup({
 						Back
 					</button>
 					<button
-						onClick={handleSignupClick}
-						className="w-[10rem] py-2 rounded-md bg-purple-500 text-white text-xs font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200">
+						onClick={handleSignup}
+						className="w-[10rem] py-2 rounded-md bg-purple-500 text-white text-xs font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200"
+					>
 						Create Account
 					</button>
 				</div>
 				<p className="flex flex-row justify-center items-end gap-1 text-xs font-roboto text-gray-600">
 					Already have an account?{' '}
-					<a
-						href='/signin'						
-						className="text-sm decoration-purple-500 hover:underline">
+					<a href="/signin" className="text-sm decoration-purple-500 hover:underline">
 						<span className="font-semibold text-purple-500">Sign in</span>
 					</a>
 				</p>
