@@ -7,6 +7,9 @@ import { Dispatch, SetStateAction } from 'react';
 import { Display } from '@/app/signup/page';
 import { FcGoogle } from 'react-icons/fc';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { redirect } from 'next/dist/server/api-utils';
+import Loader from '../../ui/loader';
+import { FaSearch } from 'react-icons/fa';
 
 type UserDetails = {
 	username: string;
@@ -20,6 +23,7 @@ export default function CreatorSignup({
 }: {
 	setDisplay: Dispatch<SetStateAction<Display>>;
 }) {
+	const [isLoading,setLoading] = useState(false);
 	const [userDetails, setUserDetails] = useState<UserDetails>({
 		username: '',
 		email: '',
@@ -31,8 +35,18 @@ export default function CreatorSignup({
 
 	const handleSignup = async () => {
 		try {
-			signIn('google');
-		} catch (e: any) {}
+			const res = await signIn('credentials', {
+				role: 'CREATOR',
+				username: userDetails.username,
+				email: userDetails.email,
+				password: userDetails.password,
+				confirmPassword: userDetails.confirmPassword,
+				redirect: false,
+			});
+			console.log(res);
+		} catch (e: any) {
+			console.log(e);
+		}
 	};
 
 	// useEffect(() => {
@@ -44,7 +58,14 @@ export default function CreatorSignup({
 	// }, [status])
 
 	return (
-		<div className="w-[25rem] flex flex-col items-center justify-center gap-5 bg-white px-8 py-6 rounded-lg shadow-xl">
+		<div
+			className={`relative w-[25rem] flex flex-col items-center justify-center gap-5 bg-white px-8 py-6 rounded-lg shadow-xl ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+		>
+			{isLoading && (
+				<div className="absolute bottom-1/2 z-10">
+					<Loader size={60} />
+				</div>
+			)}
 			<div className="flex flex-col items-center">
 				<h2 className="text-2xl font-bold">Creator Signup</h2>
 				<p className="text-sm font-roboto text-gray-600">
@@ -53,6 +74,7 @@ export default function CreatorSignup({
 			</div>
 			<div className="w-full">
 				<Button
+					onClick={() => signOut()}
 					colorPalette="teal"
 					variant="solid"
 					className="py-2 w-full border border-solid border-gray-300 text-xs font-roboto font-semibold hover:bg-slate-100"
@@ -153,13 +175,13 @@ export default function CreatorSignup({
 					<button
 						onClick={() => {
 							setDisplay('options');
-						}}
+						}}						
 						className="w-[10rem] py-2 rounded-md text-xs font-roboto font-semibold border border-solid border-gray-200 hover:bg-slate-100 duration-200"
 					>
 						Back
 					</button>
 					<button
-						onClick={handleSignup}
+						onClick={handleSignup}						
 						className="w-[10rem] py-2 rounded-md bg-purple-500 text-white text-xs font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200"
 					>
 						Create Account
@@ -167,7 +189,7 @@ export default function CreatorSignup({
 				</div>
 				<p className="flex flex-row justify-center items-end gap-1 text-xs font-roboto text-gray-600">
 					Already have an account?{' '}
-					<a href="/signin" className="text-sm decoration-purple-500 hover:underline">
+					<a href='/signin' className="text-sm decoration-purple-500 hover:underline">
 						<span className="font-semibold text-purple-500">Sign in</span>
 					</a>
 				</p>
