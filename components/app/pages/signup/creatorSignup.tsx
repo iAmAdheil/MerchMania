@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { Dispatch, SetStateAction } from 'react';
@@ -32,6 +33,7 @@ export default function CreatorSignup({
 	});
 
 	const { data: session, status } = useSession();
+	const router = useRouter();
 
 	const handleSignup = async () => {
 		try {
@@ -44,8 +46,13 @@ export default function CreatorSignup({
 				redirect: false,
 			});
 			console.log(res);
+			if(!res) {
+				throw new Error('Could not sign up user!');
+			}
+			router.push('/');
 		} catch (e: any) {
 			console.log(e);
+
 		}
 	};
 

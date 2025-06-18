@@ -51,82 +51,95 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				// 	return user;
 				// }
 				// Return null if user data could not be retrieved
-				console.log(credentials, req);
+				// console.log(credentials, req);
 
-				const role = credentials.role as UserRole;
-				const username = credentials.username as string;
-				const email = credentials.email as string;
-				const password = credentials.password as string;
-				const confirmPassword = credentials.confirmPassword as string;
 
-				try {
-					const existingUser = await prisma.user.findUnique({
-						where: {
-							email: email,
-						},
-					});
+				// return {
+				// 	id: '1',
+				// 	username: 'JJ',
+				// 	email: 'jj@gmail.com',
+				// 	password: 'jj',
+				// }
+				return null;
 
-					// flow 1 signup ->
-					if (confirmPassword.length > 6) {
-						// user trying to signup
-						if (existingUser) {
-							// user already exists
-							// try to signin pls
-							return null;
-						} else {
-							// data already verified using zod on frontend
-							const hashedPassword = bcrypt.hashSync(password, 10);
-							const newUser = await prisma.user.create({
-								data: {
-									role: role,
-									username: username,
-									email: email,
-									password: hashedPassword,
-								},
-							});
 
-							return {
-							id: newUser.id,
-							username: newUser.username,
-							email: newUser.email,
-							password: newUser.password,
-						};
-						}						
-					}
+				// const role = credentials.role as UserRole;
+				// const username = credentials.username as string;
+				// const email = credentials.email as string;
+				// const password = credentials.password as string;
+				// const confirmPassword = credentials.confirmPassword as string;
 
-					// flow 2 -> signin
-					if (existingUser && bcrypt.compareSync(password, existingUser.password)) {
-						return {
-							id: existingUser.id,
-							username: existingUser.username,
-							email: existingUser.email,
-							password: existingUser.password,
-						};
-					}
+				// try {
+				// 	const existingUser = await prisma.user.findUnique({
+				// 		where: {
+				// 			email: email,
+				// 		},
+				// 	});
 
-					return null;
-				} catch (e: any) {
-					console.log(e);
-					return null;					
-				}
+				// 	// flow 1 signup ->
+				// 	if (confirmPassword.length > 6) {
+				// 		// user trying to signup
+				// 		if (existingUser) {
+				// 			// user already exists
+				// 			// try to signin pls
+				// 			return null;
+				// 		} else {
+				// 			// data already verified using zod on frontend
+				// 			const hashedPassword = bcrypt.hashSync(password, 10);
+				// 			const newUser = await prisma.user.create({
+				// 				data: {
+				// 					role: role,
+				// 					username: username,
+				// 					email: email,
+				// 					password: hashedPassword,
+				// 				},
+				// 			});
+
+				// 			return {
+				// 			id: newUser.id,
+				// 			username: newUser.username,
+				// 			email: newUser.email,
+				// 			password: newUser.password,
+				// 		};
+				// 		}						
+				// 	}
+
+				// 	// flow 2 -> signin
+				// 	if (existingUser && bcrypt.compareSync(password, existingUser.password)) {
+				// 		return {
+				// 			id: existingUser.id,
+				// 			username: existingUser.username,
+				// 			email: existingUser.email,
+				// 			password: existingUser.password,
+				// 		};
+				// 	}
+
+				// 	return null;
+				// } catch (e: any) {
+				// 	console.log(e);
+				// 	return null;					
+				// }
 			},
 		}),
 	],
 	callbacks: {
 		async signIn({ user, account, profile, email, credentials }) {
 			console.log(user, account, profile, email, credentials);
+			if(!user) {
+				return false;
+			}
 			return true;
 		},
 		async redirect({ url, baseUrl }) {
-			console.log(url, baseUrl);
+			// console.log(url, baseUrl);
 			return baseUrl;
 		},
 		async session({ session, user, token }) {
-			console.log(session, user, token);
+			// console.log(session, user, token);
 			return session;
 		},
 		async jwt({ token, user, account, profile, isNewUser }) {
-			console.log(token, user, account, profile);
+			// console.log(token, user, account, profile);
 			return token;
 		},
 	},
