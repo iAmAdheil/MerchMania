@@ -4,6 +4,9 @@ import { useState } from 'react';
 import Header from '@/components/app/pages/influencer-shop/header';
 import Navbar from '@/components/app/navbar/main';
 import ShopTabs from '@/components/app/pages/influencer-shop/shopTabs';
+import ProductsTab from '@/components/app/pages/influencer-shop/productsTab';
+import AboutTab from '@/components/app/pages/influencer-shop/aboutTab';
+import Footer from '@/components/app/ui/footer';
 
 type InfluencerHeaderProps = {
 	influencer: {
@@ -56,15 +59,20 @@ export default function InfluencerShop() {
 
 	const onTabChange = (tab: Tabs) => {
 		setActiveTab(tab);
-	}
+	};
 
 	return (
 		<div>
 			<Navbar />
-			<div className='flex flex-col gap-[10rem]'>
+			<div className="flex flex-col gap-[10rem] pb-10">
 				<Header influencer={mockInfluencer} />
-				<ShopTabs activeTab={activeTab} onTabChange={onTabChange} productCount={0} />
+				<div className='px-16 flex flex-col gap-5 w-[100%]'>
+					<ShopTabs activeTab={activeTab} onTabChange={onTabChange} productCount={0} />
+					{/* <ProductsTab /> */}
+					<AboutTab />
+				</div>
 			</div>
+			<Footer />
 		</div>
 	);
 }

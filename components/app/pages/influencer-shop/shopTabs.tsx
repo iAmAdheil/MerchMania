@@ -24,12 +24,12 @@ const ShopTabs = ({ activeTab, onTabChange, productCount }: InfluencerTabsProps)
       icon: ShoppingBag,
       count: productCount
     },
-    {
-      id: "collections",
-      label: "Collections",
-      icon: Grid3X3,
-      count: 3
-    },
+    // {
+    //   id: "collections",
+    //   label: "Collections",
+    //   icon: Grid3X3,
+    //   count: 3
+    // },
     {
       id: "about",
       label: "About",
@@ -39,7 +39,7 @@ const ShopTabs = ({ activeTab, onTabChange, productCount }: InfluencerTabsProps)
   ];
 
   return (
-    <div className="mx-16 border-b border-gray-200">
+    <div className="w-[100%] border-b border-gray-200">
       <nav className="flex flex-row items-center gap-8">
         {tabs.map((tab) => {
           const Icon = tab.icon;
