@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -104,8 +105,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 							throw new UserNotFound();
 						} else if (!bcrypt.compareSync(password, existingUser.password)) {
 							throw new IncorrectPassword();
-						}
-						else {
+						} else {
 							return {
 								id: existingUser.id,
 								username: existingUser.username,
@@ -127,6 +127,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 			console.log(user, account, profile, email, credentials);
 			if (account?.provider === 'credentials') {
 				return true;
+			} else if (account?.provider === 'google') {
+				console.log('Print custom data!');
+				const cookieStore = await cookies();
+				const additionalAuthParams = cookieStore.get('additionalAuthParams');
+				console.log(additionalAuthParams);
+				// const customData = JSON.parse(atob(account.state as string));
+				// // Add custom data to user object
+				// console.log(customData)
 			}
 			return true;
 		},

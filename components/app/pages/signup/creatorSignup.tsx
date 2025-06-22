@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { cookies } from 'next/headers';
 import { useRouter } from 'next/navigation';
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
@@ -43,7 +44,10 @@ export default function CreatorSignup({
 
 	const handleGoogleSignup = async () => {
 		try {
-			const res = await signIn('google', {}, { role: 'creator', type: 'signup' });
+			const customData = { role: 'creator', type: 'signup' };
+			const cookieStore = await cookies();
+			cookieStore.set('additionalAuthParams', JSON.stringify(customData));
+			const res = await signIn('google', { callbackUrl: '/' });
 			console.log(res);
 		} catch (e: any) {
 			console.log(e);
@@ -51,25 +55,25 @@ export default function CreatorSignup({
 	};
 
 	const handleCredSignup = async () => {
-		try {			
+		try {
 			setIsLoading(true);
 			const data = {
 				type: 'signup',
 				role: 'CREATOR',
 				username: userDetails.username,
 				email: userDetails.email,
-				password: userDetails.password,				
+				password: userDetails.password,
 			};
 			const result = UserDetailsParser.safeParse(data);
 			if (!result.success) {
 				// display error
-				console.log("invalid credentials");
+				console.log('invalid credentials');
 				console.log(result.error);
 				return;
 			}
 			if (result.data.password !== userDetails.confirmPassword) {
 				//	display error -> fields do not match!
-				console.log("password fields do not match");
+				console.log('password fields do not match');
 				return;
 			}
 			const res = await signIn('credentials', {

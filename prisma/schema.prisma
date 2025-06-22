@@ -15,13 +15,13 @@ datasource db {
 }
 
 model User {
-    id       String @id @default(cuid())
-	providerId String?
-    role     ROLE   @default(CUSTOMER)
-    username String
-    email    String @unique
-    password String
-    Shop     Shop?
+    id         String  @id @default(cuid())
+    providerId String?
+    role       ROLE    @default(CUSTOMER)
+    username   String
+    email      String  @unique
+    password   String
+    Shop       Shop?
 }
 
 model Shop {
@@ -38,7 +38,7 @@ model Product {
     description String
     tags        String[]
     shopId      String
-    shop        Shop         @relation(fields: [shopId], references: [id])
+    shop        Shop     @relation(fields: [shopId], references: [id])
 }
 
 enum ROLE {
