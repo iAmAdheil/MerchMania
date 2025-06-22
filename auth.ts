@@ -3,10 +3,32 @@ import Google from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import prisma from './lib/prisma';
 import bcrypt from 'bcryptjs';
+import { CredentialsSignin } from 'next-auth';
 
 const saltRounds = 10;
 
-type UserRole = 'CUSTOMER' | 'ADMIN' | 'CREATOR';
+type SignType = 'signin' | 'signup';
+type UserRole = 'CUSTOMER' | 'ADMIN' | 'CREATOR' | null;
+
+export class InvalidLoginError extends CredentialsSignin {
+	error = 'InvalidLoginError';
+	code = 'invalid_credentials';
+}
+
+export class UserNotFound extends CredentialsSignin {
+	error = 'UserNotFFound';
+	code = 'user_not_found';
+}
+
+export class UserAlreadyExists extends CredentialsSignin {
+	error = 'UserAlreadyExists';
+	code = 'user_already_exists';
+}
+
+export class IncorrectPassword extends CredentialsSignin {
+	error = 'IncorrectPassword';
+	code = 'incorrect_password';
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	providers: [
@@ -26,107 +48,85 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 			// e.g. domain, username, password, 2FA token, etc.
 			// You can pass any HTML attribute to the <input> tag through the object.
 			credentials: {
+				type: { label: 'type', type: 'text' },
 				role: { label: 'role', type: 'text' },
 				username: { label: 'Username', type: 'text' },
 				email: { label: 'Email', type: 'text' },
 				password: { label: 'Password', type: 'password' },
-				confirmPassword: { label: 'Confirm Password', type: 'password' },
+				// confirmPassword: { label: 'Confirm Password', type: 'password' },
 			},
 			async authorize(credentials, req) {
-				// You need to provide your own logic here that takes the credentials
-				// submitted and returns either a object representing a user or value
-				// that is false/null if the credentials are invalid.
-				// e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-				// You can also use the `req` object to obtain additional parameters
-				// (i.e., the request IP address)
-				// const res = await fetch('/your/endpoint', {
-				// 	method: 'POST',
-				// 	body: JSON.stringify(credentials),
-				// 	headers: { 'Content-Type': 'application/json' },
-				// });
-				// const user = await res.json();
+				try {
+					const type = credentials.type as SignType;
+					const role = credentials.role as UserRole;
+					const username = credentials.username as string | null;
+					const email = credentials.email as string;
+					const password = credentials.password as string;
+					// const confirmPassword = credentials.confirmPassword as string | null;
 
-				// // If no error and we have user data, return it
-				// if (res.ok && user) {
-				// 	return user;
-				// }
-				// Return null if user data could not be retrieved
-				// console.log(credentials, req);
+					const existingUser = await prisma.user.findUnique({
+						where: {
+							email: email,
+						},
+					});
 
+					// flow 1 signup ->
+					if (type === 'signup') {
+						if (existingUser) {
+							// user already exists
+							// try to signin pls
+							throw new UserAlreadyExists();
+						} else {
+							// if password and confirmPassword don't match, already verified by frontend
+							// data already verified using zod on frontend
+							const hashedPassword = bcrypt.hashSync(password, 10);
+							const newUser = await prisma.user.create({
+								data: {
+									role: role || 'CUSTOMER',
+									username: username as string,
+									email: email,
+									password: hashedPassword,
+								},
+							});
 
-				// return {
-				// 	id: '1',
-				// 	username: 'JJ',
-				// 	email: 'jj@gmail.com',
-				// 	password: 'jj',
-				// }
-				return null;
+							return {
+								id: newUser.id,
+								username: newUser.username,
+								email: newUser.email,
+								password: newUser.password,
+							};
+						}
+					}
 
+					// flow 2 -> signin
+					if (type === 'signin') {
+						if (!existingUser) {
+							throw new UserNotFound();
+						} else if (!bcrypt.compareSync(password, existingUser.password)) {
+							throw new IncorrectPassword();
+						}
+						else {
+							return {
+								id: existingUser.id,
+								username: existingUser.username,
+								email: existingUser.email,
+								password: existingUser.password,
+							};
+						}
+					}
 
-				// const role = credentials.role as UserRole;
-				// const username = credentials.username as string;
-				// const email = credentials.email as string;
-				// const password = credentials.password as string;
-				// const confirmPassword = credentials.confirmPassword as string;
-
-				// try {
-				// 	const existingUser = await prisma.user.findUnique({
-				// 		where: {
-				// 			email: email,
-				// 		},
-				// 	});
-
-				// 	// flow 1 signup ->
-				// 	if (confirmPassword.length > 6) {
-				// 		// user trying to signup
-				// 		if (existingUser) {
-				// 			// user already exists
-				// 			// try to signin pls
-				// 			return null;
-				// 		} else {
-				// 			// data already verified using zod on frontend
-				// 			const hashedPassword = bcrypt.hashSync(password, 10);
-				// 			const newUser = await prisma.user.create({
-				// 				data: {
-				// 					role: role,
-				// 					username: username,
-				// 					email: email,
-				// 					password: hashedPassword,
-				// 				},
-				// 			});
-
-				// 			return {
-				// 			id: newUser.id,
-				// 			username: newUser.username,
-				// 			email: newUser.email,
-				// 			password: newUser.password,
-				// 		};
-				// 		}						
-				// 	}
-
-				// 	// flow 2 -> signin
-				// 	if (existingUser && bcrypt.compareSync(password, existingUser.password)) {
-				// 		return {
-				// 			id: existingUser.id,
-				// 			username: existingUser.username,
-				// 			email: existingUser.email,
-				// 			password: existingUser.password,
-				// 		};
-				// 	}
-
-				// 	return null;
-				// } catch (e: any) {
-				// 	console.log(e);
-				// 	return null;					
-				// }
+					return null;
+				} catch (e: any) {
+					return null;
+				}
 			},
 		}),
 	],
 	callbacks: {
 		async signIn({ user, account, profile, email, credentials }) {
 			console.log(user, account, profile, email, credentials);
-			if(!user) {
-				return false;
+			if (account?.provider === 'credentials') {
+				return true;
 			}
 			return true;
 		},

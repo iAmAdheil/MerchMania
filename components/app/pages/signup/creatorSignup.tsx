@@ -8,9 +8,8 @@ import { Dispatch, SetStateAction } from 'react';
 import { Display } from '@/app/signup/page';
 import { FcGoogle } from 'react-icons/fc';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { redirect } from 'next/dist/server/api-utils';
 import Loader from '../../ui/loader';
-import { FaSearch } from 'react-icons/fa';
+import * as z from 'zod/v4';
 
 type UserDetails = {
 	username: string;
@@ -19,12 +18,22 @@ type UserDetails = {
 	confirmPassword: string;
 };
 
+const UserDetailsParser = z.object({
+	type: z.literal('signup'),
+	role: z.literal('CREATOR'),
+	username: z.string().min(4).max(30),
+	email: z.email(),
+	password: z.string().min(8),
+});
+
 export default function CreatorSignup({
 	setDisplay,
 }: {
 	setDisplay: Dispatch<SetStateAction<Display>>;
 }) {
-	const [isLoading,setLoading] = useState(false);
+	const router = useRouter();
+
+	const [isLoading, setIsLoading] = useState(false);
 	const [userDetails, setUserDetails] = useState<UserDetails>({
 		username: '',
 		email: '',
@@ -32,37 +41,55 @@ export default function CreatorSignup({
 		confirmPassword: '',
 	});
 
-	const { data: session, status } = useSession();
-	const router = useRouter();
-
-	const handleSignup = async () => {
+	const handleGoogleSignup = async () => {
 		try {
-			const res = await signIn('credentials', {
+			const res = await signIn('google', {}, { role: 'creator', type: 'signup' });
+			console.log(res);
+		} catch (e: any) {
+			console.log(e);
+		}
+	};
+
+	const handleCredSignup = async () => {
+		try {			
+			setIsLoading(true);
+			const data = {
+				type: 'signup',
 				role: 'CREATOR',
 				username: userDetails.username,
 				email: userDetails.email,
-				password: userDetails.password,
-				confirmPassword: userDetails.confirmPassword,
+				password: userDetails.password,				
+			};
+			const result = UserDetailsParser.safeParse(data);
+			if (!result.success) {
+				// display error
+				console.log("invalid credentials");
+				console.log(result.error);
+				return;
+			}
+			if (result.data.password !== userDetails.confirmPassword) {
+				//	display error -> fields do not match!
+				console.log("password fields do not match");
+				return;
+			}
+			const res = await signIn('credentials', {
+				...result.data,
 				redirect: false,
 			});
 			console.log(res);
-			if(!res) {
-				throw new Error('Could not sign up user!');
+			if (!res || res.error === 'CredentialsSignin') {
+				// don't throw, display error
+				return;
+				// throw new Error('Request failed, Please try again later!');
 			}
 			router.push('/');
 		} catch (e: any) {
 			console.log(e);
-
+			// display request failed error
+		} finally {
+			setIsLoading(false);
 		}
 	};
-
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		if(status === 'authenticated') {
-	// 		console.log(session)
-	// 	}
-	// 	}, 10000)
-	// }, [status])
 
 	return (
 		<div
@@ -81,7 +108,7 @@ export default function CreatorSignup({
 			</div>
 			<div className="w-full">
 				<Button
-					onClick={() => signOut()}
+					onClick={handleGoogleSignup}
 					colorPalette="teal"
 					variant="solid"
 					className="py-2 w-full border border-solid border-gray-300 text-xs font-roboto font-semibold hover:bg-slate-100"
@@ -182,13 +209,13 @@ export default function CreatorSignup({
 					<button
 						onClick={() => {
 							setDisplay('options');
-						}}						
+						}}
 						className="w-[10rem] py-2 rounded-md text-xs font-roboto font-semibold border border-solid border-gray-200 hover:bg-slate-100 duration-200"
 					>
 						Back
 					</button>
 					<button
-						onClick={handleSignup}						
+						onClick={handleCredSignup}
 						className="w-[10rem] py-2 rounded-md bg-purple-500 text-white text-xs font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200"
 					>
 						Create Account
@@ -196,7 +223,7 @@ export default function CreatorSignup({
 				</div>
 				<p className="flex flex-row justify-center items-end gap-1 text-xs font-roboto text-gray-600">
 					Already have an account?{' '}
-					<a href='/signin' className="text-sm decoration-purple-500 hover:underline">
+					<a href="/signin" className="text-sm decoration-purple-500 hover:underline">
 						<span className="font-semibold text-purple-500">Sign in</span>
 					</a>
 				</p>

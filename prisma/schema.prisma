@@ -16,6 +16,7 @@ datasource db {
 
 model User {
     id       String @id @default(cuid())
+	providerId String?
     role     ROLE   @default(CUSTOMER)
     username String
     email    String @unique

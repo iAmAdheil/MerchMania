@@ -1,6 +1,7 @@
 import Searchbar from './searchbar';
 import { Button } from '@chakra-ui/react';
 import CartIcon from './cartIcon';
+import { signOut } from 'next-auth/react';
 
 export default function Navbar() {
 	return (
@@ -17,7 +18,11 @@ export default function Navbar() {
 			</div>
 			<div className="flex flex-row items-center gap-6">
 				<CartIcon />
-				<Button className="ml-4 text-xs font-semibold font-roboto text-white bg-purple-500 border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60">
+				<Button
+					onClick={async () => {
+						await signOut();
+					}}
+					className="ml-4 text-xs font-semibold font-roboto text-white bg-purple-500 border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60">
 					Log In
 				</Button>
 				<Button className="text-xs font-semibold font-roboto bg-black text-white border border-solid border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60">
