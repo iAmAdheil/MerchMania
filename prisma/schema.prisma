@@ -15,13 +15,19 @@ datasource db {
 }
 
 model User {
-    id         String  @id @default(cuid())
-    providerId String?
-    role       ROLE    @default(CUSTOMER)
-    username   String
-    email      String  @unique
-    password   String
-    Shop       Shop?
+    id            String    @id    
+    role          ROLE      @default(CUSTOMER)
+    name          String
+    email         String    @unique    
+    emailVerified Boolean
+    image         String?
+    Shop          Shop?
+    createdAt     DateTime
+    updatedAt     DateTime
+    sessions      Session[]
+    accounts      Account[]
+
+    @@map("user")
 }
 
 model Shop {
@@ -39,6 +45,51 @@ model Product {
     tags        String[]
     shopId      String
     shop        Shop     @relation(fields: [shopId], references: [id])
+}
+
+model Session {
+    id        String   @id
+    expiresAt DateTime
+    token     String
+    createdAt DateTime
+    updatedAt DateTime
+    ipAddress String?
+    userAgent String?
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([token])
+    @@map("session")
+}
+
+model Account {
+    id                    String    @id
+    accountId             String
+    providerId            String
+    userId                String
+    user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    accessToken           String?
+    refreshToken          String?
+    idToken               String?
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
+    scope                 String?
+    password              String?
+    createdAt             DateTime
+    updatedAt             DateTime
+
+    @@map("account")
+}
+
+model Verification {
+    id         String    @id
+    identifier String
+    value      String
+    expiresAt  DateTime
+    createdAt  DateTime?
+    updatedAt  DateTime?
+
+    @@map("verification")
 }
 
 enum ROLE {

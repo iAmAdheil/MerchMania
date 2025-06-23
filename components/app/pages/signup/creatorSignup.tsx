@@ -8,7 +8,6 @@ import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-i
 import { Dispatch, SetStateAction } from 'react';
 import { Display } from '@/app/signup/page';
 import { FcGoogle } from 'react-icons/fc';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import Loader from '../../ui/loader';
 import * as z from 'zod/v4';
 
@@ -47,8 +46,8 @@ export default function CreatorSignup({
 			const customData = { role: 'creator', type: 'signup' };
 			const cookieStore = await cookies();
 			cookieStore.set('additionalAuthParams', JSON.stringify(customData));
-			const res = await signIn('google', { callbackUrl: '/' });
-			console.log(res);
+			// const res = await signIn('google', { callbackUrl: '/' });
+			// console.log(res);
 		} catch (e: any) {
 			console.log(e);
 		}
@@ -76,16 +75,16 @@ export default function CreatorSignup({
 				console.log('password fields do not match');
 				return;
 			}
-			const res = await signIn('credentials', {
-				...result.data,
-				redirect: false,
-			});
-			console.log(res);
-			if (!res || res.error === 'CredentialsSignin') {
-				// don't throw, display error
-				return;
-				// throw new Error('Request failed, Please try again later!');
-			}
+			// const res = await signIn('credentials', {
+			// 	...result.data,
+			// 	redirect: false,
+			// });
+			// console.log(res);
+			// if (!res || res.error === 'CredentialsSignin') {
+			// 	// don't throw, display error
+			// 	return;
+			// 	// throw new Error('Request failed, Please try again later!');
+			// }
 			router.push('/');
 		} catch (e: any) {
 			console.log(e);
