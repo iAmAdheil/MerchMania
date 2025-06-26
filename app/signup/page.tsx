@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSession } from '@/auth/auth-client';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import LeftSection from '@/components/app/pages/signup/leftSection';
 import OptionsBox from '@/components/app/pages/signup/optionsBox';
 import CustomerSignup from '@/components/app/pages/signup/customerSignup';
@@ -13,26 +13,31 @@ export type Display = 'options' | 'customerSignup' | 'creatorSignup';
 
 export default function Signup() {
 	const router = useRouter();
-	const { data: session, status } = useSession();
+	const {
+		data: session,
+		isPending, //loading state
+		error, //error object
+		refetch, //refetch the session
+	} = useSession();
 
-	const [isLoading, setIsLoading] = useState(true);
 	const [display, setDisplay] = useState<Display>('options');
 
-	useEffect(() => {	
-		console.log(status);
-		if (status === 'authenticated' && router) {
-			router.replace('/');
-		} else if (status === 'unauthenticated') {
-			setIsLoading(false);
+	useEffect(() => {
+		if((!isPending && !session) || (!isPending && error)) {
+			console.log(isPending);
+			console.log(session);
+			console.log(error);			
+		} else {
+			router.push('/');
 		}
-	}, [status, router]);
+	}, [isPending]);
 
-	if (status === 'loading' || isLoading) {
+	if (isPending) {
 		return (
 			<div className="min-h-screen flex justify-center items-center">
 				<Loader size={60} />
-			</div>	
-		)
+			</div>
+		);
 	}
 
 	return (

@@ -1,9 +1,9 @@
 'use client';
-// import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
-// import FloatingBubblesBackground from "@/components/app/ui/floatingBubbles";
+
 import Navbar from '@/components/app/navbar/main';
 import MainSection from '@/components/app/pages/landing/main';
 import Footer from '@/components/app/ui/footer';
+import { useSession } from '@/auth/auth-client';
 
 export default function Home() {
 

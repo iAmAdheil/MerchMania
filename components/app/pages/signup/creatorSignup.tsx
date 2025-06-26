@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { cookies } from 'next/headers';
 import { useRouter } from 'next/navigation';
+import { signUp, signOut } from '@/auth/auth-client';
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { Dispatch, SetStateAction } from 'react';
@@ -19,7 +19,6 @@ type UserDetails = {
 };
 
 const UserDetailsParser = z.object({
-	type: z.literal('signup'),
 	role: z.literal('CREATOR'),
 	username: z.string().min(4).max(30),
 	email: z.email(),
@@ -31,7 +30,7 @@ export default function CreatorSignup({
 }: {
 	setDisplay: Dispatch<SetStateAction<Display>>;
 }) {
-	const router = useRouter();
+	const router = useRouter();	
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [userDetails, setUserDetails] = useState<UserDetails>({
@@ -41,29 +40,17 @@ export default function CreatorSignup({
 		confirmPassword: '',
 	});
 
-	const handleGoogleSignup = async () => {
-		try {
-			const customData = { role: 'creator', type: 'signup' };
-			const cookieStore = await cookies();
-			cookieStore.set('additionalAuthParams', JSON.stringify(customData));
-			// const res = await signIn('google', { callbackUrl: '/' });
-			// console.log(res);
-		} catch (e: any) {
-			console.log(e);
-		}
-	};
-
 	const handleCredSignup = async () => {
 		try {
 			setIsLoading(true);
-			const data = {
-				type: 'signup',
+			const details = {
 				role: 'CREATOR',
 				username: userDetails.username,
 				email: userDetails.email,
 				password: userDetails.password,
 			};
-			const result = UserDetailsParser.safeParse(data);
+
+			const result = UserDetailsParser.safeParse(details);
 			if (!result.success) {
 				// display error
 				console.log('invalid credentials');
@@ -75,17 +62,29 @@ export default function CreatorSignup({
 				console.log('password fields do not match');
 				return;
 			}
-			// const res = await signIn('credentials', {
-			// 	...result.data,
-			// 	redirect: false,
-			// });
-			// console.log(res);
-			// if (!res || res.error === 'CredentialsSignin') {
-			// 	// don't throw, display error
-			// 	return;
-			// 	// throw new Error('Request failed, Please try again later!');
-			// }
-			router.push('/');
+
+			const { data, error } = await signUp.email(
+				{
+					//@ts-ignore
+					role: details.role,
+					email: details.email,
+					password: details.password,
+					name: details.username,
+				},
+				{					
+					onSuccess: (ctx: any) => {
+						console.log(ctx);
+						router.push('/');
+					},
+					onError: (ctx: any) => {
+						// display the error message						
+						alert(ctx.error.message);
+					},
+				}
+			);		
+			console.log(data);
+			console.log(error);
+			// throw or set errors if any
 		} catch (e: any) {
 			console.log(e);
 			// display request failed error
@@ -93,6 +92,19 @@ export default function CreatorSignup({
 			setIsLoading(false);
 		}
 	};
+
+	const handleSignOut = async () => {
+		try {
+			const res = await signOut();
+			console.log(res);
+		} catch (e: any) {
+			console.log(e);
+		}
+	};
+
+	useEffect(() => {
+
+	})
 
 	return (
 		<div
@@ -111,7 +123,7 @@ export default function CreatorSignup({
 			</div>
 			<div className="w-full">
 				<Button
-					onClick={handleGoogleSignup}
+					onClick={handleSignOut}
 					colorPalette="teal"
 					variant="solid"
 					className="py-2 w-full border border-solid border-gray-300 text-xs font-roboto font-semibold hover:bg-slate-100"

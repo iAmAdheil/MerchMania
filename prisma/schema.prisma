@@ -18,7 +18,7 @@ model User {
     id            String    @id    
     role          ROLE      @default(CUSTOMER)
     name          String
-    email         String    @unique    
+    email         String    @unique
     emailVerified Boolean
     image         String?
     Shop          Shop?
