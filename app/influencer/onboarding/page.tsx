@@ -5,7 +5,7 @@ import Footer from "@/components/app/ui/footer"
 export default function Onboarding() {
 	return (
 		<div>
-			<Navbar />
+			{/* <Navbar /> */}
 			<OnboardingForm />
 			<Footer />
 		</div>

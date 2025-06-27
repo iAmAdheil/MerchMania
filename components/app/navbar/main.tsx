@@ -1,9 +1,31 @@
+'use client'
+
 import Searchbar from './searchbar';
 import { Button } from '@chakra-ui/react';
 import CartIcon from './cartIcon';
-import { signOut } from 'next-auth/react';
+import { signOut } from '@/auth/auth-client';
+import { useRouter } from 'next/navigation';
 
-export default function Navbar() {
+type Props = {
+	isAuth: boolean;
+	role?: 'CREATOR' | 'CUSTOMER' | 'ADMIN';
+}
+
+export default function Navbar({isAuth, role} : Props) {
+	const router = useRouter();
+	const handleSignOut = async () => {
+		try {
+			const res = await signOut();
+			console.log(res);
+		} catch (e: any) {
+			console.log(e);
+		}
+	};
+
+	const handleNavigation = (route: string) => {
+		router.push(route);
+	}
+
 	return (
 		<div className="bg-white dark:bg-black px-14 py-3 border-b-[0.5px] border-solid border-gray-200 shadow-lg flex flex-row justify-between items-center z-10">
 			<div className="flex flex-row items-center gap-6">
@@ -12,23 +34,30 @@ export default function Navbar() {
 				</span>
 				<Searchbar />
 			</div>
-			<div className='flex-1 flex flex-row justify-between px-12'>
-				<button className='text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200'>Explore</button>
-				<button className='text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200'>Our Influencers</button>
+			<div className="w-fit flex flex-row justify-between gap-16">
+				<button className="text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200">
+					Explore
+				</button>
+				<button className="text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200">
+					Our Influencers
+				</button>
 			</div>
-			<div className="flex flex-row items-center gap-6">
-				<CartIcon />
+			<div className="flex flex-row items-center gap-6">				
 				<Button
-					onClick={async () => {
-						await signOut();
-					}}
-					className="ml-4 text-xs font-semibold font-roboto text-white bg-purple-500 border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60">
+					// onClick={() => handleNavigation('/signin')}
+					onClick={() => signOut()}
+					className="ml-4 text-xs font-semibold font-roboto text-white bg-purple-500 border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60"
+				>
 					Log In
 				</Button>
-				<Button className="text-xs font-semibold font-roboto bg-black text-white border border-solid border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60">
+				<Button 
+					onClick={() => handleNavigation('/signup')}
+					className="text-xs font-semibold font-roboto bg-black text-white border border-solid border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60">
 					Sign Up
 				</Button>
 			</div>
 		</div>
 	);
 }
+
+{/* <CartIcon /> */}

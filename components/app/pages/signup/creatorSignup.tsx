@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signUp, signOut } from '@/auth/auth-client';
+import { signUp, signOut, signIn } from '@/auth/auth-client';
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { Dispatch, SetStateAction } from 'react';
@@ -30,7 +30,7 @@ export default function CreatorSignup({
 }: {
 	setDisplay: Dispatch<SetStateAction<Display>>;
 }) {
-	const router = useRouter();	
+	const router = useRouter();
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [userDetails, setUserDetails] = useState<UserDetails>({
@@ -71,17 +71,17 @@ export default function CreatorSignup({
 					password: details.password,
 					name: details.username,
 				},
-				{					
+				{
 					onSuccess: (ctx: any) => {
 						console.log(ctx);
 						router.push('/');
 					},
 					onError: (ctx: any) => {
-						// display the error message						
+						// display the error message
 						alert(ctx.error.message);
 					},
 				}
-			);		
+			);
 			console.log(data);
 			console.log(error);
 			// throw or set errors if any
@@ -93,18 +93,41 @@ export default function CreatorSignup({
 		}
 	};
 
-	const handleSignOut = async () => {
+	const handleGoogleSignup = async () => {
 		try {
-			const res = await signOut();
-			console.log(res);
+			const { data, error } = await signIn.social(
+				{
+					provider: 'google',
+				},
+				{
+					onRequest: async ctx => {
+						console.log(ctx);
+					},
+					onSuccess: async ctx => {
+						console.log(ctx);
+					},
+					onError: async ctx => {
+						console.log(ctx);
+					},
+				}
+			);
+			console.log(data);
+			console.log(error);
 		} catch (e: any) {
 			console.log(e);
 		}
 	};
 
-	useEffect(() => {
+	// const handleSignOut = async () => {
+	// 	try {
+	// 		const res = await signOut();
+	// 		console.log(res);
+	// 	} catch (e: any) {
+	// 		console.log(e);
+	// 	}
+	// };
 
-	})
+	useEffect(() => {});
 
 	return (
 		<div
@@ -123,7 +146,7 @@ export default function CreatorSignup({
 			</div>
 			<div className="w-full">
 				<Button
-					onClick={handleSignOut}
+					onClick={handleGoogleSignup}
 					colorPalette="teal"
 					variant="solid"
 					className="py-2 w-full border border-solid border-gray-300 text-xs font-roboto font-semibold hover:bg-slate-100"

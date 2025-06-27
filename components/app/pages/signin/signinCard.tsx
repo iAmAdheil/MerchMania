@@ -1,10 +1,22 @@
+'use client'
+
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
-import { FcGoogle } from 'react-icons/fc'
-
+import { FcGoogle } from 'react-icons/fc';
+import { signIn } from '@/auth/auth-client';
 
 export default function SigninCard() {
-	
+	const handleGoogleSignin = async () => {
+		try {
+			const {data, error} = await signIn.social({
+				provider: 'google',				
+			});
+			console.log(data);
+			console.log(error);
+		} catch (e: any) {
+			console.log(e);
+		}
+	};
 
 	return (
 		<div className="w-[25rem] bg-white flex flex-col gap-5 border border-solid border-gray-200 px-10 py-6">
@@ -16,6 +28,7 @@ export default function SigninCard() {
 					</h2>
 				</div>
 				<Button
+					onClick={async () => await handleGoogleSignin()}
 					colorPalette="teal"
 					variant="solid"
 					className="py-2 border border-solid border-gray-300 text-xs font-roboto font-semibold hover:bg-slate-100"

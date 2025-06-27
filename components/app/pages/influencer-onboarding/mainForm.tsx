@@ -7,8 +7,10 @@ import StoreDetailsForm from './storeDetailsForm';
 import ProductDetails from './productsDetails';
 import ProductDesign from './productDesign';
 import ProductPrice from './productPrice';
+import { useRouter } from 'next/navigation';
 
 export default function OnboardingForm() {
+	const router = useRouter();
 	const [progressValue, setProgressValue] = useState(25);
 
 	useEffect(() => {
@@ -38,10 +40,10 @@ export default function OnboardingForm() {
 					</Progress.Root>
 				</div>
 				<div className="bg-white w-full flex flex-col items-center py-6 px-16 gap-5">
-					{progressValue ===  25 && <StoreDetailsForm />}
-					{progressValue ===  50 && <ProductDetails />}
-					{progressValue ===  75 && <ProductDesign />}
-					{progressValue ===  100 && <ProductPrice />}					
+					{progressValue === 25 && <StoreDetailsForm />}
+					{progressValue === 50 && <ProductDetails />}
+					{progressValue === 75 && <ProductDesign />}
+					{progressValue === 100 && <ProductPrice />}
 					<div className="w-full flex flex-row justify-between mt-2">
 						<button
 							onClick={() => {
@@ -53,15 +55,25 @@ export default function OnboardingForm() {
 							<ArrowLeft className="h-3 w-3" />
 							Back
 						</button>
-						<button
-							onClick={() => {
-								setProgressValue(prevValue => prevValue + 25);
-							}}
-							className="flex flex-row items-center gap-2 text-sm text-white font-semibold bg-purple-500 py-1 px-3 rounded-md hover:opacity-80"
-						>
-							Next
-							<ArrowRight className="h-3 w-3" color="white" />
-						</button>
+						<div className='flex flex-row gap-3'>
+							<button
+								onClick={() => {
+									setProgressValue(prevValue => prevValue + 25);
+								}}
+								className="flex flex-row items-center gap-2 text-sm text-white font-semibold bg-purple-500 py-1 px-3 rounded-md hover:opacity-80"
+							>
+								Next
+								<ArrowRight className="h-3 w-3" color="white" />
+							</button>
+							<button
+								onClick={() => {
+									router.push('/');
+								}}
+								className="flex flex-row items-center bg-white text-sm text-black font-semibold border border-solid border-purple-500 py-1 px-3 rounded-md hover:bg-slate-100 duration-200"
+							>
+								Skip Store Setup								
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
