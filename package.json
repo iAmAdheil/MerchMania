@@ -21,6 +21,7 @@
 		"bcryptjs": "^3.0.2",
 		"better-auth": "^1.2.10",
 		"class-variance-authority": "^0.7.1",
+		"cloudinary": "^2.7.0",
 		"clsx": "^2.1.1",
 		"framer-motion": "^12.10.5",
 		"lucide-react": "^0.508.0",

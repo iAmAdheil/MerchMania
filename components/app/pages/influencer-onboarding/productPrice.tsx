@@ -1,7 +1,14 @@
+'use client';
+
+import { type Dispatch, type SetStateAction } from "react";
 import { DollarSign } from "lucide-react";
 import { Field, Input } from "@chakra-ui/react";
+import { ProductDetails } from "./mainForm";
 
-export default function ProductPrice() {
+export default function ProductPrice({productDetails, setProductDetails} : {
+	productDetails: ProductDetails;
+	setProductDetails: Dispatch<SetStateAction<ProductDetails>>;
+}) {
 	return (
 		<>
 			<div className="flex flex-col justify-between items-center gap-3 w-full">
@@ -19,6 +26,15 @@ export default function ProductPrice() {
 						Product Price <Field.RequiredIndicator color={'purple.500'} />
 					</Field.Label>
 					<Input
+						value={productDetails.price}
+						onChange={(e) => {
+							setProductDetails(prevState => {
+								return {
+									...prevState,
+									price: e.target.value
+								}
+							})
+						}}
 						placeholder="$ 29.99"
 						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
 					/>

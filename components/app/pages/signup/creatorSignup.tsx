@@ -64,17 +64,20 @@ export default function CreatorSignup({
 			}
 
 			const { data, error } = await signUp.email(
-				{
-					//@ts-ignore
+				{					
 					role: details.role,
+					isOnboarded: false,
 					email: details.email,
 					password: details.password,
 					name: details.username,
 				},
 				{
+					onRequest: (ctx: any) => {
+						console.log(ctx);
+					},
 					onSuccess: (ctx: any) => {
 						console.log(ctx);
-						router.push('/');
+						router.push('/influencer/onboarding');
 					},
 					onError: (ctx: any) => {
 						// display the error message

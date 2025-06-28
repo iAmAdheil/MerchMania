@@ -1,19 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { Shirt } from 'lucide-react';
 import { Field, Input, Textarea } from '@chakra-ui/react';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { type ProductDetails } from './mainForm';
 
-export default function ProductDetails() {
-	const [gender, setGender] = useState('unisex');
-
-	const handleChange = (event: SelectChangeEvent) => {
-		setGender(event.target.value as string);
+export default function ProductDetails({
+	productDetails,
+	setProductDetails,
+}: {
+	productDetails: ProductDetails;
+	setProductDetails: Dispatch<SetStateAction<ProductDetails>>;
+}) {
+	const handleChange = (event: SelectChangeEvent) => {		
+		setProductDetails(prevState => {
+			return {
+				...prevState,
+				gender: event.target.value as string
+			}
+		})
 	};
 
 	return (
@@ -33,6 +42,15 @@ export default function ProductDetails() {
 						Product Name <Field.RequiredIndicator color={'purple.500'} />
 					</Field.Label>
 					<Input
+						value={productDetails.name}
+						onChange={e => {
+							setProductDetails(prevState => {
+								return {
+									...prevState,
+									name: e.target.value,
+								};
+							});
+						}}
 						placeholder="eg. Cyber Ninja"
 						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
 					/>
@@ -46,23 +64,40 @@ export default function ProductDetails() {
 					Product Description <span className="text-purple-500">*</span>
 				</p>
 				<Textarea
-					resize="none"
+					value={productDetails.description}
+					onChange={e => {
+						setProductDetails(prevState => {
+							return {
+								...prevState,
+								description: e.target.value,
+							};
+						});
+					}}					
+					minH="3lh"
+					maxH="8lh"
 					placeholder=""
 					className="text-xs py-1.5 px-2 border border-solid border-gray-300"
+					autoresize
 				/>
 			</div>
-			<div className='w-full mt-4'>
+			<div className="w-full mt-4">
 				<FormControl sx={{ minWidth: 120, width: '100%' }} size="small">
 					<InputLabel sx={{ fontSize: 12 }}>Gender</InputLabel>
-					<Select						
-						value={gender}
+					<Select
+						value={productDetails.gender}
 						label="Gender"
 						onChange={handleChange}
 						sx={{ fontSize: 12, paddingY: 1 }}
-					>						
-						<MenuItem sx={{ fontSize: 12 }} value={'male'}>Male</MenuItem>
-						<MenuItem sx={{ fontSize: 12 }} value={'female'}>Female</MenuItem>
-						<MenuItem sx={{ fontSize: 12 }} value={'unisex'}>Unisex</MenuItem>
+					>
+						<MenuItem sx={{ fontSize: 12 }} value={'male'}>
+							Male
+						</MenuItem>
+						<MenuItem sx={{ fontSize: 12 }} value={'female'}>
+							Female
+						</MenuItem>
+						<MenuItem sx={{ fontSize: 12 }} value={'unisex'}>
+							Unisex
+						</MenuItem>
 					</Select>
 				</FormControl>
 			</div>

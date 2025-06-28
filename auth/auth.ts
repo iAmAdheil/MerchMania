@@ -6,6 +6,14 @@ import { inferAdditionalFields } from 'better-auth/client/plugins';
 const prisma = new PrismaClient();
 
 export const auth = betterAuth({
+	database: prismaAdapter(prisma, {
+		provider: 'postgresql', // or "mysql", "postgresql", ...etc
+	}),
+	emailAndPassword: {
+		enabled: true,
+		requireEmailVerification: false,
+		autoSignIn: true,
+	},
 	socialProviders: {
 		google: {
 			clientId: process.env.AUTH_GOOGLE_ID as string,
@@ -21,16 +29,13 @@ export const auth = betterAuth({
 	plugins: [
 		inferAdditionalFields({
 			user: {
-				phone: {
+				role: {
 					type: 'string',
 					required: false,
 				},
 			},
 		}),
 	],
-	database: prismaAdapter(prisma, {
-		provider: 'postgresql', // or "mysql", "postgresql", ...etc
-	}),
 	user: {
 		additionalFields: {
 			role: {
@@ -40,24 +45,5 @@ export const auth = betterAuth({
 				input: false,
 			},
 		},
-	},
-	session: {
-		additionalFields: {
-			role: {
-				type: 'string',
-				required: true,
-				defaultValue: 'CUSTOMER',
-			},
-			isOnboarded: {
-				type: 'string',
-				required: true,
-				defaultValue: false,
-			},
-		},
-	},
-	emailAndPassword: {
-		enabled: true,
-		requireEmailVerification: false,
-		autoSignIn: true,
 	},
 });

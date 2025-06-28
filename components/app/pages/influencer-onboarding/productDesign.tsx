@@ -1,20 +1,17 @@
-'use client'
+'use client';
 
-import { Palette, Upload } from "lucide-react"
-import { Field, Input } from "@chakra-ui/react"
-import { useState } from "react"
+import { Palette, Upload } from 'lucide-react';
+import { Field, Input } from '@chakra-ui/react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
+import { ProductDetails } from './mainForm';
 
-
-export default function ProductDesign() {
-	const [sizes, setSizes] = useState({
-		'XS': false,
-		'S': false,
-		'M': false,
-		'L': false,
-		'XL': false,
-		'XXL': false,
-	});
-
+export default function ProductDesign({
+	productDetails,
+	setProductDetails,
+}: {
+	productDetails: ProductDetails;
+	setProductDetails: Dispatch<SetStateAction<ProductDetails>>;
+}) {
 	return (
 		<>
 			<div className="flex flex-col justify-between items-center gap-3 w-full">
@@ -25,123 +22,157 @@ export default function ProductDesign() {
 						Upload your artwork and choose options
 					</p>
 				</div>
-			</div>			
+			</div>
 			<div className="w-full flex flex-col gap-2">
-				<p className='text-xs font-roboto '>Design Upload <span className='text-purple-500'>*</span></p>
-				<div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-					<Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
-					<div>
-						<button							
-							onClick={() => document.getElementById('logo-upload')?.click()}
-							className='px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200'
-						>
-							Upload Designs
-						</button>
-						<input
-							id="logo-upload"
-							type="file"
-							accept="image/*"
-							className="hidden"
-							// onChange={e => handleFileUpload(e, 'logo')}
-						/>
-					</div>
-					<p className="text-xs text-gray-500 mt-3">PNG, JPG up to 50MB</p>
-					{/* {formData.logo && (
-						<Badge className="mt-2 bg-green-100 text-green-800">
-							{formData.logo.name} uploaded
-						</Badge>
-					)} */}
+				<p className="text-xs font-roboto ">
+					Design Upload <span className="text-purple-500">*</span>
+				</p>
+				<div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center flex justify-center items-center">
+					{productDetails.design.length === 0 && (
+						<div className='flex flex-col justify-cenetr items-center'>
+							<Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
+							<div>
+								<button
+									onClick={() => document.getElementById('logo-upload')?.click()}
+									className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
+								>
+									Upload Designs
+								</button>
+								<input
+									id="logo-upload"
+									type="file"
+									accept="image/*"
+									className="hidden"
+									onChange={e => {
+										const img = e.target.files?.[0];
+										if (img) {
+											const url = URL.createObjectURL(img);
+											console.log(url);
+											setProductDetails(prevState => {
+												return {
+													...prevState,
+													design: url,
+												};
+											});
+										}
+									}}
+								/>
+							</div>
+							<p className="text-xs text-gray-500 mt-3">PNG, JPG up to 50MB</p>
+						</div>
+					)}
+					{productDetails.design.length > 0 && <img src={productDetails.design} alt="product image" />}
 				</div>
 			</div>
 			<div className="w-full flex flex-col gap-2">
-				<p className='text-xs font-roboto '>Available Sizes <span className='text-purple-500'>*</span></p>
+				<p className="text-xs font-roboto ">
+					Available Sizes <span className="text-purple-500">*</span>
+				</p>
 				<div className="w-full grid grid-cols-3 gap-y-3">
 					<button
 						onClick={() => {
-							setSizes(prevState => {
-								const prevValue = prevState.XS;
+							setProductDetails(prevState => {
+								const prevValue = prevState.sizes.XS;
 								return {
 									...prevState,
-									'XS': !prevValue
-								}
-							})
-						}}						
-						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!sizes.XS ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+									sizes: {
+										...prevState.sizes,
+										XS: !prevValue,
+									},
+								};
+							});
+						}}
+						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.XS ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
 					>
 						XS
 					</button>
 					<button
 						onClick={() => {
-							setSizes(prevState => {
-								const prevValue = prevState.S;
+							setProductDetails(prevState => {
+								const prevValue = prevState.sizes.S;
 								return {
 									...prevState,
-									'S': !prevValue
-								}
-							})
+									sizes: {
+										...prevState.sizes,
+										S: !prevValue,
+									},
+								};
+							});
 						}}
-						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!sizes.S ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.S ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
 					>
 						S
 					</button>
 					<button
 						onClick={() => {
-							setSizes(prevState => {
-								const prevValue = prevState.M;
+							setProductDetails(prevState => {
+								const prevValue = prevState.sizes.M;
 								return {
 									...prevState,
-									'M': !prevValue
-								}
-							})
+									sizes: {
+										...prevState.sizes,
+										M: !prevValue,
+									},
+								};
+							});
 						}}
-						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!sizes.M ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.M ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
 					>
 						M
 					</button>
 					<button
 						onClick={() => {
-							setSizes(prevState => {
-								const prevValue = prevState.L;
+							setProductDetails(prevState => {
+								const prevValue = prevState.sizes.L;
 								return {
 									...prevState,
-									'L': !prevValue
-								}
-							})
+									sizes: {
+										...prevState.sizes,
+										L: !prevValue,
+									},
+								};
+							});
 						}}
-						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!sizes.L ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.L ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
 					>
 						L
 					</button>
 					<button
 						onClick={() => {
-							setSizes(prevState => {
-								const prevValue = prevState.XL;
+							setProductDetails(prevState => {
+								const prevValue = prevState.sizes.XL;
 								return {
 									...prevState,
-									'XL': !prevValue
-								}
-							})
+									sizes: {
+										...prevState.sizes,
+										XL: !prevValue,
+									},
+								};
+							});
 						}}
-						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!sizes.XL ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.XL ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
 					>
 						XL
 					</button>
 					<button
 						onClick={() => {
-							setSizes(prevState => {
-								const prevValue = prevState.XXL;
+							setProductDetails(prevState => {
+								const prevValue = prevState.sizes.XXL;
 								return {
 									...prevState,
-									'XXL': !prevValue
-								}
-							})
+									sizes: {
+										...prevState.sizes,
+										XXL: !prevValue,
+									},
+								};
+							});
 						}}
-						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!sizes.XXL ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.XXL ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
 					>
 						XXL
 					</button>
 				</div>
 			</div>
 		</>
-	)
+	);
 }

@@ -1,1 +1,0 @@
-for influencer onboarding -> only accessible when signed in user is CREATOR and has no shop

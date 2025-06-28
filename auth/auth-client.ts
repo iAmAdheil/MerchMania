@@ -7,8 +7,12 @@ export const { signIn, signUp, useSession, signOut } = createAuthClient({
 	plugins: [
 		inferAdditionalFields({
 			user: {
-				phone: {
+				role: {
 					type: 'string',
+					required: true,
+				},
+				isOnboarded: {
+					type: 'boolean',
 					required: false,
 				},
 			},
