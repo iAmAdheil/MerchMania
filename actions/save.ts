@@ -4,12 +4,7 @@ import prisma from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
 import { ShopDetails, ProductDetails } from '@/components/app/pages/influencer-onboarding/mainForm';
 
-export const saveShopDetails = async (
-	shopDetails: ShopDetails,
-	productDetails: ProductDetails,
-	shopLogo: File | null,
-	productDesign: File | null
-) => {
+const saveImage = async (file: File, filename: string) => {
 	cloudinary.config({
 		cloud_name: 'dzaj1xdgz',
 		api_key: process.env.CLOUDINARY_KEY,
@@ -17,19 +12,20 @@ export const saveShopDetails = async (
 	});
 
 	try {
-		if (shopLogo && shopLogo.size > 0) {
-			const arrayBuffer = await shopLogo.arrayBuffer();
+		if (file && file.size > 0) {
+			const arrayBuffer = await file.arrayBuffer();
 			const buffer = Buffer.from(arrayBuffer);
 
 			// Convert buffer to base64 data URI
 			const base64 = buffer.toString('base64');
-			const dataUri = `data:${shopLogo.type};base64,${base64}`;
+			const dataUri = `data:${file.type};base64,${base64}`;
 
 			// Upload using data URI
 			const uploadResult = await cloudinary.uploader.upload(dataUri, {
 				resource_type: 'image',
 				folder: 'shop-logos',
-				public_id: shopDetails.name,
+				public_id: filename,
+				overwrite: false
 			});
 			console.log(uploadResult);
 
@@ -37,6 +33,36 @@ export const saveShopDetails = async (
 			return uploadResult.secure_url;
 		}
 	} catch (e: any) {
-		console.log(e);
+		return '';
+	}
+};
+
+export const saveShopDetails = async (
+	shopDetails: ShopDetails,
+	productDetails: ProductDetails,
+	shopLogo: File | null,
+	productDesign: File | null
+) => {
+	try {
+		if (!shopLogo || productDesign) {
+			return {
+				status: 404,
+				msg: 'COuld not find image files'
+			}
+		}
+
+		const shopLogoURL = await saveImage(shopLogo, shopDetails.name);
+		const productDesignURL = await saveImage(shopLogo, shopDetails.name);
+
+		if(!shopLogoURL || !productDesignURL || shopLogoURL.length === 0 || productDesignURL.length === 0) {
+			return {
+				status: 500,
+				msg: 'Could not save images'
+			}
+		}
+
+		// prisma.$transaction
+	} catch(e: any) {
+
 	}
 };

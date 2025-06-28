@@ -96,6 +96,11 @@ export default function OnboardingForm() {
 				productDesign = await blobUrlToFile(productDetails.design, 'product-design.jpg');
 			}
 
+			if (!shopLogo || !productDesign) {
+				// show error that something went wrong
+				return;
+			}
+
 			const res = await saveShopDetails(shopDetails, productDetails, shopLogo, productDesign);
 			console.log(res);
 		} catch (e: any) {
