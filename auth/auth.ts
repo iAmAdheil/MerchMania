@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { PrismaClient } from '@/app/generated/prisma';
 import { inferAdditionalFields } from 'better-auth/client/plugins';
+import { customSession } from 'better-auth/plugins';
 
 const prisma = new PrismaClient();
 
@@ -31,9 +32,24 @@ export const auth = betterAuth({
 			user: {
 				role: {
 					type: 'string',
-					required: false,
+					required: true,
+				},
+				isOnboarded: {
+					type: 'boolean',
+					required: true,
 				},
 			},
+		}),
+		customSession(async ({ user, session }) => {
+			console.log(user, session);
+
+			return {
+				user: {
+					...user,
+					// newField: 'newField',
+				},
+				session,
+			};
 		}),
 	],
 	user: {
@@ -41,8 +57,10 @@ export const auth = betterAuth({
 			role: {
 				type: 'string',
 				required: true,
-				default: 'CUSTOMER',
-				input: false,
+			},
+			isOnboarded: {
+				type: 'boolean',
+				required: true,
 			},
 		},
 	},

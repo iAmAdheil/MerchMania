@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "user" ALTER COLUMN "role" DROP DEFAULT,
+ALTER COLUMN "isOnboarded" DROP NOT NULL;

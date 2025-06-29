@@ -3,7 +3,7 @@ import { inferAdditionalFields } from 'better-auth/client/plugins';
 
 export const { signIn, signUp, useSession, signOut } = createAuthClient({
 	/** The base URL of the server (optional if you're using the same domain) */
-	baseURL: process.env.BETTER_AUTH_URL,	
+	baseURL: process.env.BETTER_AUTH_URL,
 	plugins: [
 		inferAdditionalFields({
 			user: {
@@ -13,7 +13,7 @@ export const { signIn, signUp, useSession, signOut } = createAuthClient({
 				},
 				isOnboarded: {
 					type: 'boolean',
-					required: false,
+					required: true,
 				},
 			},
 		}),
@@ -23,8 +23,10 @@ export const { signIn, signUp, useSession, signOut } = createAuthClient({
 			role: {
 				type: 'string',
 				required: true,
-				default: 'CUSTOMER',
-				input: false,
+			},
+			isOnboarded: {
+				type: 'boolean',
+				required: true,
 			},
 		},
 	},

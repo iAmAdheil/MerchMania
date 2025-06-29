@@ -46,6 +46,12 @@ export type ProductDetails = {
 
 export default function OnboardingForm() {
 	const router = useRouter();
+	const {
+		data: session,
+		isPending, //loading state
+		error, //error object
+		refetch, //refetch the session
+	} = useSession();
 
 	const [progressValue, setProgressValue] = useState(25);
 	const [isNextDisabled, setIsNextDisabled] = useState(true);
@@ -66,7 +72,7 @@ export default function OnboardingForm() {
 		window.scrollTo(0, 0);
 	}, [progressValue]);
 
-	useEffect(() => {		
+	useEffect(() => {
 		if (progressValue === 25 && shopDetails.name.length > 0 && shopDetails.logo.length > 0) {
 			setIsNextDisabled(false);
 		} else if (
