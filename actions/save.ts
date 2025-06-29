@@ -25,7 +25,7 @@ const saveImage = async (file: File, filename: string) => {
 				resource_type: 'image',
 				folder: 'shop-logos',
 				public_id: filename,
-				overwrite: false
+				overwrite: false,
 			});
 			console.log(uploadResult);
 
@@ -47,22 +47,32 @@ export const saveShopDetails = async (
 		if (!shopLogo || productDesign) {
 			return {
 				status: 404,
-				msg: 'COuld not find image files'
-			}
+				msg: 'COuld not find image files',
+			};
 		}
 
 		const shopLogoURL = await saveImage(shopLogo, shopDetails.name);
 		const productDesignURL = await saveImage(shopLogo, shopDetails.name);
 
-		if(!shopLogoURL || !productDesignURL || shopLogoURL.length === 0 || productDesignURL.length === 0) {
-			return {
+		if (
+			!shopLogoURL ||
+			!productDesignURL ||
+			shopLogoURL.length === 0 ||
+			productDesignURL.length === 0
+		) {
+			const e = {
 				status: 500,
-				msg: 'Could not save images'
-			}
+				msg: 'Could not save images',
+			};
+			throw e;
 		}
 
-		// prisma.$transaction
-	} catch(e: any) {
-
+		const res = prisma.$transaction(async (tx) => {
+			
+		})
+	} catch (e: any) {
+		if (e.status === 500 || e.msg === 'Could not save images') {
+			// delete any image that gto stored
+		}
 	}
 };

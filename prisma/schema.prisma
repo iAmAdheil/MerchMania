@@ -34,6 +34,7 @@ model User {
 model Shop {
     id       String    @id @default(cuid())
     name     String
+    logo     String
     user     User      @relation(fields: [userId], references: [id])
     userId   String    @unique
     products Product[]
@@ -43,6 +44,10 @@ model Product {
     id          String   @id @default(cuid())
     name        String
     description String
+    design      String
+    gender      GENDER   @default(unisex)
+    sizes       SIZE[]   @default([])
+    price       String
     tags        String[]
     shopId      String
     shop        Shop     @relation(fields: [shopId], references: [id])
@@ -97,4 +102,19 @@ enum ROLE {
     CUSTOMER
     ADMIN
     CREATOR
+}
+
+enum GENDER {
+    male
+    female
+    unisex
+}
+
+enum SIZE {
+    XS
+    S
+    M
+    L
+    XL
+    XXL
 }
