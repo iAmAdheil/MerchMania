@@ -4,6 +4,8 @@ import prisma from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
 import { ShopDetails, ProductDetails } from '@/components/app/pages/influencer-onboarding/mainForm';
 
+type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
+
 const saveImage = async (file: File, filename: string) => {
 	cloudinary.config({
 		cloud_name: 'dzaj1xdgz',
@@ -41,13 +43,21 @@ export const saveShopDetails = async (
 	shopDetails: ShopDetails,
 	productDetails: ProductDetails,
 	shopLogo: File | null,
-	productDesign: File | null
+	productDesign: File | null,
+	userId: string
 ) => {
 	try {
-		if (!shopLogo || productDesign) {
+		if (userId.length === 0) {
 			return {
 				status: 404,
-				msg: 'COuld not find image files',
+				msg: 'Invalid user',
+			};
+		}
+
+		if (!shopLogo || !productDesign) {
+			return {
+				status: 404,
+				msg: 'Could not find image files',
 			};
 		}
 
@@ -67,9 +77,44 @@ export const saveShopDetails = async (
 			throw e;
 		}
 
-		const res = prisma.$transaction(async (tx) => {
-			
-		})
+		const shopId = await prisma.$transaction(async tx => {
+			const newShop = await tx.shop.create({
+				data: {
+					userId: userId,
+					name: shopDetails.name,
+					logo: shopLogoURL,
+					products: { create: [] },
+				},
+			});
+
+			const sizesArray: Sizes[] = [];
+
+			Object.keys(productDetails.sizes).forEach((size: any) => {
+				sizesArray.push(size);
+			});
+
+			const newProduct = await tx.product.create({
+				data: {
+					name: productDetails.name,
+					design: productDesignURL,
+					shopId: newShop.id,
+					description: productDetails.description,
+					gender: productDetails.gender,
+					sizes: sizesArray,
+					price: productDetails.price,
+					tags: [],
+				},
+			});
+
+			return newShop.id;
+		});
+
+		console.log('Shop Id:', shopId);
+
+		return {
+			status: 200,
+			shopId: shopId,
+		};
 	} catch (e: any) {
 		if (e.status === 500 || e.msg === 'Could not save images') {
 			// delete any image that gto stored

@@ -23,11 +23,7 @@ export default function Signup() {
 	const [display, setDisplay] = useState<Display>('options');
 
 	useEffect(() => {
-		if((!isPending && !session) || (!isPending && error)) {
-			console.log(isPending);
-			console.log(session);
-			console.log(error);			
-		} else if (!isPending && session) {
+		if (!isPending && session) {
 			router.push('/');
 		}
 	}, [isPending]);

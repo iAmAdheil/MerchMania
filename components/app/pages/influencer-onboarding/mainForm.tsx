@@ -7,9 +7,7 @@ import StoreDetailsForm from './storeDetailsForm';
 import ProductDetails from './productsDetails';
 import ProductDesign from './productDesign';
 import ProductPrice from './productPrice';
-import { useRouter } from 'next/navigation';
 import { blobUrlToFile } from '@/utils/blobtoFIle';
-import { useSession } from '@/auth/auth-client';
 import { saveShopDetails } from '@/actions/save';
 
 export type ShopDetails = {
@@ -26,7 +24,7 @@ type Sizes = {
 	XXL: boolean;
 };
 
-const initialSizes = {
+const initialSizes: Sizes = {
 	XS: false,
 	S: false,
 	M: false,
@@ -38,21 +36,13 @@ const initialSizes = {
 export type ProductDetails = {
 	name: string;
 	description: string;
-	gender: string;
+	gender: 'female' | 'male' | 'unisex';
 	design: string;
 	sizes: Sizes;
 	price: string;
 };
 
-export default function OnboardingForm() {
-	const router = useRouter();
-	const {
-		data: session,
-		isPending, //loading state
-		error, //error object
-		refetch, //refetch the session
-	} = useSession();
-
+export default function OnboardingForm({ userId }: { userId: string }) {
 	const [progressValue, setProgressValue] = useState(25);
 	const [isNextDisabled, setIsNextDisabled] = useState(true);
 	const [shopDetails, setShopDetails] = useState({
@@ -107,7 +97,13 @@ export default function OnboardingForm() {
 				return;
 			}
 
-			const res = await saveShopDetails(shopDetails, productDetails, shopLogo, productDesign);
+			const res = await saveShopDetails(
+				shopDetails,
+				productDetails,
+				shopLogo,
+				productDesign,
+				userId
+			);
 			console.log(res);
 		} catch (e: any) {
 			console.log(e);

@@ -40,14 +40,10 @@ export const auth = betterAuth({
 				},
 			},
 		}),
-		customSession(async ({ user, session }) => {
-			console.log(user, session);
-
+		customSession(async ({ user, session }, ctx) => {
+			// now both user and session will infer the fields added by plugins and your custom fields
 			return {
-				user: {
-					...user,
-					// newField: 'newField',
-				},
+				user,
 				session,
 			};
 		}),
