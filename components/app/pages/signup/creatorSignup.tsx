@@ -77,7 +77,7 @@ export default function CreatorSignup({
 					},
 					onSuccess: (ctx: any) => {
 						console.log(ctx);
-						router.push('/influencer/onboarding');
+						router.replace('/influencer/onboarding');
 					},
 					onError: (ctx: any) => {
 						// display the error message

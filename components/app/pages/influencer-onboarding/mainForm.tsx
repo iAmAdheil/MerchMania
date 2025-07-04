@@ -9,6 +9,7 @@ import ProductDesign from './productDesign';
 import ProductPrice from './productPrice';
 import { blobUrlToFile } from '@/utils/blobtoFIle';
 import { saveShopDetails } from '@/actions/save';
+import { useRouter } from 'next/navigation';
 
 export type ShopDetails = {
 	name: string;
@@ -43,6 +44,8 @@ export type ProductDetails = {
 };
 
 export default function OnboardingForm({ userId }: { userId: string }) {
+	const router = useRouter();
+
 	const [progressValue, setProgressValue] = useState(25);
 	const [isNextDisabled, setIsNextDisabled] = useState(true);
 	const [shopDetails, setShopDetails] = useState({
@@ -105,6 +108,12 @@ export default function OnboardingForm({ userId }: { userId: string }) {
 				userId
 			);
 			console.log(res);
+
+			if (!res || res.status !== 200) {
+				throw new Error(res?.msg);
+			}
+
+			router.replace(`/influencer/${res.shopId}`);
 		} catch (e: any) {
 			console.log(e);
 		}

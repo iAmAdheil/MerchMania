@@ -89,8 +89,11 @@ export const saveShopDetails = async (
 
 			const sizesArray: Sizes[] = [];
 
-			Object.keys(productDetails.sizes).forEach((size: any) => {
-				sizesArray.push(size);
+			Object.keys(productDetails.sizes).forEach((size: string) => {
+				const i: Sizes = size as Sizes;
+				if (productDetails.sizes[i]) {
+					sizesArray.push(i);
+				}
 			});
 
 			const newProduct = await tx.product.create({
@@ -106,6 +109,15 @@ export const saveShopDetails = async (
 				},
 			});
 
+			await tx.user.update({
+				where: {
+					id: userId,
+				},
+				data: {
+					isOnboarded: true,
+				},
+			});
+
 			return newShop.id;
 		});
 
@@ -116,8 +128,13 @@ export const saveShopDetails = async (
 			shopId: shopId,
 		};
 	} catch (e: any) {
+		console.log(e);
 		if (e.status === 500 || e.msg === 'Could not save images') {
 			// delete any image that gto stored
+			return {
+				status: 500,
+				msg: e.message || "Something went wrong",
+			}
 		}
 	}
 };
