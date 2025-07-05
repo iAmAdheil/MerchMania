@@ -10,22 +10,9 @@ import ProductPrice from './productPrice';
 import { blobUrlToFile } from '@/utils/blobtoFIle';
 import { saveShopDetails } from '@/actions/save';
 import { useRouter } from 'next/navigation';
+import type { SizesSchema, ProductDetailsSchema, ShopDetailsSchema  } from '@/types';
 
-export type ShopDetails = {
-	name: string;
-	logo: string;
-};
-
-type Sizes = {
-	XS: boolean;
-	S: boolean;
-	M: boolean;
-	L: boolean;
-	XL: boolean;
-	XXL: boolean;
-};
-
-const initialSizes: Sizes = {
+const initialSizes: SizesSchema = {
 	XS: false,
 	S: false,
 	M: false,
@@ -34,25 +21,19 @@ const initialSizes: Sizes = {
 	XXL: false,
 };
 
-export type ProductDetails = {
-	name: string;
-	description: string;
-	gender: 'female' | 'male' | 'unisex';
-	design: string;
-	sizes: Sizes;
-	price: string;
-};
+
 
 export default function OnboardingForm({ userId }: { userId: string }) {
 	const router = useRouter();
 
+	const [isLoading, setIsLoading] = useState(false);
 	const [progressValue, setProgressValue] = useState(25);
 	const [isNextDisabled, setIsNextDisabled] = useState(true);
 	const [shopDetails, setShopDetails] = useState({
 		name: '',
 		logo: '',
 	});
-	const [productDetails, setProductDetails] = useState<ProductDetails>({
+	const [productDetails, setProductDetails] = useState<ProductDetailsSchema>({
 		name: '',
 		description: '',
 		gender: 'unisex',
@@ -85,6 +66,8 @@ export default function OnboardingForm({ userId }: { userId: string }) {
 
 	const handleCreateShop = async () => {
 		try {
+			setIsLoading(true);
+
 			let shopLogo: File | null = null;
 			let productDesign: File | null = null;
 
@@ -116,6 +99,8 @@ export default function OnboardingForm({ userId }: { userId: string }) {
 			router.replace(`/influencer/${res.shopId}`);
 		} catch (e: any) {
 			console.log(e);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 

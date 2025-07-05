@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
-import { ShopDetails, ProductDetails } from '@/components/app/pages/influencer-onboarding/mainForm';
+import type { ShopDetailsSchema, ProductDetailsSchema } from '@/types';
 
 type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
@@ -40,8 +40,8 @@ const saveImage = async (file: File, filename: string) => {
 };
 
 export const saveShopDetails = async (
-	shopDetails: ShopDetails,
-	productDetails: ProductDetails,
+	shopDetails: ShopDetailsSchema,
+	productDetails: ProductDetailsSchema,
 	shopLogo: File | null,
 	productDesign: File | null,
 	userId: string
