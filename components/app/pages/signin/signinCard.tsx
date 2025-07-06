@@ -1,15 +1,20 @@
-'use client'
+'use client';
 
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { FcGoogle } from 'react-icons/fc';
 import { signIn } from '@/auth/auth-client';
+import { useRouter } from 'next/navigation';
 
 export default function SigninCard() {
+	const router = useRouter();
+
 	const handleGoogleSignin = async () => {
 		try {
-			const {data, error} = await signIn.social({
-				provider: 'google',				
+			const { data, error } = await signIn.social({
+				provider: 'google',
+				errorCallbackURL: '/signin',
+				callbackURL: '/',
 			});
 			console.log(data);
 			console.log(error);

@@ -38,7 +38,7 @@ export default function SignIn() {
 
 	return (
 		<div>
-			<Navbar />
+			{/* <Navbar /> */}
 			<SigninSection />
 			<Footer />
 		</div>

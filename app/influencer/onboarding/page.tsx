@@ -16,7 +16,11 @@ export default function Onboarding() {
 		if ((!isPending && !session) || (!isPending && error)) {
 			router.push('/login');
 		}
-	}, [isPending]);
+
+		if (session && session.isOnboarded && !isPending) {
+			router.push('/');
+		}
+	}, [session, isPending, error]);
 
 	if (isPending) {
 		return (
@@ -29,7 +33,7 @@ export default function Onboarding() {
 	return (
 		<div>
 			{/* <Navbar /> */}
-			<OnboardingForm userId={session?.user.id || ''} />
+			<OnboardingForm userId={session?.id || ''} />
 			<Footer />
 		</div>
 	);

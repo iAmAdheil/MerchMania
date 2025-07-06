@@ -64,7 +64,7 @@ export default function CreatorSignup({
 			}
 
 			const { data, error } = await signUp.email(
-				{					
+				{
 					role: details.role,
 					isOnboarded: false,
 					email: details.email,

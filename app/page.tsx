@@ -10,12 +10,7 @@ import Loader from '@/components/app/ui/loader';
 
 export default function Home() {
 	const router = useRouter();
-	const {
-		data: session,
-		isPending, //loading state
-		error, //error object
-		refetch, //refetch the session
-	} = useSession();
+	const { data: session, isPending, error, refetch } = useSession();
 
 	const [isAuth, setIsAuth] = useState<boolean>(false);
 

@@ -35,7 +35,7 @@ model Shop {
     id       String    @id @default(cuid())
     name     String
     logo     String
-    user     User      @relation(fields: [userId], references: [id])
+    user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId   String    @unique
     products Product[]
 }
@@ -50,7 +50,7 @@ model Product {
     price       String
     tags        String[]
     shopId      String
-    shop        Shop     @relation(fields: [shopId], references: [id])
+    shop        Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
 }
 
 model Session {

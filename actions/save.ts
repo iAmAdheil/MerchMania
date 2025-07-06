@@ -61,8 +61,8 @@ export const saveShopDetails = async (
 			};
 		}
 
-		const shopLogoURL = await saveImage(shopLogo, shopDetails.name);
-		const productDesignURL = await saveImage(shopLogo, shopDetails.name);
+		const shopLogoURL = await saveImage(shopLogo, shopDetails.name + Date.now());
+		const productDesignURL = await saveImage(shopLogo, productDetails.name + Date.now());
 
 		if (
 			!shopLogoURL ||
@@ -133,8 +133,8 @@ export const saveShopDetails = async (
 			// delete any image that gto stored
 			return {
 				status: 500,
-				msg: e.message || "Something went wrong",
-			}
+				msg: e.message || 'Something went wrong',
+			};
 		}
 	}
 };
