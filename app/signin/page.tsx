@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect } from 'react';
 import Navbar from '@/components/app/navbar/main';
@@ -23,7 +23,7 @@ export default function SignIn() {
 			console.log(session);
 			console.log(error);
 		} else if (!isPending && session) {
-			// console.log(session, isPending);
+			console.log(session, isPending);
 			router.push('/');
 		}
 	}, [isPending]);

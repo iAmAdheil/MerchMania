@@ -15,6 +15,7 @@ export default function SigninCard() {
 				provider: 'google',
 				errorCallbackURL: '/signin',
 				callbackURL: '/',
+				requestSignUp: false,
 			});
 			console.log(data);
 			console.log(error);

@@ -101,6 +101,9 @@ export default function CreatorSignup({
 			const { data, error } = await signIn.social(
 				{
 					provider: 'google',
+					errorCallbackURL: '/signup',
+					callbackURL: '/',
+					requestSignUp: false,
 				},
 				{
 					onRequest: async ctx => {
@@ -108,10 +111,16 @@ export default function CreatorSignup({
 					},
 					onSuccess: async ctx => {
 						console.log(ctx);
+						router.push('/influencer/onboarding');
 					},
 					onError: async ctx => {
 						console.log(ctx);
 					},
+					state: JSON.stringify({
+						role: 'CREATOR',
+						isOnboarded: false,
+						process: 'signup',
+					}),
 				}
 			);
 			console.log(data);
@@ -129,8 +138,6 @@ export default function CreatorSignup({
 	// 		console.log(e);
 	// 	}
 	// };
-
-	useEffect(() => {});
 
 	return (
 		<div
