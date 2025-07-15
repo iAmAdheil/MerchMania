@@ -55,3 +55,5 @@ export type InfluencerHeaderProps = {
 		twitch?: string;
 	};
 };
+
+export type Roles =  'STRANGER' | 'CREATOR' | 'CUSTOMER' | 'ADMIN';

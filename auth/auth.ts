@@ -82,62 +82,6 @@ export const auth = betterAuth({
 				isOnboarded: user.isOnboarded,
 			};
 		}, options),
-		{
-			id: 'custom-user-fields',
-			hooks: {
-				before: [
-					{
-						matcher: () => true,
-						handler: async ctx => {
-							// Parse the state parameter to extract the role
-							console.log('Custom user fields handler called');
-							console.log(ctx);
-							// let role = 'user'; // Default role
-							// if (ctx.state) {
-							// 	try {
-							// 		const state = JSON.parse(ctx.state);
-							// 		role = state.role || role; // Use role from state if available
-							// 	} catch (e) {
-							// 		console.error('Failed to parse state:', e);
-							// 	}
-							// }
-
-							// return {
-							// 	...(ctx.user ?? {}),
-							// 	role, // Set dynamic role
-							// 	createdAt: new Date().toISOString(),
-							// 	customId: `custom_${Math.random().toString(36).substring(2)}`,
-							// };
-						},
-					},
-				],
-				after: [
-					{
-						matcher: () => true,
-						handler: async ctx => {
-							// Parse the state parameter to extract the role
-							console.log('Custom user fields handler called');
-							// let role = 'user'; // Default role
-							// if (ctx.state) {
-							// 	try {
-							// 		const state = JSON.parse(ctx.state);
-							// 		role = state.role || role; // Use role from state if available
-							// 	} catch (e) {
-							// 		console.error('Failed to parse state:', e);
-							// 	}
-							// }
-
-							// return {
-							// 	...(ctx.user ?? {}),
-							// 	role, // Set dynamic role
-							// 	createdAt: new Date().toISOString(),
-							// 	customId: `custom_${Math.random().toString(36).substring(2)}`,
-							// };
-						},
-					},
-				],
-			},
-		},
 	],
 	user: {
 		additionalFields: {

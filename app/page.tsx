@@ -13,16 +13,16 @@ export default function Home() {
 	const { data: session, isPending, error, refetch } = useSession();
 
 	const [isAuth, setIsAuth] = useState<boolean>(false);
+	const [role, setRole] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (!isPending && !session) {
 			console.log('User not signed in!');
-			// router.push('/signin');
 		} else {
-			console.log(session);
 			setIsAuth(true);
+			setRole(session?.role || null);
 		}
-	}, [isPending]);
+	}, [isPending, session]);
 
 	if (isPending) {
 		return (
@@ -34,7 +34,7 @@ export default function Home() {
 
 	return (
 		<div className="min-h-screen w-screen">
-			<Navbar isAuth={isAuth} />
+			<Navbar isAuth={isAuth} role={role} />
 			<MainSection />
 			<Footer />
 		</div>

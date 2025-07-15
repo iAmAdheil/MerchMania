@@ -15,11 +15,11 @@ datasource db {
 }
 
 model User {
-    id            String         @id
+    id            String    @id
     role          ROLE
     isOnboarded   Boolean
     name          String
-    email         String         @unique
+    email         String    @unique
     emailVerified Boolean
     image         String?
     Shop          Shop?
@@ -32,25 +32,38 @@ model User {
 }
 
 model Shop {
-    id       String    @id @default(cuid())
-    name     String
-    logo     String
-    user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId   String    @unique
-    products Product[]
+    id          String       @id @default(cuid())
+    name        String
+    logo        String
+    banner      String?
+    user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId      String       @unique
+    products    Product[]
+    ShopDetails ShopDetails?
+}
+
+model ShopDetails {
+    id          String   @id @default(cuid())
+    description String
+    location    String
+    contact     String
+    socialLinks String[]
+    shopId      String   @unique
+    shop        Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
 }
 
 model Product {
     id          String   @id @default(cuid())
     name        String
     description String
-    design      String
+    designs     String[]
     gender      GENDER   @default(unisex)
     sizes       SIZE[]   @default([])
     price       String
     tags        String[]
     shopId      String
     shop        Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+    inStock     Boolean  @default(true)
 }
 
 model Session {
