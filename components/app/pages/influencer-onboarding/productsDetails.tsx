@@ -7,22 +7,24 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { type ProductDetails } from './mainForm';
+import { type ProductDetailsSchema } from '@/types';
+
+type Genders = 'male' | 'female' | 'unisex';
 
 export default function ProductDetails({
 	productDetails,
 	setProductDetails,
 }: {
-	productDetails: ProductDetails;
-	setProductDetails: Dispatch<SetStateAction<ProductDetails>>;
+	productDetails: ProductDetailsSchema;
+	setProductDetails: Dispatch<SetStateAction<ProductDetailsSchema>>;
 }) {
-	const handleChange = (event: SelectChangeEvent) => {		
+	const handleChange = (event: SelectChangeEvent) => {
 		setProductDetails(prevState => {
 			return {
 				...prevState,
-				gender: event.target.value as string
-			}
-		})
+				gender: event.target.value as Genders,
+			};
+		});
 	};
 
 	return (
@@ -72,7 +74,7 @@ export default function ProductDetails({
 								description: e.target.value,
 							};
 						});
-					}}					
+					}}
 					minH="3lh"
 					maxH="8lh"
 					placeholder=""

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { FcGoogle } from 'react-icons/fc';
@@ -8,6 +9,9 @@ import { useRouter } from 'next/navigation';
 
 export default function SigninCard() {
 	const router = useRouter();
+
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
 	const handleGoogleSignin = async () => {
 		try {
@@ -61,6 +65,7 @@ export default function SigninCard() {
 						Email <Field.RequiredIndicator color={'purple.500'} />
 					</Field.Label>
 					<Input
+						onChange={e => setEmail(e.target.value)}
 						placeholder="you@example.com"
 						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
 					/>
@@ -76,7 +81,10 @@ export default function SigninCard() {
 					</Field.Label>
 					<Stack className="w-full">
 						<div className="flex flex-col gap-4">
-							<PasswordInput className="border border-solid border-gray-200 text-xs font-light rounded-sm px-3 py-1" />
+							<PasswordInput
+								onChange={e => setPassword(e.target.value)}
+								className="border border-solid border-gray-200 text-xs font-light rounded-sm px-3 py-1"
+							/>
 							{/* <PasswordStrengthMeter value={2} /> */}
 						</div>
 					</Stack>
