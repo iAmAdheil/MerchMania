@@ -2,7 +2,8 @@
 
 import prisma from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
-import type { ShopDetailsSchema, ProductDetailsSchema } from '@/types';
+import type { ShopDetailsSchema, ProductDetailsSchema, InputProductDetailsSchema } from '@/types';
+import generateUniqueId from '@/utils/generateCUID';
 
 type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
@@ -41,12 +42,15 @@ const saveImage = async (file: File, filename: string) => {
 
 export const saveShopDetails = async (
 	shopDetails: ShopDetailsSchema,
-	productDetails: ProductDetailsSchema,
+	productDetails: InputProductDetailsSchema,
 	shopLogo: File | null,
 	productDesign: File | null,
 	userId: string
 ) => {
 	try {
+		const productId = generateUniqueId();
+		const shopId = generateUniqueId();
+
 		if (userId.length === 0) {
 			return {
 				status: 404,
@@ -61,8 +65,11 @@ export const saveShopDetails = async (
 			};
 		}
 
-		const shopLogoURL = await saveImage(shopLogo, shopDetails.name + Date.now());
-		const productDesignURL = await saveImage(shopLogo, productDetails.name + Date.now());
+		const shopLogoURL = await saveImage(shopLogo, shopDetails.name + '_' + shopId);
+		const productDesignURL = await saveImage(
+			shopLogo,
+			productDetails.name + '_' + productId + '_' + '1'
+		);
 
 		if (
 			!shopLogoURL ||
@@ -77,10 +84,10 @@ export const saveShopDetails = async (
 			throw e;
 		}
 
-		const shopId = await prisma.$transaction(async tx => {
-			const newShop = await tx.shop.create({
+		await prisma.$transaction(async tx => {
+			await tx.shop.create({
 				data: {
-					userId: userId,
+					id: shopId,
 					name: shopDetails.name,
 					logo: shopLogoURL,
 					products: { create: [] },
@@ -96,16 +103,21 @@ export const saveShopDetails = async (
 				}
 			});
 
-			const newProduct = await tx.product.create({
+			await tx.product.create({
 				data: {
+					id: productId,
 					name: productDetails.name,
-					design: productDesignURL,
-					shopId: newShop.id,
+					designs: [productDesignURL],
+					shopId: shopId,
 					description: productDetails.description,
 					gender: productDetails.gender,
 					sizes: sizesArray,
 					price: productDetails.price,
 					tags: [],
+					inStock: false,
+					remainingStock: 0,
+					createdAt: new Date(),
+					updatedAt: new Date(),
 				},
 			});
 
@@ -115,10 +127,9 @@ export const saveShopDetails = async (
 				},
 				data: {
 					isOnboarded: true,
+					shopId: shopId
 				},
 			});
-
-			return newShop.id;
 		});
 
 		console.log('Shop Id:', shopId);
@@ -130,11 +141,64 @@ export const saveShopDetails = async (
 	} catch (e: any) {
 		console.log(e);
 		if (e.status === 500 || e.msg === 'Could not save images') {
-			// delete any image that gto stored
+			// delete any image that got stored
 			return {
 				status: 500,
 				msg: e.message || 'Something went wrong',
 			};
 		}
+	}
+};
+
+export const saveProductDetails = async (
+	productDetails: InputProductDetailsSchema,
+	shopId: string,
+	productDesigns: File[]
+) => {
+	const uploadedDesigns: string[] = [];
+
+	for (const design of productDesigns) {
+		const url = await saveImage(design, productDetails.name + Date.now());
+		if (!url || url.length === 0) {
+			throw new Error('Could not upload product design');
+		} else {
+			uploadedDesigns.push(url);
+		}
+	}
+
+	const sizesArray: Sizes[] = [];
+
+	Object.keys(productDetails.sizes).forEach((size: string) => {
+		const i: Sizes = size as Sizes;
+		if (productDetails.sizes[i]) {
+			sizesArray.push(i);
+		}
+	});
+
+	try {
+		const product = await prisma.product.create({
+			data: {
+				name: productDetails.name,
+				description: productDetails.description,
+				gender: productDetails.gender,
+				sizes: sizesArray,
+				price: productDetails.price,
+				inStock: parseInt(productDetails.remainingStock) > 0,
+				remainingStock: parseInt(productDetails.remainingStock),
+				shopId: shopId,
+				designs: uploadedDesigns,
+			},
+		});
+
+		return {
+			status: 200,
+			productId: product.id,
+		};
+	} catch (e: any) {
+		console.log(e);
+		return {
+			status: 500,
+			msg: e.message || 'Something went wrong',
+		};
 	}
 };

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { blobUrlToFile } from '@/utils/blobtoFIle';
 import Navbar from '@/components/app/navbar/main';
 import Footer from '@/components/app/ui/footer';
 import { Field, Input, Textarea } from '@chakra-ui/react';
@@ -8,53 +9,94 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-
-const categories = [
-	'T-Shirts',
-	'Hoodies',
-	'Tank Tops',
-	'Long Sleeves',
-	'Accessories',
-	'Stickers',
-	'Phone Cases',
-	'Mugs',
-];
-
-const colorOptions = [
-	{ name: 'Black', value: '#000000' },
-	{ name: 'White', value: '#FFFFFF' },
-	{ name: 'Navy', value: '#1E293B' },
-	{ name: 'Gray', value: '#6B7280' },
-	{ name: 'Red', value: '#EF4444' },
-	{ name: 'Blue', value: '#3B82F6' },
-	{ name: 'Green', value: '#10B981' },
-	{ name: 'Purple', value: '#8B5CF6' },
-	{ name: 'Yellow', value: '#F59E0B' },
-	{ name: 'Pink', value: '#EC4899' },
-];
+import { Upload } from 'lucide-react';
+import type { InputProductDetailsSchema, Roles } from '@/types';
+import { useSession } from '@/auth/auth-client';
+import { useRouter } from 'next/navigation';
+import { saveProductDetails } from '@/actions/save';
 
 const sizeOptions = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
 const AddProduct = () => {
-	const [images, setImages] = useState<File[]>([]);
-	const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+	const { data: session, isPending } = useSession();
+	const router = useRouter();
 
-	const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const files = Array.from(e.target.files || []);
-		if (images.length + files.length > 5) {
-			// toast.error('Maximum 5 images allowed');
+	const [role, setRole] = useState<Roles>('STRANGER');
+	const [productDetails, setProductDetails] = useState<InputProductDetailsSchema>({
+		name: '',
+		description: '',
+		gender: 'unisex',
+		designs: [],
+		sizes: {
+			XS: false,
+			S: false,
+			M: false,
+			L: false,
+			XL: false,
+			XXL: false,
+		},
+		price: '',
+		remainingStock: '0',
+	});
+
+	useEffect(() => {
+		console.log(productDetails.designs);
+	}, [productDetails])
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
+	useEffect(() => {
+		if ((!session && !isPending) || (session?.role !== 'CREATOR' && !isPending)) {
+			router.replace('/signin');
+		} else if (session && session.role === 'CREATOR' && !isPending) {
+			setRole(session.role);
+		}
+	}, [session, isPending]);
+
+	useEffect(() => {
+		return () => {
+			// Cleanup function
+			if (productDetails.designs.length > 0) {
+				productDetails.designs.forEach(url => {
+					if (url.startsWith('blob:')) {
+						URL.revokeObjectURL(url);
+					}
+				});
+			}
+		};
+	}, []);
+
+	const handleSaveProduct = async () => {
+		if (productDetails.designs.length === 0) {
+			alert('Please upload at least one product design.');
 			return;
 		}
-		setImages([...images, ...files]);
-	};
 
-	const removeImage = (index: number) => {
-		setImages(images.filter((_, i) => i !== index));
+		const productDesignFiles = await Promise.all(
+			productDetails.designs.map(async (url, index) => {
+				const designFile = await blobUrlToFile(url, `product-design-${index}.jpg`);
+				return designFile;
+			})
+		);
+
+		const response = await saveProductDetails(
+			productDetails,
+			session?.shopId || '',
+			productDesignFiles
+		);
+		if (response.status === 200) {
+			alert('Product saved successfully!');
+			router.push('/influencer/products');
+		} else {
+			alert(response.msg || 'Failed to save product. Please try again.');
+		}
 	};
 
 	return (
-		<div className="flex flex-col min-h-screen">
-			{/* <Navbar /> */}
+		<div className="flex flex-col">
+			<Navbar role={role} />
 			<div>
 				<div className="w-full flex flex-col gap-2">
 					<Field.Root required className="flex flex-col gap-2">
@@ -62,37 +104,34 @@ const AddProduct = () => {
 							Product Name <Field.RequiredIndicator color={'purple.500'} />
 						</Field.Label>
 						<Input
-							// value={productDetails.name}
-							// onChange={e => {
-							// 	setProductDetails(prevState => {
-							// 		return {
-							// 			...prevState,
-							// 			name: e.target.value,
-							// 		};
-							// 	});
-							// }}
+							value={productDetails.name}
+							onChange={e => {
+								setProductDetails(prevState => {
+									return {
+										...prevState,
+										name: e.target.value,
+									};
+								});
+							}}
 							placeholder="eg. Cyber Ninja"
 							className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
 						/>
 					</Field.Root>
-					<p className="text-xs font-roboto text-gray-600">
-						This will be your unique store URL
-					</p>
 				</div>
 				<div className="w-full flex flex-col gap-2">
 					<p className="text-xs font-roboto">
 						Product Description <span className="text-purple-500">*</span>
 					</p>
 					<Textarea
-						// value={productDetails.description}
-						// onChange={e => {
-						// 	setProductDetails(prevState => {
-						// 		return {
-						// 			...prevState,
-						// 			description: e.target.value,
-						// 		};
-						// 	});
-						// }}
+						value={productDetails.description}
+						onChange={e => {
+							setProductDetails(prevState => {
+								return {
+									...prevState,
+									description: e.target.value,
+								};
+							});
+						}}
 						minH="3lh"
 						maxH="8lh"
 						placeholder=""
@@ -104,9 +143,16 @@ const AddProduct = () => {
 					<FormControl sx={{ minWidth: 120, width: '100%' }} size="small">
 						<InputLabel sx={{ fontSize: 12 }}>Gender</InputLabel>
 						<Select
-							// value={productDetails.gender}
+							value={productDetails.gender}
 							label="Gender"
-							// onChange={handleChange}
+							onChange={e => {
+								setProductDetails(prevState => {
+									return {
+										...prevState,
+										gender: e.target.value,
+									};
+								});
+							}}
 							sx={{ fontSize: 12, paddingY: 1 }}
 						>
 							<MenuItem sx={{ fontSize: 12 }} value={'male'}>
@@ -121,6 +167,206 @@ const AddProduct = () => {
 						</Select>
 					</FormControl>
 				</div>
+				<div className="w-full flex flex-col gap-2">
+					<p className="text-xs font-roboto ">
+						Design Upload (Min. 1, Max. 5) <span className="text-purple-500">*</span>
+					</p>
+					<div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center flex justify-center items-center">
+						<div className="flex flex-col justify-cenetr items-center">
+							<Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
+							<div>
+								<button
+									onClick={() => document.getElementById('logo-upload')?.click()}
+									className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
+									disabled={productDetails.designs.length >= 5}
+								>
+									Upload Designs
+								</button>
+								<input
+									id="logo-upload"
+									type="file"
+									accept="image/*"
+									className="hidden"
+									onChange={e => {
+										const img = e.target.files?.[0];
+										if (img) {
+											const url = URL.createObjectURL(img);
+											console.log(url);
+											setProductDetails(prevState => {
+												return {
+													...prevState,
+													designs: [...prevState.designs, url],
+												};
+											});
+										}
+									}}
+								/>
+							</div>
+							<p className="text-xs text-gray-500 mt-3">PNG, JPG up to 50MB</p>
+						</div>
+					</div>
+				</div>
+				<div>
+					{productDetails.designs.length > 0 &&
+						productDetails.designs.map((design, index) => (
+							<img
+								key={index}
+								src={design}
+								alt={`product design ${index + 1}`}
+								className="w-full h-32 object-cover rounded-lg"
+							/>
+						))}
+				</div>
+				<div className="w-full flex flex-col gap-2">
+					<p className="text-xs font-roboto ">
+						Available Sizes <span className="text-purple-500">*</span>
+					</p>
+					<div className="w-full grid grid-cols-3 gap-y-3">
+						<button
+							onClick={() => {
+								setProductDetails(prevState => {
+									const prevValue = prevState.sizes.XS;
+									return {
+										...prevState,
+										sizes: {
+											...prevState.sizes,
+											XS: !prevValue,
+										},
+									};
+								});
+							}}
+							className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.XS ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						>
+							XS
+						</button>
+						<button
+							onClick={() => {
+								setProductDetails(prevState => {
+									const prevValue = prevState.sizes.S;
+									return {
+										...prevState,
+										sizes: {
+											...prevState.sizes,
+											S: !prevValue,
+										},
+									};
+								});
+							}}
+							className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.S ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						>
+							S
+						</button>
+						<button
+							onClick={() => {
+								setProductDetails(prevState => {
+									const prevValue = prevState.sizes.M;
+									return {
+										...prevState,
+										sizes: {
+											...prevState.sizes,
+											M: !prevValue,
+										},
+									};
+								});
+							}}
+							className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.M ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						>
+							M
+						</button>
+						<button
+							onClick={() => {
+								setProductDetails(prevState => {
+									const prevValue = prevState.sizes.L;
+									return {
+										...prevState,
+										sizes: {
+											...prevState.sizes,
+											L: !prevValue,
+										},
+									};
+								});
+							}}
+							className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.L ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						>
+							L
+						</button>
+						<button
+							onClick={() => {
+								setProductDetails(prevState => {
+									const prevValue = prevState.sizes.XL;
+									return {
+										...prevState,
+										sizes: {
+											...prevState.sizes,
+											XL: !prevValue,
+										},
+									};
+								});
+							}}
+							className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.XL ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						>
+							XL
+						</button>
+						<button
+							onClick={() => {
+								setProductDetails(prevState => {
+									const prevValue = prevState.sizes.XXL;
+									return {
+										...prevState,
+										sizes: {
+											...prevState.sizes,
+											XXL: !prevValue,
+										},
+									};
+								});
+							}}
+							className={`w-[10rem] py-2 text-xs font-roboto border border-solid border-gray-300 rounded-md ${!productDetails.sizes.XXL ? 'hover:bg-slate-50' : 'text-white border-none bg-purple-500 hover:opacity-90'} duration-200`}
+						>
+							XXL
+						</button>
+					</div>
+				</div>
+				<div className="w-full flex flex-col gap-2">
+					<Field.Root required className="flex flex-col gap-2">
+						<Field.Label className="text-xs font-roboto">
+							Remaining Stock <Field.RequiredIndicator color={'purple.500'} />
+						</Field.Label>
+						<Input
+							value={productDetails.remainingStock}
+							onChange={e => {
+								setProductDetails(prevState => {
+									return {
+										...prevState,
+										remainingStock: e.target.value,
+									};
+								});
+							}}
+							placeholder="eg. 100"
+							className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
+						/>
+					</Field.Root>
+				</div>
+				<div className="w-full flex flex-col gap-2">
+					<Field.Root required className="flex flex-col gap-2">
+						<Field.Label className="text-xs font-roboto">
+							Product Price <Field.RequiredIndicator color={'purple.500'} />
+						</Field.Label>
+						<Input
+							value={productDetails.price}
+							onChange={e => {
+								setProductDetails(prevState => {
+									return {
+										...prevState,
+										price: e.target.value,
+									};
+								});
+							}}
+							placeholder="eg. 1000"
+							className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
+						/>
+					</Field.Root>
+				</div>
+				<button onClick={handleSaveProduct}>Save Product</button>
 			</div>
 			<Footer />
 		</div>
@@ -128,63 +374,3 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
-
-{
-	/* <div className="space-y-4">
-										<div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-											<Upload className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-											<div>
-												<Button
-													type="button"
-													variant="outline"
-													onClick={() =>
-														document
-															.getElementById('image-upload')
-															?.click()
-													}
-												>
-													Upload Images
-												</Button>
-												<input
-													id="image-upload"
-													type="file"
-													accept="image/*"
-													multiple
-													className="hidden"
-													onChange={handleImageUpload}
-												/>
-											</div>
-											<p className="text-sm text-gray-500 mt-2">
-												PNG, JPG up to 10MB each ({images.length}/5)
-											</p>
-										</div>
-
-										{images.length > 0 && (
-											<div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-												{images.map((image, index) => (
-													<div key={index} className="relative group">
-														<img
-															src={URL.createObjectURL(image)}
-															alt={`Product ${index + 1}`}
-															className="w-full h-32 object-cover rounded-lg"
-														/>
-														<Button
-															type="button"
-															variant="destructive"
-															size="icon"
-															className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-															onClick={() => removeImage(index)}
-														>
-															<X className="h-4 w-4" />
-														</Button>
-														{index === 0 && (
-															<Badge className="absolute bottom-2 left-2 bg-blue-600">
-																Main
-															</Badge>
-														)}
-													</div>
-												))}
-											</div>
-										)}
-									</div> */
-}

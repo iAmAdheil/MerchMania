@@ -10,7 +10,7 @@ import ProductPrice from './productPrice';
 import { blobUrlToFile } from '@/utils/blobtoFIle';
 import { saveShopDetails } from '@/actions/save';
 import { useRouter } from 'next/navigation';
-import type { SizesSchema, ProductDetailsSchema, ShopDetailsSchema  } from '@/types';
+import type { SizesSchema, InputProductDetailsSchema, ShopDetailsSchema } from '@/types';
 
 const initialSizes: SizesSchema = {
 	XS: false,
@@ -20,8 +20,6 @@ const initialSizes: SizesSchema = {
 	XL: false,
 	XXL: false,
 };
-
-
 
 export default function OnboardingForm({ userId }: { userId: string }) {
 	const router = useRouter();
@@ -33,13 +31,14 @@ export default function OnboardingForm({ userId }: { userId: string }) {
 		name: '',
 		logo: '',
 	});
-	const [productDetails, setProductDetails] = useState<ProductDetailsSchema>({
+	const [productDetails, setProductDetails] = useState<InputProductDetailsSchema>({
 		name: '',
 		description: '',
 		gender: 'unisex',
 		sizes: initialSizes,
-		design: '',
+		designs: [],
 		price: '',
+		remainingStock: '0',
 	});
 
 	useEffect(() => {
@@ -55,7 +54,7 @@ export default function OnboardingForm({ userId }: { userId: string }) {
 			productDetails.description.length > 0
 		) {
 			setIsNextDisabled(false);
-		} else if (progressValue === 75 && productDetails.design.length > 0) {
+		} else if (progressValue === 75 && productDetails.designs.length > 0) {
 			setIsNextDisabled(false);
 		} else if (progressValue === 100 && productDetails.price.length > 0) {
 			setIsNextDisabled(false);
@@ -74,8 +73,14 @@ export default function OnboardingForm({ userId }: { userId: string }) {
 			if (shopDetails.logo.length > 0 && shopDetails.logo.startsWith('blob:')) {
 				shopLogo = await blobUrlToFile(shopDetails.logo, 'shop-logo.jpg');
 			}
-			if (productDetails.design.length > 0 && productDetails.design.startsWith('blob:')) {
-				productDesign = await blobUrlToFile(productDetails.design, 'product-design.jpg');
+			if (
+				productDetails.designs[0].length > 0 &&
+				productDetails.designs[0].startsWith('blob:')
+			) {
+				productDesign = await blobUrlToFile(
+					productDetails.designs[0],
+					'product-design.jpg'
+				);
 			}
 
 			if (!shopLogo || !productDesign) {

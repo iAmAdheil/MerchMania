@@ -1,15 +1,27 @@
-export type ProductDetailsSchema = {
+export type Roles = 'STRANGER' | 'CREATOR' | 'CUSTOMER' | 'ADMIN';
+
+export type InputProductDetailsSchema = {
 	name: string;
 	description: string;
 	gender: 'female' | 'male' | 'unisex';
-	design: string;
+	designs: string[];
 	sizes: SizesSchema;
 	price: string;
+	remainingStock: string;
 };
 
-export type ShopDetailsSchema = {
+export type ProductDetailsSchema = {
+	id?: string;
 	name: string;
-	logo: string;
+	description: string;
+	gender: 'female' | 'male' | 'unisex';
+	designs: string[];
+	sizes: SizesSchema;
+	price: string;
+	inStock: boolean;
+	remainingStock: number;
+	brand?: string;
+	brandImage?: string;
 };
 
 export type SizesSchema = {
@@ -21,13 +33,9 @@ export type SizesSchema = {
 	XXL: boolean;
 };
 
-export type ProductCardSchema = {
-	id: string;
+export type ShopDetailsSchema = {
 	name: string;
-	image: string;
-	price: string;
-	brand?: string;
-	brandImage?: string;
+	logo: string;
 };
 
 export type InfluencerDetailsSchema = {
@@ -55,5 +63,3 @@ export type InfluencerHeaderProps = {
 		twitch?: string;
 	};
 };
-
-export type Roles =  'STRANGER' | 'CREATOR' | 'CUSTOMER' | 'ADMIN';

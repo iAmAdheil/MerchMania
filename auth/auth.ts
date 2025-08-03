@@ -17,6 +17,10 @@ const options = {
 				type: 'boolean',
 				required: true,
 			},
+			shopId: {
+				type: 'string',
+				required: false,
+			},
 		},
 	},
 	plugins: [
@@ -29,6 +33,10 @@ const options = {
 				isOnboarded: {
 					type: 'boolean',
 					required: true,
+				},
+				shopId: {
+					type: 'string',
+					required: false,
 				},
 			},
 		}),
@@ -70,6 +78,10 @@ export const auth = betterAuth({
 					type: 'boolean',
 					required: true,
 				},
+				shopId: {
+					type: 'string',
+					required: false,
+				},
 			},
 		}),
 		customSession(async ({ user, session }, ctx) => {
@@ -80,6 +92,7 @@ export const auth = betterAuth({
 				image: user.image,
 				role: user.role,
 				isOnboarded: user.isOnboarded,
+				shopId: user.shopId,
 			};
 		}, options),
 	],
@@ -92,6 +105,10 @@ export const auth = betterAuth({
 			isOnboarded: {
 				type: 'boolean',
 				required: true,
+			},
+			shopId: {
+				type: 'string',
+				required: false,
 			},
 		},
 	},

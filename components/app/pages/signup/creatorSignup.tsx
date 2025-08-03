@@ -96,39 +96,39 @@ export default function CreatorSignup({
 		}
 	};
 
-	const handleGoogleSignup = async () => {
-		try {
-			const { data, error } = await signIn.social(
-				{
-					provider: 'google',
-					errorCallbackURL: '/signup',
-					callbackURL: '/',
-					requestSignUp: false,
-				},
-				{
-					onRequest: async ctx => {
-						console.log(ctx);
-					},
-					onSuccess: async ctx => {
-						console.log(ctx);
-						router.push('/influencer/onboarding');
-					},
-					onError: async ctx => {
-						console.log(ctx);
-					},
-					state: JSON.stringify({
-						role: 'CREATOR',
-						isOnboarded: false,
-						process: 'signup',
-					}),
-				}
-			);
-			console.log(data);
-			console.log(error);
-		} catch (e: any) {
-			console.log(e);
-		}
-	};
+	// const handleGoogleSignup = async () => {
+	// 	try {
+	// 		const { data, error } = await signIn.social(
+	// 			{
+	// 				provider: 'google',
+	// 				errorCallbackURL: '/signup',
+	// 				callbackURL: '/',
+	// 				requestSignUp: false,
+	// 			},
+	// 			{
+	// 				onRequest: async ctx => {
+	// 					console.log(ctx);
+	// 				},
+	// 				onSuccess: async ctx => {
+	// 					console.log(ctx);
+	// 					router.push('/influencer/onboarding');
+	// 				},
+	// 				onError: async ctx => {
+	// 					console.log(ctx);
+	// 				},
+	// 				state: JSON.stringify({
+	// 					role: 'CREATOR',
+	// 					isOnboarded: false,
+	// 					process: 'signup',
+	// 				}),
+	// 			}
+	// 		);
+	// 		console.log(data);
+	// 		console.log(error);
+	// 	} catch (e: any) {
+	// 		console.log(e);
+	// 	}
+	// };
 
 	// const handleSignOut = async () => {
 	// 	try {
@@ -154,7 +154,7 @@ export default function CreatorSignup({
 					Begin your creator journey with us
 				</p>
 			</div>
-			<div className="w-full">
+			{/* <div className="w-full">
 				<Button
 					onClick={handleGoogleSignup}
 					colorPalette="teal"
@@ -176,7 +176,7 @@ export default function CreatorSignup({
 					flex="1"
 					className="border-[0.1px] border-solid border-gray-200 flex-1"
 				/>
-			</HStack>
+			</HStack> */}
 			<div className="w-full flex flex-col gap-4">
 				<Field.Root required className="flex flex-col gap-2">
 					<Field.Label className="text-xs font-roboto">

@@ -14,7 +14,7 @@ export default function Onboarding() {
 
 	useEffect(() => {
 		if ((!isPending && !session) || (!isPending && error)) {
-			router.push('/login');
+			router.push('/signin');
 		}
 
 		if (session && session.isOnboarded && !isPending) {

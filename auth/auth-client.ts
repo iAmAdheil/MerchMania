@@ -31,6 +31,10 @@ export const { signIn, signUp, useSession, signOut } = createAuthClient({
 				type: 'boolean',
 				required: true,
 			},
+			shopId: {
+				type: 'string',
+				required: false,
+			},
 		},
 	},
 });

@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { type ProductDetailsSchema } from '@/types';
+import { type InputProductDetailsSchema } from '@/types';
 
 type Genders = 'male' | 'female' | 'unisex';
 
@@ -15,8 +15,8 @@ export default function ProductDetails({
 	productDetails,
 	setProductDetails,
 }: {
-	productDetails: ProductDetailsSchema;
-	setProductDetails: Dispatch<SetStateAction<ProductDetailsSchema>>;
+	productDetails: InputProductDetailsSchema;
+	setProductDetails: Dispatch<SetStateAction<InputProductDetailsSchema>>;
 }) {
 	const handleChange = (event: SelectChangeEvent) => {
 		setProductDetails(prevState => {

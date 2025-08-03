@@ -26,7 +26,7 @@ export default function Signup() {
 		if (!isPending && session) {
 			router.push('/');
 		}
-	}, [isPending]);
+	}, [isPending, session]);
 
 	if (isPending) {
 		return (

@@ -3,14 +3,14 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Store, Upload } from 'lucide-react';
 import { Field, Input } from '@chakra-ui/react';
-import { ShopDetails } from './mainForm';
+import type { ShopDetailsSchema } from '@/types';
 
 export default function StoreDetailsForm({
 	shopDetails,
 	setShopDetails,
 }: {
-	shopDetails: ShopDetails;
-	setShopDetails: Dispatch<SetStateAction<ShopDetails>>;
+	shopDetails: ShopDetailsSchema;
+	setShopDetails: Dispatch<SetStateAction<ShopDetailsSchema>>;
 }) {
 	return (
 		<>

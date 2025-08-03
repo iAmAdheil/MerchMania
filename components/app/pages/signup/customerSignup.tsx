@@ -17,7 +17,7 @@ export default function CustomerSignup({
 					Start shopping unique creator merchandise
 				</p>
 			</div>
-			<div className="w-full">
+			{/* <div className="w-full">
 				<Button
 					colorPalette="teal"
 					variant="solid"
@@ -38,7 +38,7 @@ export default function CustomerSignup({
 					flex="1"
 					className="border-[0.1px] border-solid border-gray-200 flex-1"
 				/>
-			</HStack>
+			</HStack> */}
 			<div className="w-full flex flex-col gap-4">
 				<Field.Root required className="flex flex-col gap-2">
 					<Field.Label className="text-xs font-roboto">

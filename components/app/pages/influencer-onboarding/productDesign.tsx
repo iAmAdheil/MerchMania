@@ -3,14 +3,14 @@
 import { Palette, Upload } from 'lucide-react';
 import { Field, Input } from '@chakra-ui/react';
 import { useState, type Dispatch, type SetStateAction } from 'react';
-import { ProductDetails } from './mainForm';
+import type { InputProductDetailsSchema } from '@/types';
 
 export default function ProductDesign({
 	productDetails,
 	setProductDetails,
 }: {
-	productDetails: ProductDetails;
-	setProductDetails: Dispatch<SetStateAction<ProductDetails>>;
+	productDetails: InputProductDetailsSchema;
+	setProductDetails: Dispatch<SetStateAction<InputProductDetailsSchema>>;
 }) {
 	return (
 		<>
@@ -28,8 +28,8 @@ export default function ProductDesign({
 					Design Upload <span className="text-purple-500">*</span>
 				</p>
 				<div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center flex justify-center items-center">
-					{productDetails.design.length === 0 && (
-						<div className='flex flex-col justify-cenetr items-center'>
+					{productDetails.designs.length === 0 && (
+						<div className="flex flex-col justify-center items-center">
 							<Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
 							<div>
 								<button
@@ -51,7 +51,7 @@ export default function ProductDesign({
 											setProductDetails(prevState => {
 												return {
 													...prevState,
-													design: url,
+													designs: [url],
 												};
 											});
 										}
@@ -61,7 +61,9 @@ export default function ProductDesign({
 							<p className="text-xs text-gray-500 mt-3">PNG, JPG up to 50MB</p>
 						</div>
 					)}
-					{productDetails.design.length > 0 && <img src={productDetails.design} alt="product image" />}
+					{productDetails.designs.length > 0 && (
+						<img src={productDetails.designs[0]} alt="product image" />
+					)}
 				</div>
 			</div>
 			<div className="w-full flex flex-col gap-2">

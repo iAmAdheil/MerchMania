@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { User } from 'lucide-react';
 
 type Props = {
-	role: string | null;
+	role?: string | null;
 };
 
 export default function Navbar({ role }: Props) {
@@ -38,8 +38,12 @@ export default function Navbar({ role }: Props) {
 			</div>
 			{role === 'CREATOR' && (
 				<div className="flex flex-row items-center gap-6">
-					<button onClick={() => handleNavigation('/influencer/dashboard')}>Dashboard</button>
-					<button onClick={() => handleNavigation('/influencer/new-product')}>Create New Product</button>
+					<button onClick={() => handleNavigation('/influencer/dashboard')}>
+						Dashboard
+					</button>
+					<button onClick={() => handleNavigation('/influencer/new-product')}>
+						Create New Product
+					</button>
 					<button
 						onClick={handleSignOut}
 						className="flex items-center justify-center w-8 h-8 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200"
@@ -69,7 +73,7 @@ export default function Navbar({ role }: Props) {
 					</div>
 				</>
 			)}
-			{!role && (
+			{role === 'STRANGER' && (
 				<div className="w-fit flex flex-row justify-between gap-16">
 					<div className="w-fit flex flex-row justify-between gap-16">
 						<button className="text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200">

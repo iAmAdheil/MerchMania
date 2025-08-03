@@ -7,17 +7,18 @@ import { useSession } from '@/auth/auth-client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/app/ui/loader';
+import { Roles } from '@/types';
 
 export default function Home() {
 	const router = useRouter();
 	const { data: session, isPending, error, refetch } = useSession();
-	const [role, setRole] = useState<string | null>(null);
+	const [role, setRole] = useState<Roles>('STRANGER');
 
 	useEffect(() => {
 		if (!isPending && !session) {
 			console.log('User not signed in!');
 		} else {
-			setRole(session?.role || null);
+			setRole((session?.role as Roles) || 'STRANGER');
 		}
 	}, [isPending, session]);
 
