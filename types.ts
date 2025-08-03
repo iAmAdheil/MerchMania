@@ -10,6 +10,26 @@ export type InputProductDetailsSchema = {
 	remainingStock: string;
 };
 
+export type ProductCardSchema = {
+	id: string;
+	name: string;
+	image: string;
+	price: string;
+};
+
+export type ProductPageDetailsSchema = {
+	id: string;
+	name: string;
+	description: string;
+	designs: string[];
+	price: string;
+	shop: {
+		id: string;
+		name: string;
+		logo: string;
+	};
+};
+
 export type ProductDetailsSchema = {
 	id?: string;
 	name: string;

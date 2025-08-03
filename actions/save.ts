@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
-import type { ShopDetailsSchema, ProductDetailsSchema, InputProductDetailsSchema } from '@/types';
+import type { ShopDetailsSchema, InputProductDetailsSchema } from '@/types';
 import generateUniqueId from '@/utils/generateCUID';
 
 type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';

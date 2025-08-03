@@ -9,7 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Upload } from 'lucide-react';
+import { Upload, Shirt } from 'lucide-react';
 import type { InputProductDetailsSchema, Roles } from '@/types';
 import { useSession } from '@/auth/auth-client';
 import { useRouter } from 'next/navigation';
@@ -41,7 +41,7 @@ const AddProduct = () => {
 
 	useEffect(() => {
 		console.log(productDetails.designs);
-	}, [productDetails])
+	}, [productDetails]);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -97,7 +97,14 @@ const AddProduct = () => {
 	return (
 		<div className="flex flex-col">
 			<Navbar role={role} />
-			<div>
+			<div className="max-w-6xl mx-auto px-4 py-8">
+				<Shirt className="h-16 w-16 mx-auto text-brand-purple" />
+				<div className="flex flex-col items-center">
+					<h2 className="text-2xl font-bold font-roboto">Product Details</h2>
+					<p className="text-sm text-gray-600 font-roboto">
+						Tell us about your first product
+					</p>
+				</div>
 				<div className="w-full flex flex-col gap-2">
 					<Field.Root required className="flex flex-col gap-2">
 						<Field.Label className="text-xs font-roboto">
