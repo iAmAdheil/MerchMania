@@ -1,5 +1,6 @@
 import { ShoppingBag, Users, TrendingUp, Award } from 'lucide-react';
 import { FaArrowRight } from 'react-icons/fa';
+import Typewriter from 'typewriter-effect';
 
 const stats = [
 	{
@@ -26,17 +27,29 @@ const stats = [
 
 export default function LeftMain() {
 	return (
-		<div className="bg-purple-100 flex flex-col gap-8 flex-1 flex-wrap pl-16 pt-28">
-			<h1 className="font-bold font-roboto text-5xl text-black flex flex-col gap-2">
-				Wear Your Favorite
-				<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-orange-500">
-					Creator's Merchandise
-				</span>
-			</h1>
-			<p className="text-gray-700 text-base font-roboto w-[35rem]">
-				Discover unique designs from your favorite influencers. Support creators directly
-				and wear merchandise that's as unique as you are.
-			</p>
+		<div className="w-full bg-purple-100 flex flex-col px-10 py-10 items-center justify-between">
+			<div>
+				<h1 className="w-full font-bold font-roboto text-4xl text-black flex flex-col items-center mb-3 sm:text-5xl">
+					Wear Your Favorite
+					<span className="text-[40px] text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-orange-500 sm:text-5xl">
+						Creator's Merchandise
+					</span>
+				</h1>
+				<div className="w-full text-center mb-6">
+					<Typewriter
+						options={{
+							strings: [
+								`Discover unique designs from your favorite influencers. Support creators directly and wear merchandise that's as unique as you are.`,
+							],
+							autoStart: true,
+							loop: false,
+							delay: 25,
+							cursorClassName: 'text-lg text-purple-500',
+							wrapperClassName: 'w-full text-gray-700 text-base font-roboto',
+						}}
+					/>
+				</div>
+			</div>
 			<div className="flex flex-row gap-8">
 				<button className="flex flex-row items-center justify-between w-[10rem] h-fit py-2 pl-6 pr-7 rounded-full shadow-lg text-base font-roboto font-semibold text-white bg-purple-500 hover:pr-5 hover:opacity-80 active:opacity-60 duration-150">
 					Shop Now
@@ -46,7 +59,7 @@ export default function LeftMain() {
 					Become a Creator
 				</button>
 			</div>
-			<div className="flex flex-row justify-center mb-10">
+			<div className="w-full flex flex-row justify-center mb-10">
 				<div className="w-full py-3 flex flex-row items-center justify-evenly bg-white rounded-md shadow-xl">
 					{stats.map((stat, index) => (
 						<div key={index} className="flex flex-col gap-0.5 items-center p-2">

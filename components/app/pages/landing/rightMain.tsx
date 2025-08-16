@@ -21,15 +21,13 @@ export default function RightMain() {
 	}, []);
 
 	return (
-		<div
-			className="relative flex-1 bg-purple-100"			
-		>			
-			<motion.div 
-				className="relative aspect-square mx-24 my-24"
-				initial={{ opacity: 0, scale: 0.8, rotateY: -20 }}
-				animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-				transition={{ duration: 0.8, ease: 'easeOut' }}
-			>
+		<motion.div
+			className="w-full max-w-xl px-16 py-16 bg-red-100"
+			initial={{ opacity: 0, scale: 0.8, rotateY: -20 }}
+			animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+			transition={{ duration: 0.8, ease: 'easeOut' }}
+		>
+			<div className="relative aspect-square">
 				<img
 					src={heroImages[currentBgIndex]}
 					alt="Creator merchandise showcase"
@@ -68,7 +66,7 @@ export default function RightMain() {
 						<p className="font-semibold text-sm">150+ sales today</p>
 					</div>
 				</motion.div>
-			</motion.div>
-		</div>
+			</div>
+		</motion.div>
 	);
 }
