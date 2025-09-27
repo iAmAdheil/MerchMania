@@ -1,10 +1,6 @@
-import { ProductCardSchema } from "@/types";
+import { ProductCardSchema } from '@/types';
 
-export default function ProductCard({
-	product
-} : {
-	product: ProductCardSchema;
-}) {
+export default function ProductCard({ product }: { product: ProductCardSchema }) {
 	return (
 		<div className="group w-[20rem] flex flex-col border border-solid border-gray-200 rounded-xl hover:scale-105 hover:shadow-lg duration-150">
 			<div className="relative w-full">
@@ -29,7 +25,9 @@ export default function ProductCard({
 				</div>
 			</div>
 			<div className="flex flex-col gap-1 py-3 px-4">
-				<h2 className="font-semibold text-wrap group-hover:text-purple-500 duration-150">{product.name}</h2>
+				<h2 className="font-semibold text-wrap group-hover:text-purple-500 duration-150">
+					{product.name}
+				</h2>
 				<h3 className="font-bold text-sm">$ {product.price}</h3>
 			</div>
 		</div>

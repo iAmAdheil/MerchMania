@@ -1,20 +1,20 @@
-import Navbar from "@/components/app/navbar/main"
-import Header from "@/components/app/pages/influencer-dashboard/header";
-import InfoTabs from "@/components/app/pages/influencer-dashboard/infoTabs";
+import Navbar from '@/components/app/navbar/main';
+import Header from '@/components/app/pages/influencer-dashboard/header';
+import InfoTabs from '@/components/app/pages/influencer-dashboard/infoTabs';
 
-import { 
-  TrendingUp, 
-  Package, 
-  ShoppingBag, 
-  DollarSign, 
-  Eye, 
-  Plus,
-  BarChart3,
-  Users,
-  Star,
-  Settings
-} from "lucide-react";
-import Footer from "@/components/app/ui/footer";
+import {
+	TrendingUp,
+	Package,
+	ShoppingBag,
+	DollarSign,
+	Eye,
+	Plus,
+	BarChart3,
+	Users,
+	Star,
+	Settings,
+} from 'lucide-react';
+import Footer from '@/components/app/ui/footer';
 
 export default function InfluencerDashBoard() {
 	return (
@@ -24,5 +24,5 @@ export default function InfluencerDashBoard() {
 			<InfoTabs />
 			<Footer />
 		</div>
-	)
+	);
 }

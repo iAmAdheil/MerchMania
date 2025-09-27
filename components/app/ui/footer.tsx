@@ -3,7 +3,7 @@ const Footer = () => {
 		<footer className="bg-gray-50 border-t-[0.5px] border-gray-200">
 			<div className="py-12 px-20 flex flex-col justify-center">
 				<div className="flex flex-row justify-between items-center">
-					<div className='flex flex-col w-[15rem]'>
+					<div className="flex flex-col w-[15rem]">
 						<h3 className="text-xl font-bold mb-4">
 							<span className="bg-gradient-to-r from-brand-purple to-brand-light-purple bg-clip-text text-transparent">
 								MerchMania

@@ -127,7 +127,7 @@ export const saveShopDetails = async (
 				},
 				data: {
 					isOnboarded: true,
-					shopId: shopId
+					shopId: shopId,
 				},
 			});
 		});

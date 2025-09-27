@@ -28,12 +28,10 @@ export default function MovingMarquee() {
 						return (
 							<span key={index} className="flex flex-row gap-3 items-center">
 								<div>{section.icon}</div>
-								<p className="text-white text-sm">
-									{section.text}
-								</p>
+								<p className="text-white text-sm">{section.text}</p>
 							</span>
 						);
-					})}					
+					})}
 				</div>
 			</Marquee>
 		</div>

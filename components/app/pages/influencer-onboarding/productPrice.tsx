@@ -1,11 +1,14 @@
 'use client';
 
-import { type Dispatch, type SetStateAction } from "react";
-import { DollarSign } from "lucide-react";
-import { Field, Input } from "@chakra-ui/react";
-import { ProductDetails } from "./mainForm";
+import { type Dispatch, type SetStateAction } from 'react';
+import { DollarSign } from 'lucide-react';
+import { Field, Input } from '@chakra-ui/react';
+import { ProductDetails } from './mainForm';
 
-export default function ProductPrice({productDetails, setProductDetails} : {
+export default function ProductPrice({
+	productDetails,
+	setProductDetails,
+}: {
 	productDetails: ProductDetails;
 	setProductDetails: Dispatch<SetStateAction<ProductDetails>>;
 }) {
@@ -27,13 +30,13 @@ export default function ProductPrice({productDetails, setProductDetails} : {
 					</Field.Label>
 					<Input
 						value={productDetails.price}
-						onChange={(e) => {
+						onChange={e => {
 							setProductDetails(prevState => {
 								return {
 									...prevState,
-									price: e.target.value
-								}
-							})
+									price: e.target.value,
+								};
+							});
 						}}
 						placeholder="$ 29.99"
 						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
@@ -42,7 +45,7 @@ export default function ProductPrice({productDetails, setProductDetails} : {
 				<p className="text-xs font-roboto text-gray-600">
 					Recommended price range: $15 - $50
 				</p>
-			</div>				
+			</div>
 		</>
 	);
 }

@@ -3,7 +3,7 @@ import { CiSearch } from 'react-icons/ci';
 
 export default function Searchbar() {
 	return (
-		<div className='flex-1 max-w-[30rem]'>
+		<div className="flex-1 max-w-[30rem]">
 			<InputGroup
 				className="flex flex-row items-center w-full"
 				startElement={

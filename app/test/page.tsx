@@ -1,9 +1,3 @@
-
-
 export default function Test() {
-	return (
-		<div>
-			
-		</div>
-	);
+	return <div></div>;
 }

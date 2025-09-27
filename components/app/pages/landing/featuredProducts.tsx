@@ -15,8 +15,10 @@ export default function FeaturedProducts() {
 				<ProductCard />
 				<ProductCard />
 			</div> */}
-			<div className='flex justify-center'>
-				<button className='bg-purple-500 px-3 py-2 rounded-md text-sm font-roboto text-white font-semibold hover:opacity-90 hover:scale-95 active:opacity-80 duration-150'>Explore All Products</button>
+			<div className="flex justify-center">
+				<button className="bg-purple-500 px-3 py-2 rounded-md text-sm font-roboto text-white font-semibold hover:opacity-90 hover:scale-95 active:opacity-80 duration-150">
+					Explore All Products
+				</button>
 			</div>
 		</div>
 	);

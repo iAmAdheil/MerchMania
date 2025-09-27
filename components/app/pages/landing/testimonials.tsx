@@ -81,7 +81,7 @@ const TestimonialSlider = () => {
 			<div className="absolute top-1/2 left-1/4 w-24 h-24 bg-purple-400/10 rounded-full blur-lg"></div>
 			<div className="absolute top-[6rem] left-[8rem] transform -translate-x-6 -translate-y-6">
 				<Quote className="w-12 h-12 text-brand-purple opacity-20" />
-			</div>			
+			</div>
 
 			<div className="z-10 w-[60rem] h-full flex flex-col items-center justify-center gap-5">
 				<h2 className="text-3xl font-bold text-center">Creator Success Stories</h2>

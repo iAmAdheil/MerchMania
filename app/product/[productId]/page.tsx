@@ -19,7 +19,10 @@ const ProductDetail = ({ params }: Props) => {
 	const router = useRouter();
 
 	const { data: session, isPending } = useSession();
-	const { productDetails, isLoading, error } = useFetchProductDetails(productId, session?.shopId || '');
+	const { productDetails, isLoading, error } = useFetchProductDetails(
+		productId,
+		session?.shopId || ''
+	);
 
 	const [quantity, setQuantity] = useState(1);
 	const [activeImage, setActiveImage] = useState(0);

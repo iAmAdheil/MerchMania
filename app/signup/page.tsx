@@ -38,7 +38,7 @@ export default function Signup() {
 
 	return (
 		<div className="min-h-screen flex flex-row">
-			<div className='hidden flex-1 h-screen lg:block'>
+			<div className="hidden flex-1 h-screen lg:block">
 				<LeftSection />
 			</div>
 			<div className="flex-1 flex justify-center items-center bg-gray-50">

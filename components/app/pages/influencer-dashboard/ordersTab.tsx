@@ -44,7 +44,7 @@ const mockRecentOrders = [
 ];
 
 export default function OrdersTab() {
-	const getStatusBase = (status: string) => {		
+	const getStatusBase = (status: string) => {
 		if (status === 'delivered') {
 			return (
 				<div className="bg-green-200 px-2 py-1 rounded-xl w-fit">
@@ -55,7 +55,9 @@ export default function OrdersTab() {
 		if (status === 'printing') {
 			return (
 				<div className="bg-yellow-200 px-2 py-1 rounded-xl w-fit">
-					<p className="text-[10px] text-yellow-800 font-semibold font-roboto">{status}</p>
+					<p className="text-[10px] text-yellow-800 font-semibold font-roboto">
+						{status}
+					</p>
 				</div>
 			);
 		}
@@ -92,11 +94,11 @@ export default function OrdersTab() {
 								<td className="p-4 text-sm font-roboto">{order.product}</td>
 								<td className="p-4 text-sm font-roboto">{order.customer}</td>
 								<td className="p-4 text-sm font-semibold">${order.amount}</td>
+								<td className="p-4">{getStatusBase(order.status)}</td>
 								<td className="p-4">
-									{getStatusBase(order.status)}
-								</td>
-								<td className="p-4">
-									<button className="p-2 text-sm font-roboto rounded-lg hover:bg-slate-200 duration-200">View Details</button>
+									<button className="p-2 text-sm font-roboto rounded-lg hover:bg-slate-200 duration-200">
+										View Details
+									</button>
 								</td>
 							</tr>
 						))}

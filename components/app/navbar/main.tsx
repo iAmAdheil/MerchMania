@@ -31,7 +31,7 @@ export default function Navbar({ role }: Props) {
 	return (
 		<div className="bg-white dark:bg-black py-3 border-b-[0.5px] border-solid border-gray-200 shadow-lg flex flex-row justify-between items-center z-10 lg:px-14">
 			<div className="flex-1 flex flex-row items-center px-10">
-				<div className='w-full flex flex-row items-center gap-6'>
+				<div className="w-full flex flex-row items-center gap-6">
 					<span className="text-2xl font-roboto font-bold bg-gradient-to-r from-purple-600 to-purple-300 bg-clip-text text-transparent">
 						MerchMania
 					</span>

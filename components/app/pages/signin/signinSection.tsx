@@ -16,27 +16,6 @@ export default function SigninSection() {
 	);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 {
 	/* <Tabs.Root value={tab} variant={'subtle'} className="flex flex-col gap-6">
 					<Tabs.List className="flex flex-row justify-between bg-gray-100 p-1 border border-solid border-gray-200 rounded-md">

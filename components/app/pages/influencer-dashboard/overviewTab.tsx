@@ -73,7 +73,7 @@ const mockProducts = [
 type Status = 'shipped' | 'printing' | 'delivered';
 
 export default function OverviewTab() {
-	const getStatusBase = (status: string) => {		
+	const getStatusBase = (status: string) => {
 		if (status === 'delivered') {
 			return (
 				<div className="bg-green-200 px-2 py-1 rounded-xl">
@@ -84,7 +84,9 @@ export default function OverviewTab() {
 		if (status === 'printing') {
 			return (
 				<div className="bg-yellow-200 px-2 py-1 rounded-xl">
-					<p className="text-[10px] text-yellow-800 font-semibold font-roboto">{status}</p>
+					<p className="text-[10px] text-yellow-800 font-semibold font-roboto">
+						{status}
+					</p>
 				</div>
 			);
 		}

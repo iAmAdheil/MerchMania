@@ -52,8 +52,8 @@ export default function StoreDetailsForm({
 					Store Logo <span className="text-purple-500">*</span>
 				</p>
 				<div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center flex justify-center items-center">
-					{(shopDetails.logo.length === 0) && (
-						<div className='flex flex-col justify-center items-center'>
+					{shopDetails.logo.length === 0 && (
+						<div className="flex flex-col justify-center items-center">
 							<Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
 							<div>
 								<button

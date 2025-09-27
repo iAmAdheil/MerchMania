@@ -44,7 +44,10 @@ export default function ProductsTab() {
 			<div className="flex-wrap gap-y-10 flex flex-row justify-between">
 				{mockProducts.map(product => {
 					return (
-						<div key={product.id} className="flex flex-col gap-5 pb-6 w-[24rem] bg-white border-[1px] border-solid border-gray-200 rounded-lg">
+						<div
+							key={product.id}
+							className="flex flex-col gap-5 pb-6 w-[24rem] bg-white border-[1px] border-solid border-gray-200 rounded-lg"
+						>
 							<div className="h-[30rem]">
 								<img
 									src={product.image}
@@ -57,8 +60,7 @@ export default function ProductsTab() {
 									{product.name}
 								</h2>
 								<p className="text-sm text-gray-600">
-									{product.sales} sales • ${product.revenue}{' '}
-									revenue
+									{product.sales} sales • ${product.revenue} revenue
 								</p>
 							</div>
 							<div className="px-3 flex flex-row gap-4">

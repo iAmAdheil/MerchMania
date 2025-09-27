@@ -7,13 +7,7 @@ const points = [
 	`Fast shipping and easy returns`,
 ];
 
-const categories = [
-	'Apparel',
-	'Accessories',
-	'Posters',
-	'Stickers',
-	'Limited Edition'
-]
+const categories = ['Apparel', 'Accessories', 'Posters', 'Stickers', 'Limited Edition'];
 
 const socialPlatforms = [
 	{ name: 'YouTube', icon: Youtube, url: '', color: 'text-red-600' },
@@ -84,10 +78,13 @@ export default function AboutTab() {
 				</div>
 				<div className="flex flex-col gap-4 px-4 py-5 border-[0.5px] border-solid border-gray-300 rounded-lg">
 					<h1 className="text-2xl font-bold">Shop Categories</h1>
-					<div className='flex flex-row items-center gap-2 flex-wrap'>
-						{categories.map((category, index) => {							
+					<div className="flex flex-row items-center gap-2 flex-wrap">
+						{categories.map((category, index) => {
 							return (
-								<div key={index} className='px-3 py-0.5 bg-purple-300 rounded-xl text-[10px] font-semibold'>
+								<div
+									key={index}
+									className="px-3 py-0.5 bg-purple-300 rounded-xl text-[10px] font-semibold"
+								>
 									{category}
 								</div>
 							);

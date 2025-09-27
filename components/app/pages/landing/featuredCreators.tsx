@@ -186,8 +186,8 @@ export default function FeaturedCreators() {
 					</button>
 				)}
 			</div> */}
-			<div className='w-full flex justify-center'>
-				<button className='w-fit px-5 py-2 bg-purple-600 text-white text-sm font-roboto font-semibold rounded-lg'>
+			<div className="w-full flex justify-center">
+				<button className="w-fit px-5 py-2 bg-purple-600 text-white text-sm font-roboto font-semibold rounded-lg">
 					Discover All Creators
 				</button>
 			</div>
