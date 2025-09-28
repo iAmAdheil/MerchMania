@@ -21,17 +21,11 @@ export default function InfluencerSigninCard() {
 				</Button>
 			</div>
 			<HStack>
-				<Separator
-					flex="1"
-					className="border-[0.1px] border-solid border-gray-500 flex-1"
-				/>
+				<Separator flex="1" className="border-[0.1px] border-solid border-gray-500 flex-1" />
 				<Text flexShrink="0" className="font-roboto font-light text-[10px] text-gray-500">
 					OR
 				</Text>
-				<Separator
-					flex="1"
-					className="border-[0.1px] border-solid border-gray-500 flex-1"
-				/>
+				<Separator flex="1" className="border-[0.1px] border-solid border-gray-500 flex-1" />
 			</HStack>
 			<div className="flex flex-col gap-4">
 				<Field.Root required className="flex flex-col gap-2">

@@ -3,7 +3,7 @@
 import prisma from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
 import type { ShopDetailsSchema, InputProductDetailsSchema } from '@/types';
-import generateUniqueId from '@/utils/generateCUID';
+import { generateUniqueId } from '@/utils/cuid';
 
 type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
@@ -36,6 +36,7 @@ const saveImage = async (file: File, filename: string) => {
 			return uploadResult.secure_url;
 		}
 	} catch (e: any) {
+		console.log(e);
 		return '';
 	}
 };

@@ -150,9 +150,7 @@ export default function CreatorSignup({
 			)}
 			<div className="flex flex-col items-center">
 				<h2 className="text-2xl font-bold">Creator Signup</h2>
-				<p className="text-sm font-roboto text-gray-600">
-					Begin your creator journey with us
-				</p>
+				<p className="text-sm font-roboto text-gray-600">Begin your creator journey with us</p>
 			</div>
 			{/* <div className="w-full">
 				<Button

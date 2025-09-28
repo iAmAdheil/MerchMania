@@ -13,8 +13,8 @@ export default function LeftSection() {
 						</span>
 					</h1>
 					<p className="text-base font-roboto text-white/90 max-w-md">
-						Join thousands of creators and customers building amazing merchandise
-						experiences together
+						Join thousands of creators and customers building amazing merchandise experiences
+						together
 					</p>
 				</div>
 
@@ -23,9 +23,7 @@ export default function LeftSection() {
 						<Users className="h-8 w-8 text-brand-orange" />
 						<div className="text-left">
 							<div className="font-semibold">Join as Customer</div>
-							<div className="text-sm text-white/80">
-								Shop unique creator merchandise
-							</div>
+							<div className="text-sm text-white/80">Shop unique creator merchandise</div>
 						</div>
 					</div>
 
@@ -33,9 +31,7 @@ export default function LeftSection() {
 						<Star className="h-8 w-8 text-brand-orange" />
 						<div className="text-left">
 							<div className="font-semibold">Join as Creator</div>
-							<div className="text-sm text-white/80">
-								Start your merchandise empire
-							</div>
+							<div className="text-sm text-white/80">Start your merchandise empire</div>
 						</div>
 					</div>
 

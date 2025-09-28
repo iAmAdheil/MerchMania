@@ -41,9 +41,7 @@ export default function Navbar({ role }: Props) {
 			<div className="hidden flex-1 flex-row items-center lg:flex">
 				{role === 'CREATOR' && (
 					<div className="w-full flex flex-row items-center justify-end gap-8">
-						<button onClick={() => handleNavigation('/influencer/dashboard')}>
-							Dashboard
-						</button>
+						<button onClick={() => handleNavigation('/influencer/dashboard')}>Dashboard</button>
 						<button onClick={() => handleNavigation('/influencer/new-product')}>
 							Create New Product
 						</button>

@@ -29,8 +29,8 @@ const HowItWorksSection = () => {
 			<div className="text-center max-w-3xl mx-auto">
 				<h2 className="text-3xl font-bold mb-3">How It Works For Creators</h2>
 				<p className="text-lg text-gray-600">
-					Launch your own merchandise line without the hassle. We handle production,
-					shipping, and customer service while you focus on creating.
+					Launch your own merchandise line without the hassle. We handle production, shipping, and
+					customer service while you focus on creating.
 				</p>
 			</div>
 			<div className="w-full flex flex-row justify-around">

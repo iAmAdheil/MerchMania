@@ -84,9 +84,7 @@ export default function OverviewTab() {
 		if (status === 'printing') {
 			return (
 				<div className="bg-yellow-200 px-2 py-1 rounded-xl">
-					<p className="text-[10px] text-yellow-800 font-semibold font-roboto">
-						{status}
-					</p>
+					<p className="text-[10px] text-yellow-800 font-semibold font-roboto">{status}</p>
 				</div>
 			);
 		}
@@ -185,10 +183,7 @@ export default function OverviewTab() {
 					<div className="flex flex-col gap-6">
 						{mockRecentOrders.map(order => {
 							return (
-								<div
-									key={order.id}
-									className="flex flex-row items-center justify-between"
-								>
+								<div key={order.id} className="flex flex-row items-center justify-between">
 									<div className="flex flex-col">
 										<p className="text-base font-semibold">{order.product}</p>
 										<p className="text-sm text-gray-600">

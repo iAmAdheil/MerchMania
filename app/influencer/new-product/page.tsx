@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { blobUrlToFile } from '@/utils/blobtoFIle';
+import { blobUrlToFile } from '@/utils/convert';
 import Navbar from '@/components/app/navbar/main';
 import Footer from '@/components/app/ui/footer';
 import { Field, Input, Textarea } from '@chakra-ui/react';
@@ -101,9 +101,7 @@ const AddProduct = () => {
 				<Shirt className="h-16 w-16 mx-auto text-brand-purple" />
 				<div className="flex flex-col items-center">
 					<h2 className="text-2xl font-bold font-roboto">Product Details</h2>
-					<p className="text-sm text-gray-600 font-roboto">
-						Tell us about your first product
-					</p>
+					<p className="text-sm text-gray-600 font-roboto">Tell us about your first product</p>
 				</div>
 				<div className="w-full flex flex-col gap-2">
 					<Field.Root required className="flex flex-col gap-2">

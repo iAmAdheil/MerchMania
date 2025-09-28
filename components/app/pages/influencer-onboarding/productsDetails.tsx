@@ -33,9 +33,7 @@ export default function ProductDetails({
 				<Shirt className="h-16 w-16 mx-auto text-brand-purple" />
 				<div className="flex flex-col items-center">
 					<h2 className="text-2xl font-bold font-roboto">Product Details</h2>
-					<p className="text-sm text-gray-600 font-roboto">
-						Tell us about your first product
-					</p>
+					<p className="text-sm text-gray-600 font-roboto">Tell us about your first product</p>
 				</div>
 			</div>
 			<div className="w-full flex flex-col gap-2">
@@ -57,9 +55,7 @@ export default function ProductDetails({
 						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
 					/>
 				</Field.Root>
-				<p className="text-xs font-roboto text-gray-600">
-					This will be your unique store URL
-				</p>
+				<p className="text-xs font-roboto text-gray-600">This will be your unique store URL</p>
 			</div>
 			<div className="w-full flex flex-col gap-2">
 				<p className="text-xs font-roboto">

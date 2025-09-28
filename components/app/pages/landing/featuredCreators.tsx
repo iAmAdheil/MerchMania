@@ -215,9 +215,7 @@ export function CreatorCard({ creator, direction }: { creator: Creator; directio
 					/>
 				</div>
 				<div className="flex-1 text-left">
-					<h3 className="font-semibold text-lg group-hover:text-purple-500">
-						{creator.name}
-					</h3>
+					<h3 className="font-semibold text-lg group-hover:text-purple-500">{creator.name}</h3>
 					<p className="text-sm text-gray-500">{creator.category}</p>
 				</div>
 			</div>

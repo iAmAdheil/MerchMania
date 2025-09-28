@@ -56,9 +56,7 @@ export default function ProductsTab() {
 								/>
 							</div>
 							<div className="px-3">
-								<h2 className="text-lg font-semibold font-roboto">
-									{product.name}
-								</h2>
+								<h2 className="text-lg font-semibold font-roboto">{product.name}</h2>
 								<p className="text-sm text-gray-600">
 									{product.sales} sales • ${product.revenue} revenue
 								</p>

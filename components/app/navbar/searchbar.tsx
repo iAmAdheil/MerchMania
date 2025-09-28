@@ -7,10 +7,7 @@ export default function Searchbar() {
 			<InputGroup
 				className="flex flex-row items-center w-full"
 				startElement={
-					<CiSearch
-						className="ml-3 cursor-pointer text-black dark:text-white"
-						size={18}
-					/>
+					<CiSearch className="ml-3 cursor-pointer text-black dark:text-white" size={18} />
 				}
 			>
 				<Input

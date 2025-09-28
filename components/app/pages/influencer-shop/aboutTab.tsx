@@ -28,14 +28,14 @@ export default function AboutTab() {
 				<div className="w-[100%] flex flex-col gap-4 px-4 py-5 border-[0.5px] border-solid border-gray-300 rounded-lg">
 					<h1 className="text-2xl font-bold">About GamingWithAlex</h1>
 					<p className="text-[15px] font-medium text-slate-700">
-						Gaming content creator passionate about indie games and tech reviews.
-						Creating awesome merchandise for the gaming community!
+						Gaming content creator passionate about indie games and tech reviews. Creating awesome
+						merchandise for the gaming community!
 					</p>
 					<p className="text-[15px] font-medium text-slate-700">
-						Welcome to my official merchandise store! Here you'll find exclusive designs
-						and products that represent my brand and the amazing community we've built
-						together. Every purchase supports content creation and helps me continue
-						bringing you the content you love.
+						Welcome to my official merchandise store! Here you'll find exclusive designs and
+						products that represent my brand and the amazing community we've built together. Every
+						purchase supports content creation and helps me continue bringing you the content you
+						love.
 					</p>
 				</div>
 				<div className="w-[100%] flex flex-col gap-4 px-4 py-5 border-[0.5px] border-solid border-gray-300 rounded-lg">

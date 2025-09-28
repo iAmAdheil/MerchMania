@@ -42,9 +42,7 @@ export default function ProductPrice({
 						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
 					/>
 				</Field.Root>
-				<p className="text-xs font-roboto text-gray-600">
-					Recommended price range: $15 - $50
-				</p>
+				<p className="text-xs font-roboto text-gray-600">Recommended price range: $15 - $50</p>
 			</div>
 		</>
 	);

@@ -3,7 +3,7 @@
 import { use, useEffect, useState } from 'react';
 import Navbar from '@/components/app/navbar/main';
 import Footer from '@/components/app/ui/footer';
-import useFetchProductDetails from '@/hooks/useFetchProductDetails';
+import useFetchProductDetails from '@/hooks/useProductDetails';
 import { useSession } from '@/auth/auth-client';
 import Loader from '@/components/app/ui/loader';
 import { useRouter } from 'next/navigation';
@@ -69,9 +69,7 @@ const ProductDetail = ({ params }: Props) => {
 									key={index}
 									onClick={() => setActiveImage(index)}
 									className={`w-20 h-20 rounded-md overflow-hidden border-2 ${
-										activeImage === index
-											? 'border-brand-purple'
-											: 'border-transparent'
+										activeImage === index ? 'border-brand-purple' : 'border-transparent'
 									}`}
 								>
 									<img
@@ -94,9 +92,7 @@ const ProductDetail = ({ params }: Props) => {
 									className="h-full w-full object-cover"
 								/>
 							</div>
-							<span className="text-sm text-gray-500">
-								{productDetails?.shop.name}
-							</span>
+							<span className="text-sm text-gray-500">{productDetails?.shop.name}</span>
 						</div>
 
 						<h1 className="text-3xl font-bold mb-2">{productDetails?.name}</h1>
@@ -151,19 +147,11 @@ const ProductDetail = ({ params }: Props) => {
 						<div className="mb-6">
 							<h3 className="font-medium mb-2">Quantity</h3>
 							<div className="flex items-center">
-								<button
-									onClick={decrementQuantity}
-									disabled={quantity <= 1}
-									className="h-10 w-10"
-								>
+								<button onClick={decrementQuantity} disabled={quantity <= 1} className="h-10 w-10">
 									-
 								</button>
 								<span className="w-12 text-center">{quantity}</span>
-								<button
-									onClick={incrementQuantity}
-									disabled={quantity >= 10}
-									className="h-10 w-10"
-								>
+								<button onClick={incrementQuantity} disabled={quantity >= 10} className="h-10 w-10">
 									+
 								</button>
 							</div>
@@ -199,9 +187,7 @@ const ProductDetail = ({ params }: Props) => {
 											d="M5 13l4 4L19 7"
 										></path>
 									</svg>
-									<span className="text-sm font-medium">
-										Free shipping on orders over $50
-									</span>
+									<span className="text-sm font-medium">Free shipping on orders over $50</span>
 								</div>
 								<div className="flex items-center mt-2">
 									<svg
@@ -218,9 +204,7 @@ const ProductDetail = ({ params }: Props) => {
 											d="M5 13l4 4L19 7"
 										></path>
 									</svg>
-									<span className="text-sm font-medium">
-										Estimated delivery: 3-5 business days
-									</span>
+									<span className="text-sm font-medium">Estimated delivery: 3-5 business days</span>
 								</div>
 							</div>
 						</div>

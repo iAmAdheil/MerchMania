@@ -7,7 +7,7 @@ import StoreDetailsForm from './storeDetailsForm';
 import ProductDetails from './productsDetails';
 import ProductDesign from './productDesign';
 import ProductPrice from './productPrice';
-import { blobUrlToFile } from '@/utils/blobtoFIle';
+import { blobUrlToFile } from '@/utils/convert';
 import { saveShopDetails } from '@/actions/save';
 import { useRouter } from 'next/navigation';
 import type { SizesSchema, InputProductDetailsSchema, ShopDetailsSchema } from '@/types';
@@ -73,14 +73,8 @@ export default function OnboardingForm({ userId }: { userId: string }) {
 			if (shopDetails.logo.length > 0 && shopDetails.logo.startsWith('blob:')) {
 				shopLogo = await blobUrlToFile(shopDetails.logo, 'shop-logo.jpg');
 			}
-			if (
-				productDetails.designs[0].length > 0 &&
-				productDetails.designs[0].startsWith('blob:')
-			) {
-				productDesign = await blobUrlToFile(
-					productDetails.designs[0],
-					'product-design.jpg'
-				);
+			if (productDetails.designs[0].length > 0 && productDetails.designs[0].startsWith('blob:')) {
+				productDesign = await blobUrlToFile(productDetails.designs[0], 'product-design.jpg');
 			}
 
 			if (!shopLogo || !productDesign) {
@@ -133,28 +127,16 @@ export default function OnboardingForm({ userId }: { userId: string }) {
 				</div>
 				<div className="bg-white w-full flex flex-col items-center py-6 px-16 gap-5">
 					{progressValue === 25 && (
-						<StoreDetailsForm
-							shopDetails={shopDetails}
-							setShopDetails={setShopDetails}
-						/>
+						<StoreDetailsForm shopDetails={shopDetails} setShopDetails={setShopDetails} />
 					)}
 					{progressValue === 50 && (
-						<ProductDetails
-							productDetails={productDetails}
-							setProductDetails={setProductDetails}
-						/>
+						<ProductDetails productDetails={productDetails} setProductDetails={setProductDetails} />
 					)}
 					{progressValue === 75 && (
-						<ProductDesign
-							productDetails={productDetails}
-							setProductDetails={setProductDetails}
-						/>
+						<ProductDesign productDetails={productDetails} setProductDetails={setProductDetails} />
 					)}
 					{progressValue === 100 && (
-						<ProductPrice
-							productDetails={productDetails}
-							setProductDetails={setProductDetails}
-						/>
+						<ProductPrice productDetails={productDetails} setProductDetails={setProductDetails} />
 					)}
 					<div className="w-full flex flex-row justify-between mt-2">
 						<button

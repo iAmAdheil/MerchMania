@@ -7,10 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
-	},
-	"prisma": {
-		"seed": "tsx prisma/seed.ts"
-	},
+	},	
 	"dependencies": {
 		"@chakra-ui/react": "^3.17.0",
 		"@emotion/cache": "^11.14.0",
@@ -43,7 +40,7 @@
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
-		"@prisma/client": "^6.11.1",
+		"@prisma/client": "^6.16.2",
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
@@ -54,7 +51,7 @@
 		"npm": "^11.4.2",
 		"postcss": "^8.5.3",
 		"prettier-plugin-tailwindcss": "^0.6.11",
-		"prisma": "^6.11.1",
+		"prisma": "^6.16.2",
 		"tailwindcss": "^3.4.17",
 		"tsx": "^4.19.4",
 		"typescript": "^5"

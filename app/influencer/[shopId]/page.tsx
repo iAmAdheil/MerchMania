@@ -7,7 +7,7 @@ import ShopTabs from '@/components/app/pages/influencer-shop/shopTabs';
 import ProductsTab from '@/components/app/pages/influencer-shop/productsTab';
 import AboutTab from '@/components/app/pages/influencer-shop/aboutTab';
 import Footer from '@/components/app/ui/footer';
-import useFetchCreatorShopDetails from '@/hooks/useFetchCreatorShopDetails';
+import useFetchCreatorShopDetails from '@/hooks/useShopDetails';
 import Loader from '@/components/app/ui/loader';
 import { useRouter } from 'next/navigation';
 import { useSession } from '@/auth/auth-client';

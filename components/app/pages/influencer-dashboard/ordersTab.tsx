@@ -55,9 +55,7 @@ export default function OrdersTab() {
 		if (status === 'printing') {
 			return (
 				<div className="bg-yellow-200 px-2 py-1 rounded-xl w-fit">
-					<p className="text-[10px] text-yellow-800 font-semibold font-roboto">
-						{status}
-					</p>
+					<p className="text-[10px] text-yellow-800 font-semibold font-roboto">{status}</p>
 				</div>
 			);
 		}

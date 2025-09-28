@@ -5,9 +5,7 @@ export default function Header() {
 		<div className="w-full flex flex-row justify-between items-end px-16 pt-6 pb-4">
 			<div>
 				<h1 className="text-3xl font-bold font-roboto">Dashboard</h1>
-				<p className="text-gray-600 text-base font-roboto mt-1">
-					Welcome back, CyberNinja!
-				</p>
+				<p className="text-gray-600 text-base font-roboto mt-1">Welcome back, CyberNinja!</p>
 			</div>
 			<div className="flex flex-row gap-8">
 				<button className="flex flex-row gap-2 items-center text-xs font-semibold font-roboto px-4 py-2 rounded-lg border-[0.5px] border-solid border-gray-400 hover:bg-slate-50 hover:text-purple-500 duration-150">

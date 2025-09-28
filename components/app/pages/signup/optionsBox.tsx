@@ -47,9 +47,7 @@ export default function OptionsBox({
 						</div>
 						<div className="flex flex-col text-left">
 							<p className="text-sm font-roboto font-semibold">Join as Creator</p>
-							<p className="text-xs font-roboto text-gray-600">
-								Start selling your merchandise
-							</p>
+							<p className="text-xs font-roboto text-gray-600">Start selling your merchandise</p>
 						</div>
 					</div>
 					<ArrowRight className="h-4 w-4" />

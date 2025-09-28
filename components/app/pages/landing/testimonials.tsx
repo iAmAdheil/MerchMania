@@ -7,7 +7,8 @@ import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 const testimonials = [
 	{
 		id: 1,
-		quote: "CreatorMerch transformed my online presence. I've made more from my merchandise in 3 months than I did all last year with my previous provider!",
+		quote:
+			"CreatorMerch transformed my online presence. I've made more from my merchandise in 3 months than I did all last year with my previous provider!",
 		author: 'Alex Johnson',
 		handle: '@GamingWithAlex',
 		avatar: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=150&auto=format',
@@ -15,7 +16,8 @@ const testimonials = [
 	},
 	{
 		id: 2,
-		quote: "The quality is amazing, and my followers absolutely love the designs. Plus, the fact that I don't have to handle shipping is a huge time-saver.",
+		quote:
+			"The quality is amazing, and my followers absolutely love the designs. Plus, the fact that I don't have to handle shipping is a huge time-saver.",
 		author: 'Emma Thompson',
 		handle: '@FashionByEmma',
 		avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format',
@@ -23,7 +25,8 @@ const testimonials = [
 	},
 	{
 		id: 3,
-		quote: 'As an artist, I was skeptical about print quality, but CreatorMerch exceeded my expectations. My artwork looks perfect on every product.',
+		quote:
+			'As an artist, I was skeptical about print quality, but CreatorMerch exceeded my expectations. My artwork looks perfect on every product.',
 		author: 'Jordan Lee',
 		handle: '@CreativeJordan',
 		avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format',
@@ -109,12 +112,8 @@ const TestimonialSlider = () => {
 									/>
 								</div>
 								<div>
-									<p className="font-bold text-gray-900">
-										{testimonials[current].author}
-									</p>
-									<p className="text-brand-purple">
-										{testimonials[current].handle}
-									</p>
+									<p className="font-bold text-gray-900">{testimonials[current].author}</p>
+									<p className="text-brand-purple">{testimonials[current].handle}</p>
 									<p className="text-sm text-gray-500">
 										{testimonials[current].followers} followers
 									</p>
@@ -143,9 +142,7 @@ const TestimonialSlider = () => {
 								setCurrent(index);
 							}}
 							className={`w-2.5 h-2.5 rounded-full transition-all ${
-								index === current
-									? 'bg-brand-purple w-4'
-									: 'bg-gray-300 hover:bg-gray-400'
+								index === current ? 'bg-brand-purple w-4' : 'bg-gray-300 hover:bg-gray-400'
 							}`}
 							aria-label={`Go to testimonial ${index + 1}`}
 						/>

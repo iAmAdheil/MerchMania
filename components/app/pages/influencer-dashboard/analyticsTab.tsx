@@ -20,9 +20,7 @@ export default function AnalyticsTab() {
 						<h2 className="text-xl font-bold">Conversion Rate</h2>
 					</div>
 					<div>
-						<div className="text-3xl font-bold text-brand-purple">
-							{mockStats.conversionRate}%
-						</div>
+						<div className="text-3xl font-bold text-brand-purple">{mockStats.conversionRate}%</div>
 						<p className="text-sm text-gray-600 mt-1">
 							<span className="text-green-600">+0.5%</span> from last month
 						</p>
@@ -34,9 +32,7 @@ export default function AnalyticsTab() {
 						<h2 className="text-xl font-bold">Avg Order Value</h2>
 					</div>
 					<div>
-						<div className="text-3xl font-bold text-brand-purple">
-							${mockStats.avgOrderValue}
-						</div>
+						<div className="text-3xl font-bold text-brand-purple">${mockStats.avgOrderValue}</div>
 						<p className="text-sm text-gray-600 mt-1">
 							<span className="text-green-600">+$2.30</span> from last month
 						</p>

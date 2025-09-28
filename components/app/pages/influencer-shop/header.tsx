@@ -22,9 +22,7 @@ export default function Header({ shopDetails }: { shopDetails: InfluencerHeaderP
 						</div>
 						<div className="flex flex-col gap-2 mt-8">
 							<div className="flex flex-row items-center gap-4">
-								<h1 className="text-3xl font-roboto font-bold">
-									{shopDetails?.name}
-								</h1>
+								<h1 className="text-3xl font-roboto font-bold">{shopDetails?.name}</h1>
 								<div className="px-2 py-0.5 rounded-xl bg-blue-200 text-[10px] font-semibold font-roboto text-blue-800 border-[0.5px] border-solid border-blue-800">
 									Verified
 								</div>

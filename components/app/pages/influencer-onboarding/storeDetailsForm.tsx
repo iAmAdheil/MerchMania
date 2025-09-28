@@ -43,9 +43,7 @@ export default function StoreDetailsForm({
 						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
 					/>
 				</Field.Root>
-				<p className="text-xs font-roboto text-gray-600">
-					This will be your unique store URL
-				</p>
+				<p className="text-xs font-roboto text-gray-600">This will be your unique store URL</p>
 			</div>
 			<div className="w-full flex flex-col gap-2">
 				<p className="text-xs font-roboto ">

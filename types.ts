@@ -1,13 +1,23 @@
-export type Roles = 'STRANGER' | 'CREATOR' | 'CUSTOMER' | 'ADMIN';
+// COMMON
 
-export type InputProductDetailsSchema = {
+export type Roles = 'ANONYMOUS' | 'CREATOR' | 'CUSTOMER' | 'ADMIN';
+
+// SHOP
+
+export type ShopDetailsSchema = {
 	name: string;
-	description: string;
-	gender: 'female' | 'male' | 'unisex';
-	designs: string[];
-	sizes: SizesSchema;
-	price: string;
-	remainingStock: string;
+	logo: string;
+};
+
+// PRODUCT
+
+export type SizesSchema = {
+	XS: boolean;
+	S: boolean;
+	M: boolean;
+	L: boolean;
+	XL: boolean;
+	XXL: boolean;
 };
 
 export type ProductCardSchema = {
@@ -17,18 +27,18 @@ export type ProductCardSchema = {
 	price: string;
 };
 
-export type ProductPageDetailsSchema = {
-	id: string;
-	name: string;
-	description: string;
-	designs: string[];
-	price: string;
-	shop: {
-		id: string;
-		name: string;
-		logo: string;
-	};
-};
+// export type ProductDetailsSchema = {
+// 	id: string;
+// 	name: string;
+// 	description: string;
+// 	designs: string[];
+// 	price: string;
+// 	shop: {
+// 		id: string;
+// 		name: string;
+// 		logo: string;
+// 	};
+// };
 
 export type ProductDetailsSchema = {
 	id?: string;
@@ -44,27 +54,25 @@ export type ProductDetailsSchema = {
 	brandImage?: string;
 };
 
-export type SizesSchema = {
-	XS: boolean;
-	S: boolean;
-	M: boolean;
-	L: boolean;
-	XL: boolean;
-	XXL: boolean;
-};
-
-export type ShopDetailsSchema = {
+export type CreateProductDetailsSchema = {
 	name: string;
-	logo: string;
+	description: string;
+	gender: 'female' | 'male' | 'unisex';
+	designs: string[];
+	sizes: SizesSchema;
+	price: string;
+	remainingStock: string;
 };
 
-export type InfluencerDetailsSchema = {
+// CREATOR TYPES
+
+export type MinorCreatorDetailsSchema = {
 	id: string;
 	name: string;
 	logo: string;
 };
 
-export type InfluencerHeaderProps = {
+export type MajorCreatorDetailsSchema = {
 	name: string;
 	handle?: string;
 	logo: string;
@@ -83,3 +91,5 @@ export type InfluencerHeaderProps = {
 		twitch?: string;
 	};
 };
+
+// USER TYPES

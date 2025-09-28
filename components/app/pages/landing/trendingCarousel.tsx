@@ -102,15 +102,11 @@ export default function TrendingCarousel() {
 										className={`flex flex-row items-center gap-1 px-3 py-1 rounded-xl ${getTrendColor(item.trend)}`}
 									>
 										{getTrendIcon(item.trend)}
-										<span className="capitalize text-xs font-semibold">
-											{item.trend}
-										</span>
+										<span className="capitalize text-xs font-semibold">{item.trend}</span>
 									</div>
 								</div>
 								<div>
-									<h3 className="text-3xl font-semibold drop-shadow-lg">
-										{item.name}
-									</h3>
+									<h3 className="text-3xl font-semibold drop-shadow-lg">{item.name}</h3>
 									<p className="text-base drop-shadow-md">by {item.designer}</p>
 								</div>
 								<motion.button
@@ -129,9 +125,7 @@ export default function TrendingCarousel() {
 						</motion.div>
 					))}
 				</div>
-				<div className="flex flex-row gap-3">
-					{getCircularButtons(trendingItems.length)}
-				</div>
+				<div className="flex flex-row gap-3">{getCircularButtons(trendingItems.length)}</div>
 				<button
 					className="absolute flex justify-center items-center h-8 w-8 left-10 rounded-full bg-gray-400 opacity-90 hover:opacity-70 active:scale-95"
 					onClick={() => {
@@ -170,9 +164,7 @@ export default function TrendingCarousel() {
 					className="h-3 w-3 p-0.5 border border-solid border-gray-500 rounded-full"
 					onClick={() => setActiveIndex(i)}
 				>
-					{activeIndex === i && (
-						<div className="h-full w-full rounded-full bg-purple-400" />
-					)}
+					{activeIndex === i && <div className="h-full w-full rounded-full bg-purple-400" />}
 				</button>
 			);
 		}
