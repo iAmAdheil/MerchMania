@@ -30,7 +30,7 @@ export default function Navbar({ role }: Props) {
 	};
 
 	return (
-		<div className="py-2 border-b-[0.5px] border-solid border-gray-200 shadow-lg flex flex-row justify-between items-center z-10">
+		<div className="py-2 border-b-[0.5px] border-solid border-gray-200 shadow-lg flex flex-row justify-between items-center z-10 lg:py-4">
 			<div className="flex-1 flex flex-row items-center pl-6 pr-3 sm:px-6 lg:px-10">
 				<div className="w-full flex flex-row items-center justify-between sm:hidden">
 					<RxHamburgerMenu />

@@ -28,7 +28,22 @@ const stats = [
 export default function LeftMain() {
 	return (
 		<div className="w-full bg-purple-100 flex flex-col px-10 py-10 items-center justify-between">
-			<div>
+			<h1 className="w-full font-bold font-roboto text-6xl text-black flex flex-col items-left">
+				Wear Your Favorite
+				<span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-orange-500">
+					Creator&apos;s Merchandise
+				</span>
+			</h1>
+			<p className="w-full font-roboto text-xl/6 font-normal text-gray-600 flex flex-col items-left">
+				Discover unique designs from your favorite influencers. Support creators directly and wear
+				merchandise that&apos;s as unique as you are.
+			</p>
+		</div>
+	);
+}
+
+{
+	/* <div>
 				<h1 className="w-full font-bold font-roboto text-4xl text-black flex flex-col items-center mb-3 sm:text-5xl">
 					Wear Your Favorite
 					<span className="text-[40px] text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-orange-500 sm:text-5xl">
@@ -69,7 +84,5 @@ export default function LeftMain() {
 						</div>
 					))}
 				</div>
-			</div>
-		</div>
-	);
+			</div> */
 }
