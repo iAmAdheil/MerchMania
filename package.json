@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
-	},	
+	},
 	"dependencies": {
 		"@chakra-ui/react": "^3.17.0",
 		"@emotion/cache": "^11.14.0",

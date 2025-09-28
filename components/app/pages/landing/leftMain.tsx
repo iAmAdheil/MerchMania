@@ -32,7 +32,7 @@ export default function LeftMain() {
 				<h1 className="w-full font-bold font-roboto text-4xl text-black flex flex-col items-center mb-3 sm:text-5xl">
 					Wear Your Favorite
 					<span className="text-[40px] text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-orange-500 sm:text-5xl">
-						Creator's Merchandise
+						Creator&apos;s Merchandise
 					</span>
 				</h1>
 				<div className="w-full text-center mb-6">
