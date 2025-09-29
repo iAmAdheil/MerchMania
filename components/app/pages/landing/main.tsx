@@ -9,8 +9,8 @@ import HowItWorksSection from './howItWorksSection';
 
 export default function HeroSection() {
 	return (
-		<>
-			<div className="flex-1 w-full h-full flex flex-row ">
+		<div className="flex-1 h-full w-full flex flex-col justify-center">
+			<div className="flex-1 w-full h-full flex flex-col lg:flex-row">
 				<div className="flex-1 h-full w-full">
 					<LeftMain />
 				</div>
@@ -18,8 +18,10 @@ export default function HeroSection() {
 					<RightMain />
 				</div>
 			</div>
-			<Marquee />
-		</>
+			<div className="w-full h-full">
+				<Marquee />
+			</div>
+		</div>
 	);
 }
 

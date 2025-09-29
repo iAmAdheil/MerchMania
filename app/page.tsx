@@ -32,7 +32,7 @@ export default function Home() {
 
 	return (
 		<div>
-			<div className="flex flex-col w-full h-screen">
+			<div className="flex flex-col w-full lg:h-screen">
 				<Navbar role={role} />
 				<HeroSection />
 			</div>

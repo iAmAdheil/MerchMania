@@ -16,9 +16,16 @@ const images = [
 
 export default function RightMain() {
 	return (
-		<div className="flex flex-col justify-center items-center w-full h-full bg-purple-100">
-			<div className="w-full px-20 py-10">
-				<Marquee gradient gradientWidth={60} gradientColor='#d7d7d7' pauseOnHover={true} autoFill={true} className="bg-transparent rounded-lg mb-3">
+		<div className="flex flex-col justify-center items-center w-full h-full bg-red-100">
+			<div className="w-full pt-7 pb-10 px-6 md:px-28 lg:px-10 max-w-[50rem]">	
+				<Marquee
+					gradient
+					gradientWidth={60}
+					gradientColor="#d7d7d7"
+					pauseOnHover={true}
+					autoFill={true}
+					className="bg-transparent rounded-lg mb-3"
+				>
 					<div className="mx-5 flex flex-row gap-10">
 						{images.map((image, index) => (
 							<img key={index} src={image} alt="Hero Image" className="w-36 h-20 rounded-lg" />
@@ -26,7 +33,15 @@ export default function RightMain() {
 					</div>
 				</Marquee>
 				<img src={CentralImage} alt="Hero Image" className="w-full rounded-lg" />
-				<Marquee gradient gradientWidth={60} gradientColor='#d7d7d7' direction='right' pauseOnHover={true} autoFill={true} className="bg-transparent rounded-lg mt-3">
+				<Marquee
+					gradient
+					gradientWidth={60}
+					gradientColor="#d7d7d7"
+					direction="right"
+					pauseOnHover={true}
+					autoFill={true}
+					className="bg-transparent rounded-lg mt-3"
+				>
 					<div className="mx-5 flex flex-row gap-10">
 						{images.map((image, index) => (
 							<img key={index} src={image} alt="Hero Image" className="w-36 h-20 rounded-lg" />
