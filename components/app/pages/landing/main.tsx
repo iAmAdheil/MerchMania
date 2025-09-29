@@ -7,17 +7,25 @@ import TestimonialSlider from './testimonials';
 import FeaturedCreators from './featuredCreators';
 import HowItWorksSection from './howItWorksSection';
 
-export default function MainSection() {
+export default function HeroSection() {
 	return (
-		<div className="w-full">
-			<div className="flex flex-row w-full">
-				<div className='flex-1'>
+		<>
+			<div className="flex-1 w-full h-full flex flex-row ">
+				<div className="flex-1 h-full w-full">
 					<LeftMain />
 				</div>
-				<div className='flex-1 bg-red-200'>Right Half</div>
-				{/* <RightMain /> */}
+				<div className="flex-1 h-full w-full">
+					<RightMain />
+				</div>
 			</div>
 			<Marquee />
+		</>
+	);
+}
+
+export function BottomMain() {
+	return (
+		<div className="w-full">
 			<div className="py-10 flex flex-col gap-8 border-b-[0.5px] border-solid border-gray-200">
 				<p className="pl-20 w-full text-2xl font-roboto font-bold">Trending Designs</p>
 				<TrendingCarousel />

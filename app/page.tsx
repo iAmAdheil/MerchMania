@@ -1,7 +1,7 @@
 'use client';
 
 import Navbar from '@/components/app/navbar/main';
-import MainSection from '@/components/app/pages/landing/main';
+import HeroSection from '@/components/app/pages/landing/main';
 import Footer from '@/components/app/ui/footer';
 import { useSession } from '@/auth/auth-client';
 import { useEffect, useState } from 'react';
@@ -31,10 +31,12 @@ export default function Home() {
 	}
 
 	return (
-		<div className="min-h-screen w-screen">
-			<Navbar role={role} />
-			<MainSection />
-			<Footer />
+		<div>
+			<div className="flex flex-col w-full h-screen">
+				<Navbar role={role} />
+				<HeroSection />
+			</div>
+			{/* <Footer /> */}
 		</div>
 	);
 }

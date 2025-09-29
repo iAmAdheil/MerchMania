@@ -1,72 +1,39 @@
 'use client';
 
-import { TrendingUp } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import Marquee from 'react-fast-marquee';
 
-const heroImages = [
-	'https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=800&auto=format',
-	// 'https://images.unsplash.com/photo-1626948683848-3b74a93458e8?w=800&auto=format',
-	'https://images.unsplash.com/photo-1506634572416-48cdfe530110?w=800&auto=format',
+const CentralImage =
+	'https://fastly.picsum.photos/id/237/536/354.jpg?hmac=i0yVXW1ORpyCZpQ-CknuyV-jbtU7_x9EBQVhvT5aRr0';
+
+const images = [
+	'https://fastly.picsum.photos/id/106/536/354.jpg?hmac=J-a-S3QlED10gjD_03zm8euqfuRvY8yDqAiF5KSE_I0',
+	'https://fastly.picsum.photos/id/649/536/354.jpg?hmac=S-PAkLqcqBXhbsXxd5klkbff_tN5TcrwSTgoHEfVbf0',
+	'https://fastly.picsum.photos/id/810/536/354.jpg?hmac=HQ90xkFLuIt4zLaqy23_MLXvjHZv7y8F654fjoE6rkk',
+	'https://fastly.picsum.photos/id/360/536/354.jpg?hmac=hkJ_RmEPujjDj-tkqFkWT01yZlT-pWSePQb2PUJlwvE',
+	'https://fastly.picsum.photos/id/620/536/354.jpg?hmac=_2pm-B21Zzjfs_NH_75cY2sC0odhWQbKUMU9oCHoyh4',
+	'https://fastly.picsum.photos/id/310/536/354.jpg?hmac=rpeFEpGFBqTtjiCyybxEmjaa3GabVxQ6tV6biicib0s',
 ];
 
 export default function RightMain() {
-	const [currentBgIndex, setCurrentBgIndex] = useState(0);
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setCurrentBgIndex(prev => (prev + 1) % heroImages.length);
-		}, 5000);
-		return () => clearInterval(interval);
-	}, []);
-
 	return (
-		<motion.div
-			className="w-full max-w-xl px-16 py-16 bg-red-100"
-			initial={{ opacity: 0, scale: 0.8, rotateY: -20 }}
-			animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-			transition={{ duration: 0.8, ease: 'easeOut' }}
-		>
-			<div className="relative aspect-square">
-				<img
-					src={heroImages[currentBgIndex]}
-					alt="Creator merchandise showcase"
-					className="relative z-10 w-full h-full object-cover rounded-2xl shadow-2xl transform -rotate-2"
-				/>
-				<motion.div
-					className="absolute -bottom-10 -right-10 bg-white p-4 rounded-lg shadow-lg z-20 max-w-xs"
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 0.5, duration: 0.5 }}
-				>
-					<div className="flex items-center">
-						<div className="h-12 w-12 rounded-full overflow-hidden mr-3 border-2 border-brand-purple">
-							<img
-								src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=150&auto=format"
-								alt="Creator"
-								className="h-full w-full object-cover"
-							/>
-						</div>
-						<div>
-							<p className="font-bold text-gray-900">GamingWithAlex</p>
-							<p className="text-sm text-brand-purple">New collection live!</p>
-						</div>
+		<div className="flex flex-col justify-center items-center w-full h-full bg-purple-100">
+			<div className="w-full px-20 py-10">
+				<Marquee gradient gradientWidth={60} gradientColor='#d7d7d7' pauseOnHover={true} autoFill={true} className="bg-transparent rounded-lg mb-3">
+					<div className="mx-5 flex flex-row gap-10">
+						{images.map((image, index) => (
+							<img key={index} src={image} alt="Hero Image" className="w-36 h-20 rounded-lg" />
+						))}
 					</div>
-				</motion.div>
-				<motion.div
-					className="absolute -top-6 -left-10 bg-white p-3 rounded-lg shadow-lg z-20"
-					initial={{ opacity: 0, y: -20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 0.7, duration: 0.5 }}
-				>
-					<div className="flex items-center space-x-2">
-						<div className="bg-green-100 text-green-800 p-1 rounded-full">
-							<TrendingUp className="w-4 h-4" />
-						</div>
-						<p className="font-semibold text-sm">150+ sales today</p>
+				</Marquee>
+				<img src={CentralImage} alt="Hero Image" className="w-full rounded-lg" />
+				<Marquee gradient gradientWidth={60} gradientColor='#d7d7d7' direction='right' pauseOnHover={true} autoFill={true} className="bg-transparent rounded-lg mt-3">
+					<div className="mx-5 flex flex-row gap-10">
+						{images.map((image, index) => (
+							<img key={index} src={image} alt="Hero Image" className="w-36 h-20 rounded-lg" />
+						))}
 					</div>
-				</motion.div>
+				</Marquee>
 			</div>
-		</motion.div>
+		</div>
 	);
 }
