@@ -1,5 +1,4 @@
-font roboto not working
-bubble background yes or no
+Home Page
 
-fixed size for images => shop logo and products
-assign allowed mime types for images
+- featured creators section => infinite scroller with all creators that are clickable that takes user to store
+- Category Cards => below or above creators, show all available types of products

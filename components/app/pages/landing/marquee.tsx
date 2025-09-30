@@ -27,8 +27,8 @@ export default function MovingMarquee() {
 					{MARQUEE_SECTIONS.map((section, index) => {
 						return (
 							<span key={index} className="flex flex-row gap-3 items-center">
-								<div>{section.icon}</div>
-								<p className="text-white text-sm">{section.text}</p>
+								<div className="text-base lg:text-lg">{section.icon}</div>
+								<p className="text-white text-sm lg:text-base">{section.text}</p>
 							</span>
 						);
 					})}

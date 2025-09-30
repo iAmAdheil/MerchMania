@@ -16,7 +16,7 @@ const images = [
 
 export default function RightMain() {
 	return (
-		<div className="flex flex-col justify-center items-center w-full h-full bg-red-100">
+		<div className="flex flex-col justify-center items-center w-full h-full bg-purple-100">
 			<div className="w-full pt-7 pb-10 px-6 md:px-28 lg:px-10 max-w-[50rem]">	
 				<Marquee
 					gradient

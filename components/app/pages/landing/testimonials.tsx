@@ -101,7 +101,7 @@ const TestimonialSlider = () => {
 							className="w-full flex flex-col items-center justify-center gap-2 text-center"
 						>
 							<blockquote className="text-xl md:text-2xl text-gray-700 italic mb-8 px-4">
-								"{testimonials[current].quote}"
+								&quot;{testimonials[current].quote}&quot;
 							</blockquote>
 							<div className="flex flex-col items-center">
 								<div className="w-16 h-16 rounded-full overflow-hidden mb-3 ring-4 ring-brand-purple ring-offset-2">
