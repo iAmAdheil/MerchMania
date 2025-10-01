@@ -29,9 +29,9 @@ export function BottomMain() {
 	return (
 		<div className="w-full">
 			<DisplayCarousel />
+			<FeaturedCreators />
 			{/* <FeaturedProducts /> */}
 			{/* <TestimonialSlider />
-			<FeaturedCreators />
 			<HowItWorksSection /> */}
 		</div>
 	);
