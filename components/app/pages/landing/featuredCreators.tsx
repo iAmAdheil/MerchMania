@@ -1,25 +1,10 @@
 'use client';
 
-import 'react-multi-carousel/lib/styles.css';
-import Carousel from 'react-multi-carousel';
-
-const responsive = {
-	desktop: {
-		breakpoint: { max: 3000, min: 1024 },
-		items: 3,
-		slidesToSlide: 2, // optional, default to 1.
-	},
-	tablet: {
-		breakpoint: { max: 1024, min: 1000 },
-		items: 2,
-		slidesToSlide: 2, // optional, default to 1.
-	},
-	mobile: {
-		breakpoint: { max: 1000, min: 0 },
-		items: 1,
-		slidesToSlide: 1, // optional, default to 1.
-	},
-};
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Slider from 'react-slick';
+import { ArrowUp } from 'lucide-react';
+import { Settings } from 'react-slick';
 
 const creators = [
 	{
@@ -65,53 +50,59 @@ const creators = [
 ];
 
 export default function FeaturedCreators() {
+	const settings: Settings = {
+		variableWidth: true,
+		adaptiveHeight: true,
+		className: 'slider variable-width',
+		autoplay: true,
+		autoplaySpeed: 5000,
+		dots: true,
+		infinite: true,
+		speed: 500,
+		centerMode: true,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		swipeToSlide: true,
+	};
+
 	return (
-		<div className="py-6">
-			<div className="px-6 flex items-center justify-center">
-				<Carousel
-					centerMode={true}
-					swipeable={true}
-					draggable={true}
-					showDots={true}
-					responsive={responsive}
-					infinite={true}
-					autoPlaySpeed={1000}
-					keyBoardControl={true}
-					customTransition="all .5"
-					transitionDuration={500}
-					containerClass="carousel-container flex flex-row items-center"
-					removeArrowOnDeviceType={['tablet', 'mobile']}
-					dotListClass="custom-dot-list-style"
-					itemClass="carousel-item-padding-40-px"
-				>
-					{creators.map(creator => {
-						return (
-							<div
-								key={creator.id}
-								className="h-[30rem] max-w-[30rem] relative rounded-xl overflow-hidden"
-							>
-								<img
-									src={creator.logo}
-									alt={creator.name}
-									className="h-full w-full object-cover rounded-xl"
-								/>
-								<h1 className="absolute bottom-4 left-4 text-white text-3xl font-bold">
-									{creator.name}
-								</h1>
-								<div className="absolute bottom-4 right-4 bg-black h-16 w-16 rounded-full flex justify-center items-center">
-									<LongArrow length={45} color="white" strokeWidth={3} />
+		<div className="py-6 w-full">
+			<div className="w-full px-4 sm:px-6 md:px-12">
+				<div className="slider-container">
+					<Slider {...settings}>
+						{creators.map(creator => {
+							return (
+								<div
+									key={creator.id}
+									className="mx-4 flex-1 w-full h-[25rem] max-w-[22rem] sm:max-w-[25rem] relative rounded-xl overflow-hidden"
+								>
+									<img
+										src={creator.logo}
+										alt={creator.name}
+										className="h-full w-full object-cover rounded-xl"
+									/>
+									<h1 className="absolute bottom-4 left-4 text-white text-3xl font-bold">
+										{creator.name}
+									</h1>
+									<div className="absolute bottom-4 right-4 bg-black h-14 w-14 rounded-full flex justify-center items-center hover:scale-110 duration-200 parent group">
+										<ArrowUp
+											color="white"
+											size={28}
+											className="rotate-45 group-hover:rotate-90 duration-200 child"
+										/>
+									</div>
+									<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 rounded-b-xl" />
 								</div>
-								<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 rounded-b-xl" />
-							</div>
-						);
-					})}
-				</Carousel>
+							);
+						})}
+					</Slider>
+				</div>
 			</div>
 		</div>
 	);
 }
 
-function LongArrow({
+export function LongArrow({
 	direction = 'right',
 	length = 100,
 	color = 'currentColor',
