@@ -66,8 +66,8 @@ export default function FeaturedCreators() {
 	};
 
 	return (
-		<div className="py-6 w-full">
-			<div className="w-full px-4 sm:px-6 md:px-12">
+		<div className="py-10 w-full">
+			<div className="w-full px-6 md:px-10 lg:px-12 xl:px-16">
 				<div className="slider-container">
 					<Slider {...settings}>
 						{creators.map(creator => {

@@ -2,8 +2,7 @@ import LeftMain from './leftMain';
 import RightMain from './rightMain';
 import Marquee from './marquee';
 import DisplayCarousel from './displayCarousel';
-import FeaturedProducts from './featuredProducts';
-import TestimonialSlider from './testimonials';
+import ProductCategories from './productCategories';
 import FeaturedCreators from './featuredCreators';
 import HowItWorksSection from './howItWorksSection';
 
@@ -30,9 +29,8 @@ export function BottomMain() {
 		<div className="w-full">
 			<DisplayCarousel />
 			<FeaturedCreators />
-			{/* <FeaturedProducts /> */}
-			{/* <TestimonialSlider />
-			<HowItWorksSection /> */}
+			<ProductCategories />
+			<HowItWorksSection />
 		</div>
 	);
 }

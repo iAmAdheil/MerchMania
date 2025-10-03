@@ -37,7 +37,7 @@ export default function Home() {
 				<HeroSection />
 			</div>
 			<BottomMain />
-			{/* <Footer /> */}
+			<Footer />
 		</div>
 	);
 }

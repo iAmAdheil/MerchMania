@@ -1,15 +1,15 @@
 const Footer = () => {
 	return (
 		<footer className="bg-gray-50 border-t-[0.5px] border-gray-200">
-			<div className="py-12 px-20 flex flex-col justify-center">
-				<div className="flex flex-row justify-between items-center">
-					<div className="flex flex-col w-[15rem]">
-						<h3 className="text-xl font-bold mb-4">
+			<div className="py-10 lg:px-12 px-3 md:px-6 flex flex-col justify-center">
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-y-10">
+					<div className="flex flex-col justify-center items-center w-full">
+						<h3 className="text-xl sm:text-2xl font-bold mb-4">
 							<span className="bg-gradient-to-r from-brand-purple to-brand-light-purple bg-clip-text text-transparent">
 								MerchMania
 							</span>
 						</h3>
-						<p className="text-gray-600 mb-4">
+						<p className="text-gray-600 text-center mb-4 text-sm sm:text-base max-w-[15rem]">
 							The platform that helps creators turn their influence into a merchandise brand.
 						</p>
 						<div className="flex space-x-4">
@@ -39,8 +39,8 @@ const Footer = () => {
 						</div>
 					</div>
 
-					<div>
-						<h3 className="font-semibold text-gray-900 mb-4">For Customers</h3>
+					<div className="flex flex-col justify-center items-center w-full">
+						<h3 className="font-semibold text-gray-900 mb-4 mr-5">For Customers</h3>
 						<ul className="space-y-3">
 							<li>
 								<p className="text-gray-600 hover:text-brand-purple transition-colors">
@@ -63,8 +63,8 @@ const Footer = () => {
 						</ul>
 					</div>
 
-					<div>
-						<h3 className="font-semibold text-gray-900 mb-4">For Creators</h3>
+					<div className="flex flex-col justify-center items-center w-full">
+						<h3 className="font-semibold text-gray-900 mb-4 mr-7">For Creators</h3>
 						<ul className="space-y-3">
 							<li>
 								<p className="text-gray-600 hover:text-brand-purple transition-colors">
@@ -87,8 +87,8 @@ const Footer = () => {
 						</ul>
 					</div>
 
-					<div>
-						<h3 className="font-semibold text-gray-900 mb-4">Support</h3>
+					<div className="flex flex-col items-center justify-center w-full">
+						<h3 className="font-semibold text-gray-900 mb-4 mr-24">Support</h3>
 						<ul className="space-y-3">
 							<li>
 								<p className="text-gray-600 hover:text-brand-purple transition-colors">
@@ -114,7 +114,7 @@ const Footer = () => {
 					</div>
 				</div>
 
-				<div className="mt-12 pt-10 border-t border-gray-200">
+				<div className="mt-10 pt-10 lg:pt-12 lg:mt-12 border-t border-gray-200">
 					<p className="text-gray-500 text-center text-base">
 						&copy; {new Date().getFullYear()} CreatorMerch. All rights reserved.
 					</p>

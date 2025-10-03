@@ -25,19 +25,19 @@ const steps = [
 
 const HowItWorksSection = () => {
 	return (
-		<section className="py-12 bg-white flex flex-col gap-8">
+		<section className="py-12 px-10 bg-violet-50 flex flex-col gap-8">
 			<div className="text-center max-w-3xl mx-auto">
 				<h2 className="text-3xl font-bold mb-3">How It Works For Creators</h2>
-				<p className="text-lg text-gray-600">
+				<p className="text-base sm:text-lg text-gray-600">
 					Launch your own merchandise line without the hassle. We handle production, shipping, and
 					customer service while you focus on creating.
 				</p>
 			</div>
-			<div className="w-full flex flex-row justify-around">
+			<div className="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-8">
 				{steps.map((step, index) => (
 					<div
 						key={index}
-						className="relative w-[18rem] h-[16rem] bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+						className="relative w-full h-[16rem] bg-white rounded-lg p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
 					>
 						<div className="mb-4">{step.icon}</div>
 						<h3 className="text-xl font-semibold mb-2">{step.title}</h3>
