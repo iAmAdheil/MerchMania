@@ -8,17 +8,17 @@ export default function OptionsBox({
 	setDisplay: Dispatch<SetStateAction<Display>>;
 }) {
 	return (
-		<div className="flex flex-col gap-5 items-center bg-white px-6 py-5 shadow-xl">
+		<div className="flex flex-col gap-5 items-center px-6 py-5 rounded-md shadow-xl">
 			<div>
-				<h2 className="text-2xl font-bold">Create Account</h2>
+				<h2 className="text-2xl font-bold text-black">Create Account</h2>
 				<p className="text-sm font-roboto text-gray-600">
-					Choose how you'd like to join our community
+					Choose how you&apos;d like to join our community
 				</p>
 			</div>
 			<div className="flex flex-col gap-4">
 				<button
 					onClick={() => {
-						setDisplay('customerSignup');
+						setDisplay('customer');
 					}}
 					className="flex flex-row justify-between items-center gap-10 border-[1.5px] border-solid border-gray-300 px-4 py-3 rounded-lg hover:border-purple-500 hover:bg-purple-50 duration-200"
 				>
@@ -27,7 +27,7 @@ export default function OptionsBox({
 							<Users className="w-4 h-4" color="purple" />
 						</div>
 						<div className="flex flex-col text-left">
-							<p className="text-sm font-roboto font-semibold">Join as Customer</p>
+							<p className="text-sm font-roboto font-semibold text-black">Join as Customer</p>
 							<p className="text-xs font-roboto text-gray-600">
 								Shop exclusive creator merchandise
 							</p>
@@ -37,7 +37,7 @@ export default function OptionsBox({
 				</button>
 				<button
 					onClick={() => {
-						setDisplay('creatorSignup');
+						setDisplay('creator');
 					}}
 					className="flex flex-row justify-between items-center gap-10 border-[1.5px] border-solid border-gray-300 px-4 py-3 rounded-lg hover:border-purple-500 hover:bg-purple-50 duration-200"
 				>
@@ -46,7 +46,7 @@ export default function OptionsBox({
 							<Star className="w-4 h-4" color="red" />
 						</div>
 						<div className="flex flex-col text-left">
-							<p className="text-sm font-roboto font-semibold">Join as Creator</p>
+							<p className="text-sm font-roboto font-semibold text-black">Join as Creator</p>
 							<p className="text-xs font-roboto text-gray-600">Start selling your merchandise</p>
 						</div>
 					</div>

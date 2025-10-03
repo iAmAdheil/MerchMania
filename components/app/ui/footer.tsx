@@ -114,7 +114,7 @@ const Footer = () => {
 					</div>
 				</div>
 
-				<div className="mt-10 pt-10 lg:pt-12 lg:mt-12 border-t border-gray-200">
+				<div className="mt-10 pt-10 lg:mt-12 border-t border-gray-200">
 					<p className="text-gray-500 text-center text-base">
 						&copy; {new Date().getFullYear()} CreatorMerch. All rights reserved.
 					</p>

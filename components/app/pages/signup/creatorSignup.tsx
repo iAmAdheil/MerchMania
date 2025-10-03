@@ -141,7 +141,7 @@ export default function CreatorSignup({
 
 	return (
 		<div
-			className={`relative w-[25rem] flex flex-col items-center justify-center gap-5 bg-white px-8 py-6 rounded-lg shadow-xl ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+			className={`w-full max-w-[30rem] px-6 py-8 relative flex flex-col items-center justify-center gap-5 bg-white rounded-md shadow-xl ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
 		>
 			{isLoading && (
 				<div className="absolute bottom-1/2 z-10">
@@ -177,7 +177,7 @@ export default function CreatorSignup({
 			</HStack> */}
 			<div className="w-full flex flex-col gap-4">
 				<Field.Root required className="flex flex-col gap-2">
-					<Field.Label className="text-xs font-roboto">
+					<Field.Label className="text-xs md:text-sm font-roboto">
 						Full Name <Field.RequiredIndicator color={'purple.500'} />
 					</Field.Label>
 					<Input
@@ -187,11 +187,11 @@ export default function CreatorSignup({
 							})
 						}
 						placeholder="John Doe"
-						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
+						className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm pl-3 py-1"
 					/>
 				</Field.Root>
 				<Field.Root required className="flex flex-col gap-2">
-					<Field.Label className="text-xs font-roboto">
+					<Field.Label className="text-xs md:text-sm font-roboto">
 						Email <Field.RequiredIndicator color={'purple.500'} />
 					</Field.Label>
 					<Input
@@ -201,12 +201,12 @@ export default function CreatorSignup({
 							})
 						}
 						placeholder="you@example.com"
-						className="border border-solid border-gray-200 text-xs font-light rounded-sm pl-3 py-1"
+						className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm pl-3 py-1"
 					/>
 				</Field.Root>
 				<Field.Root required className="flex flex-col gap-2 w-full">
 					<Field.Label className="flex flex-row justify-between w-full">
-						<div className="text-xs font-roboto">
+						<div className="text-xs md:text-sm font-roboto">
 							Password <Field.RequiredIndicator color={'purple.500'} />
 						</div>
 						{/* <a href="" className="hover:text-purple-500 duration-200">
@@ -221,7 +221,7 @@ export default function CreatorSignup({
 										return { ...prevState, password: e.target.value };
 									})
 								}
-								className="border border-solid border-gray-200 text-xs font-light rounded-sm px-3 py-1"
+								className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm px-3 py-1"
 							/>
 							<PasswordStrengthMeter value={2} />
 						</div>
@@ -229,7 +229,7 @@ export default function CreatorSignup({
 				</Field.Root>
 				<Field.Root required className="flex flex-col gap-2 w-full">
 					<Field.Label className="flex flex-row justify-between w-full">
-						<div className="text-xs font-roboto">
+						<div className="text-xs md:text-sm font-roboto">
 							Confirm Password <Field.RequiredIndicator color={'purple.500'} />
 						</div>
 						{/* <a href="" className="hover:text-purple-500 duration-200">
@@ -244,32 +244,32 @@ export default function CreatorSignup({
 										return { ...prevState, confirmPassword: e.target.value };
 									})
 								}
-								className="border border-solid border-gray-200 text-xs font-light rounded-sm px-3 py-1"
+								className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm px-3 py-1"
 							/>
 						</div>
 					</Stack>
 				</Field.Root>
 			</div>
-			<div className="w-full flex flex-col gap-4">
-				<div className="w-full flex flex-row justify-between items-center">
+			<div className="w-full flex flex-col gap-4 md:gap-6 md:mt-2">
+				<div className="w-full flex flex-row justify-between items-center gap-4">
 					<button
 						onClick={() => {
 							setDisplay('options');
 						}}
-						className="w-[10rem] py-2 rounded-md text-xs font-roboto font-semibold border border-solid border-gray-200 hover:bg-slate-100 duration-200"
+						className="w-full py-2 rounded-md text-xs md:text-sm font-roboto font-semibold border border-solid border-gray-200 hover:bg-slate-100 duration-200"
 					>
 						Back
 					</button>
 					<button
 						onClick={handleCredSignup}
-						className="w-[10rem] py-2 rounded-md bg-purple-500 text-white text-xs font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200"
+						className="w-full py-2 rounded-md bg-purple-500 text-white text-xs md:text-sm font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200"
 					>
 						Create Account
 					</button>
 				</div>
-				<p className="flex flex-row justify-center items-end gap-1 text-xs font-roboto text-gray-600">
+				<p className="flex flex-row justify-center items-end gap-1 text-xs md:text-sm font-roboto text-gray-600">
 					Already have an account?{' '}
-					<a href="/signin" className="text-sm decoration-purple-500 hover:underline">
+					<a href="/signin" className="text-sm md:text-base decoration-purple-500 hover:underline">
 						<span className="font-semibold text-purple-500">Sign in</span>
 					</a>
 				</p>
