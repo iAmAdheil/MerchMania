@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signUp, signOut, signIn } from '@/auth/auth-client';
-import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
+import { authClient } from '@/auth/auth-client';
+import { Stack, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
 import { Dispatch, SetStateAction } from 'react';
 import { Display } from '@/app/signup/page';
-import { FcGoogle } from 'react-icons/fc';
 import Loader from '../../ui/loader';
 import * as z from 'zod/v4';
 
@@ -18,11 +17,12 @@ type UserDetails = {
 	confirmPassword: string;
 };
 
-const UserDetailsParser = z.object({
-	role: z.literal('CREATOR'),
+const detailsParser = z.object({
+	role: z.literal('creator'),
 	username: z.string().min(4).max(30),
 	email: z.email(),
 	password: z.string().min(8),
+	confirmPassword: z.string(),
 });
 
 export default function CreatorSignup({
@@ -44,43 +44,46 @@ export default function CreatorSignup({
 		try {
 			setIsLoading(true);
 			const details = {
-				role: 'CREATOR',
+				role: 'creator',
 				username: userDetails.username,
 				email: userDetails.email,
 				password: userDetails.password,
+				confirmPassword: userDetails.confirmPassword,
 			};
 
-			const result = UserDetailsParser.safeParse(details);
+			console.log(details);
+
+			const result = detailsParser.safeParse(details);
+			console.log(result);
 			if (!result.success) {
-				// display error
-				console.log('invalid credentials');
+				alert('Invalid credentials');
 				console.log(result.error);
 				return;
 			}
-			if (result.data.password !== userDetails.confirmPassword) {
+			if (result.data.password !== result.data.confirmPassword) {
 				//	display error -> fields do not match!
-				console.log('password fields do not match');
+				alert('Password fields do not match');
 				return;
 			}
 
-			const { data, error } = await signUp.email(
+			const { data, error } = await authClient.signUp.email(
 				{
 					role: details.role,
 					isOnboarded: false,
+					name: details.username,
 					email: details.email,
 					password: details.password,
-					name: details.username,
+					callbackURL: '/',
 				},
 				{
-					onRequest: (ctx: any) => {
+					onRequest: ctx => {
 						console.log(ctx);
 					},
-					onSuccess: (ctx: any) => {
+					onSuccess: ctx => {
 						console.log(ctx);
-						router.replace('/influencer/onboarding');
+						router.replace('/');
 					},
-					onError: (ctx: any) => {
-						// display the error message
+					onError: ctx => {
 						alert(ctx.error.message);
 					},
 				}
@@ -90,54 +93,11 @@ export default function CreatorSignup({
 			// throw or set errors if any
 		} catch (e: any) {
 			console.log(e);
-			// display request failed error
+			alert(e.message);
 		} finally {
 			setIsLoading(false);
 		}
 	};
-
-	// const handleGoogleSignup = async () => {
-	// 	try {
-	// 		const { data, error } = await signIn.social(
-	// 			{
-	// 				provider: 'google',
-	// 				errorCallbackURL: '/signup',
-	// 				callbackURL: '/',
-	// 				requestSignUp: false,
-	// 			},
-	// 			{
-	// 				onRequest: async ctx => {
-	// 					console.log(ctx);
-	// 				},
-	// 				onSuccess: async ctx => {
-	// 					console.log(ctx);
-	// 					router.push('/influencer/onboarding');
-	// 				},
-	// 				onError: async ctx => {
-	// 					console.log(ctx);
-	// 				},
-	// 				state: JSON.stringify({
-	// 					role: 'CREATOR',
-	// 					isOnboarded: false,
-	// 					process: 'signup',
-	// 				}),
-	// 			}
-	// 		);
-	// 		console.log(data);
-	// 		console.log(error);
-	// 	} catch (e: any) {
-	// 		console.log(e);
-	// 	}
-	// };
-
-	// const handleSignOut = async () => {
-	// 	try {
-	// 		const res = await signOut();
-	// 		console.log(res);
-	// 	} catch (e: any) {
-	// 		console.log(e);
-	// 	}
-	// };
 
 	return (
 		<div
@@ -152,29 +112,6 @@ export default function CreatorSignup({
 				<h2 className="text-2xl font-bold">Creator Signup</h2>
 				<p className="text-sm font-roboto text-gray-600">Begin your creator journey with us</p>
 			</div>
-			{/* <div className="w-full">
-				<Button
-					onClick={handleGoogleSignup}
-					colorPalette="teal"
-					variant="solid"
-					className="py-2 w-full border border-solid border-gray-300 text-xs font-roboto font-semibold hover:bg-slate-100"
-				>
-					<FcGoogle /> Signup With Google
-				</Button>
-			</div>
-			<HStack className="w-full">
-				<Separator
-					flex="1"
-					className="border-[0.1px] border-solid border-gray-200 flex-1"
-				/>
-				<Text flexShrink="0" className="font-roboto font-light text-[10px] text-gray-500">
-					OR
-				</Text>
-				<Separator
-					flex="1"
-					className="border-[0.1px] border-solid border-gray-200 flex-1"
-				/>
-			</HStack> */}
 			<div className="w-full flex flex-col gap-4">
 				<Field.Root required className="flex flex-col gap-2">
 					<Field.Label className="text-xs md:text-sm font-roboto">
@@ -209,9 +146,9 @@ export default function CreatorSignup({
 						<div className="text-xs md:text-sm font-roboto">
 							Password <Field.RequiredIndicator color={'purple.500'} />
 						</div>
-						{/* <a href="" className="hover:text-purple-500 duration-200">
+						<a href="" className="hover:text-purple-500 duration-200">
 							<p className="font-light text-xs">Forgot Password</p>
-						</a> */}
+						</a>
 					</Field.Label>
 					<Stack className="w-full">
 						<div className="flex flex-col gap-4">
@@ -232,9 +169,6 @@ export default function CreatorSignup({
 						<div className="text-xs md:text-sm font-roboto">
 							Confirm Password <Field.RequiredIndicator color={'purple.500'} />
 						</div>
-						{/* <a href="" className="hover:text-purple-500 duration-200">
-							<p className="font-light text-xs">Forgot Password</p>
-						</a> */}
 					</Field.Label>
 					<Stack className="w-full">
 						<div className="flex flex-col gap-4">

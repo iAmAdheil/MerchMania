@@ -1,50 +1,127 @@
-import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
+'use client';
+
+import { authClient } from '@/auth/auth-client';
+import { Stack, Field, Input } from '@chakra-ui/react';
 import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Display } from '@/app/signup/page';
-import { FcGoogle } from 'react-icons/fc';
+import Loader from '../../ui/loader';
+import * as z from 'zod/v4';
+
+type UserDetails = {
+	username: string;
+	email: string;
+	password: string;
+	confirmPassword: string;
+};
+
+const detailsParser = z.object({
+	role: z.literal('customer'),
+	username: z.string().min(4).max(30),
+	email: z.email(),
+	password: z.string().min(8),
+	confirmPassword: z.string(),
+});
 
 export default function CustomerSignup({
 	setDisplay,
 }: {
 	setDisplay: Dispatch<SetStateAction<Display>>;
 }) {
+	const router = useRouter();
+
+	const [isLoading, setIsLoading] = useState(false);
+	const [userDetails, setUserDetails] = useState<UserDetails>({
+		username: '',
+		email: '',
+		password: '',
+		confirmPassword: '',
+	});
+
+	const handleCredSignup = async () => {
+		try {
+			setIsLoading(true);
+			const details = {
+				role: 'customer',
+				username: userDetails.username,
+				email: userDetails.email,
+				password: userDetails.password,
+				confirmPassword: userDetails.confirmPassword,
+			};
+
+			console.log(details);
+
+			const result = detailsParser.safeParse(details);
+			console.log(result);
+			if (!result.success) {
+				alert('Invalid credentials');
+				console.log(result.error);
+				return;
+			}
+			if (result.data.password !== result.data.confirmPassword) {
+				//	display error -> fields do not match!
+				alert('Password fields do not match');
+				return;
+			}
+
+			const { data, error } = await authClient.signUp.email(
+				{
+					role: details.role,
+					isOnboarded: false,
+					name: details.username,
+					email: details.email,
+					password: details.password,
+					callbackURL: '/',
+				},
+				{
+					onRequest: ctx => {
+						console.log(ctx);
+					},
+					onSuccess: ctx => {
+						console.log(ctx);
+						router.replace('/');
+					},
+					onError: ctx => {
+						alert(ctx.error.message);
+					},
+				}
+			);
+			console.log(data);
+			console.log(error);
+			// throw or set errors if any
+		} catch (e: any) {
+			console.log(e);
+			alert(e.message);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
 	return (
 		<div className="w-full flex-1 max-w-[30rem] flex flex-col items-center justify-center gap-5 bg-white px-8 py-6 rounded-lg shadow-xl">
+			{isLoading && (
+				<div className="absolute bottom-1/2 z-10">
+					<Loader size={60} />
+				</div>
+			)}
 			<div className="flex flex-col items-center">
 				<h2 className="text-2xl font-bold">Customer Signup</h2>
 				<p className="text-xs md:text-sm font-roboto text-gray-600">
 					Start shopping unique creator merchandise
 				</p>
 			</div>
-			{/* <div className="w-full">
-				<Button
-					colorPalette="teal"
-					variant="solid"
-					className="py-2 w-full border border-solid border-gray-300 text-xs font-roboto font-semibold hover:bg-slate-100"
-				>
-					<FcGoogle /> Signup With Google
-				</Button>
-			</div>
-			<HStack className='w-full'>
-				<Separator
-					flex="1"
-					className="border-[0.1px] border-solid border-gray-200 flex-1"
-				/>
-				<Text flexShrink="0" className="font-roboto font-light text-[10px] text-gray-500">
-					OR
-				</Text>
-				<Separator
-					flex="1"
-					className="border-[0.1px] border-solid border-gray-200 flex-1"
-				/>
-			</HStack> */}
 			<div className="w-full flex flex-col gap-4">
 				<Field.Root required className="flex flex-col gap-2">
 					<Field.Label className="text-xs md:text-sm font-roboto">
 						Username <Field.RequiredIndicator color={'purple.500'} />
 					</Field.Label>
 					<Input
+						onChange={e =>
+							setUserDetails(prevState => {
+								return { ...prevState, username: e.target.value };
+							})
+						}
 						placeholder="John Doe"
 						className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm pl-3 py-1"
 					/>
@@ -54,6 +131,11 @@ export default function CustomerSignup({
 						Email <Field.RequiredIndicator color={'purple.500'} />
 					</Field.Label>
 					<Input
+						onChange={e =>
+							setUserDetails(prevState => {
+								return { ...prevState, email: e.target.value };
+							})
+						}
 						placeholder="you@example.com"
 						className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm pl-3 py-1"
 					/>
@@ -63,13 +145,20 @@ export default function CustomerSignup({
 						<div className="text-xs md:text-sm font-roboto">
 							Password <Field.RequiredIndicator color={'purple.500'} />
 						</div>
-						{/* <a href="" className="hover:text-purple-500 duration-200">
+						<a href="" className="hover:text-purple-500 duration-200">
 							<p className="font-light text-xs">Forgot Password</p>
-						</a> */}
+						</a>
 					</Field.Label>
 					<Stack className="w-full">
 						<div className="flex flex-col gap-4">
-							<PasswordInput className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm px-3 py-1" />
+							<PasswordInput
+								onChange={e =>
+									setUserDetails(prevState => {
+										return { ...prevState, password: e.target.value };
+									})
+								}
+								className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm px-3 py-1"
+							/>
 							<PasswordStrengthMeter value={2} />
 						</div>
 					</Stack>
@@ -79,13 +168,17 @@ export default function CustomerSignup({
 						<div className="text-xs md:text-sm font-roboto">
 							Confirm Password <Field.RequiredIndicator color={'purple.500'} />
 						</div>
-						{/* <a href="" className="hover:text-purple-500 duration-200">
-							<p className="font-light text-xs">Forgot Password</p>
-						</a> */}
 					</Field.Label>
 					<Stack className="w-full">
 						<div className="flex flex-col gap-4">
-							<PasswordInput className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm px-3 py-1" />
+							<PasswordInput
+								onChange={e =>
+									setUserDetails(prevState => {
+										return { ...prevState, confirmPassword: e.target.value };
+									})
+								}
+								className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm px-3 py-1"
+							/>
 						</div>
 					</Stack>
 				</Field.Root>
@@ -100,7 +193,10 @@ export default function CustomerSignup({
 					>
 						Back
 					</button>
-					<button className="w-full py-2 rounded-md bg-purple-500 text-white text-xs md:text-sm font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200">
+					<button
+						onClick={handleCredSignup}
+						className="w-full py-2 rounded-md bg-purple-500 text-white text-xs md:text-sm font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200"
+					>
 						Create Account
 					</button>
 				</div>

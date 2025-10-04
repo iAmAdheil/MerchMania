@@ -6,43 +6,6 @@ import { customSession } from 'better-auth/plugins';
 
 const prisma = new PrismaClient();
 
-const options = {
-	user: {
-		additionalFields: {
-			role: {
-				type: 'string',
-				required: true,
-			},
-			isOnboarded: {
-				type: 'boolean',
-				required: true,
-			},
-			shopId: {
-				type: 'string',
-				required: false,
-			},
-		},
-	},
-	plugins: [
-		inferAdditionalFields({
-			user: {
-				role: {
-					type: 'string',
-					required: true,
-				},
-				isOnboarded: {
-					type: 'boolean',
-					required: true,
-				},
-				shopId: {
-					type: 'string',
-					required: false,
-				},
-			},
-		}),
-	],
-} satisfies BetterAuthOptions;
-
 export const auth = betterAuth({
 	database: prismaAdapter(prisma, {
 		provider: 'postgresql',
@@ -52,64 +15,33 @@ export const auth = betterAuth({
 		requireEmailVerification: false,
 		autoSignIn: true,
 	},
-	socialProviders: {
-		google: {
-			prompt: 'select_account',
-			disableSignUp: true,
-			clientId: process.env.AUTH_GOOGLE_ID as string,
-			clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
-			overrideUserInfoOnSignIn: false,
-		},
-	},
-	account: {
-		accountLinking: {
-			enabled: true,
-			trustedProviders: ['google'],
-		},
-	},
-	plugins: [
-		inferAdditionalFields({
-			user: {
-				role: {
-					type: 'string',
-					required: true,
-				},
-				isOnboarded: {
-					type: 'boolean',
-					required: true,
-				},
-				shopId: {
-					type: 'string',
-					required: false,
-				},
-			},
-		}),
-		customSession(async ({ user, session }, ctx) => {
-			return {
-				id: user.id,
-				email: user.email,
-				name: user.name,
-				image: user.image,
-				role: user.role,
-				isOnboarded: user.isOnboarded,
-				shopId: user.shopId,
-			};
-		}, options),
-	],
 	user: {
 		additionalFields: {
 			role: {
 				type: 'string',
 				required: true,
+				defaultValue: "customer",
 			},
 			isOnboarded: {
 				type: 'boolean',
 				required: true,
-			},
-			shopId: {
-				type: 'string',
-				required: false,
+				defaultValue: false,
 			},
 		},
 	},
+	// socialProviders: {
+	// 	google: {
+	// 		prompt: 'select_account',
+	// 		disableSignUp: true,
+	// 		clientId: process.env.AUTH_GOOGLE_ID as string,
+	// 		clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
+	// 		overrideUserInfoOnSignIn: false,
+	// 	},
+	// },
+	// account: {
+	// 	accountLinking: {
+	// 		enabled: true,
+	// 		trustedProviders: ['google'],
+	// 	},
+	// },
 });

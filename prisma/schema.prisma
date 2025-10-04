@@ -5,134 +5,135 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-    provider = "prisma-client-js"
-    output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    id            String    @id
-    role          ROLE
-    isOnboarded   Boolean
-    name          String
-    email         String    @unique
-    emailVerified Boolean
-    image         String?
-    shopId        String?   @unique
-    Shop          Shop?     @relation(fields: [shopId], references: [id])
-    createdAt     DateTime
-    updatedAt     DateTime
-    sessions      Session[]
-    accounts      Account[]
+  id            String    @id
+  name          String
+  email         String    @unique
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
 
-    @@map("user")
+  role        ROLE
+  isOnboarded Boolean
+  shopId      String? @unique
+  Shop        Shop?   @relation(fields: [shopId], references: [id])
+
+  @@map("user")
 }
 
 model Shop {
-    id          String       @id @default(cuid())
-    name        String
-    logo        String
-    banner      String?
-    owner       User?    @relation
-    products    Product[]
-    ShopDetails ShopDetails?
+  id          String       @id @default(cuid())
+  name        String
+  logo        String
+  banner      String?
+  owner       User?        @relation
+  products    Product[]
+  ShopDetails ShopDetails?
 }
 
 model ShopDetails {
-    id          String   @id @default(cuid())
-    description String
-    location    String
-    contact     String
-    socialLinks String[]
-    shopId      String   @unique
-    shop        Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  id          String   @id @default(cuid())
+  description String
+  location    String
+  contact     String
+  socialLinks String[]
+  shopId      String   @unique
+  shop        Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
 }
 
 model Product {
-    id             String   @id @default(cuid())
-    name           String
-    description    String
-    designs        String[]
-    gender         GENDER   @default(unisex)
-    sizes          SIZE[]   @default([])
-    price          String
-    tags           String[]
-    shopId         String
-    shop           Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
-    inStock        Boolean  @default(true)
-    remainingStock Int      @default(0)
-    createdAt      DateTime @default(now())
-    updatedAt      DateTime @updatedAt
+  id             String   @id @default(cuid())
+  name           String
+  description    String
+  designs        String[]
+  gender         GENDER   @default(unisex)
+  sizes          SIZE[]   @default([])
+  price          String
+  tags           String[]
+  shopId         String
+  shop           Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  inStock        Boolean  @default(true)
+  remainingStock Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-    @@map("product")
+  @@map("product")
 }
 
 model Session {
-    id        String   @id
-    expiresAt DateTime
-    token     String
-    createdAt DateTime
-    updatedAt DateTime
-    ipAddress String?
-    userAgent String?
-    userId    String
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String   @id
+  userId    String
+  token     String
+  expiresAt DateTime
+  ipAddress String?
+  createdAt DateTime
+  userAgent String?
+  updatedAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([token])
-    @@map("session")
+  @@unique([token])
+  @@map("session")
 }
 
 model Account {
-    id                    String    @id
-    accountId             String
-    providerId            String
-    userId                String
-    user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-    accessToken           String?
-    refreshToken          String?
-    idToken               String?
-    accessTokenExpiresAt  DateTime?
-    refreshTokenExpiresAt DateTime?
-    scope                 String?
-    password              String?
-    createdAt             DateTime
-    updatedAt             DateTime
+  id                    String    @id
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@map("account")
+  @@map("account")
 }
 
 model Verification {
-    id         String    @id
-    identifier String
-    value      String
-    expiresAt  DateTime
-    createdAt  DateTime?
-    updatedAt  DateTime?
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
 
-    @@map("verification")
+  @@map("verification")
 }
 
 enum ROLE {
-    CUSTOMER
-    ADMIN
-    CREATOR
+  customer
+  admin
+  creator
 }
 
 enum GENDER {
-    male
-    female
-    unisex
+  male
+  female
+  unisex
 }
 
 enum SIZE {
-    XS
-    S
-    M
-    L
-    XL
-    XXL
+  XS
+  S
+  M
+  L
+  XL
+  XXL
 }

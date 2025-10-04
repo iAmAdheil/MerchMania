@@ -1,9 +1,7 @@
 import { createAuthClient } from 'better-auth/react';
 import { inferAdditionalFields } from 'better-auth/client/plugins';
-import { customSessionClient } from 'better-auth/client/plugins';
-import type { auth } from '@/auth/auth';
 
-export const { signIn, signUp, useSession, signOut } = createAuthClient({
+export const authClient = createAuthClient({
 	/** The base URL of the server (optional if you're using the same domain) */
 	baseURL: process.env.BETTER_AUTH_URL,
 	plugins: [
@@ -12,29 +10,28 @@ export const { signIn, signUp, useSession, signOut } = createAuthClient({
 				role: {
 					type: 'string',
 					required: true,
+					defaultValue: "customer",
 				},
 				isOnboarded: {
 					type: 'boolean',
 					required: true,
+					defaultValue: false,
 				},
 			},
 		}),
-		customSessionClient<typeof auth>(),
 	],
 	user: {
-		additionalFields: {
-			role: {
-				type: 'string',
-				required: true,
-			},
-			isOnboarded: {
-				type: 'boolean',
-				required: true,
-			},
-			shopId: {
-				type: 'string',
-				required: false,
-			},
+		role: {
+			type: 'string',
+			required: true,
+			defaultValue: "customer",
+		},
+		isOnboarded: {
+			type: 'boolean',
+			required: true,
+			defaultValue: false,
 		},
 	},
 });
+
+export const { signIn, signUp, useSession, signOut } = authClient;
