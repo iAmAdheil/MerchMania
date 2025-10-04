@@ -39,7 +39,7 @@ export default function SignIn() {
 	}
 
 	return (
-		<div>
+		<div className="w-full">
 			<Navbar role={role} />
 			<SigninSection />
 			<Footer />

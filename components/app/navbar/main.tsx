@@ -7,6 +7,7 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { signOut } from '@/auth/auth-client';
 import { useRouter } from 'next/navigation';
 import { User } from 'lucide-react';
+import Link from 'next/link';
 
 type Props = {
 	role?: string | null;
@@ -39,9 +40,12 @@ export default function Navbar({ role }: Props) {
 				<div className="w-full hidden flex-row items-center justify-between gap-4 sm:flex lg:hidden">
 					<div className="flex-1 flex flex-row items-center gap-4">
 						<RxHamburgerMenu />
-						<span className="text-xl font-roboto font-bold bg-gradient-to-r from-purple-600 to-purple-300 bg-clip-text text-transparent">
+						<Link
+							href="/"
+							className="text-xl font-roboto font-bold bg-gradient-to-r from-purple-600 to-purple-300 bg-clip-text text-transparent hover:cursor-pointer"
+						>
 							MerchMania
-						</span>
+						</Link>
 						<Searchbar />
 					</div>
 					<div className="flex flex-row items-center gap-4 flex-shrink-0">
@@ -61,9 +65,12 @@ export default function Navbar({ role }: Props) {
 				</div>
 				<div className="w-full hidden flex-row items-center gap-4 lg:flex">
 					<div className="flex-auto flex flex-row items-center gap-4">
-						<span className="text-2xl font-roboto font-bold bg-gradient-to-r from-purple-600 to-purple-300 bg-clip-text text-transparent">
+						<Link
+							href="/"
+							className="text-2xl font-roboto font-bold bg-gradient-to-r from-purple-600 to-purple-300 bg-clip-text text-transparent hover:cursor-pointer"
+						>
 							MerchMania
-						</span>
+						</Link>
 						<Searchbar />
 					</div>
 					<div className="flex flex-row items-center gap-10">
