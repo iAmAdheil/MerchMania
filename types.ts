@@ -1,6 +1,6 @@
 // COMMON
 
-export type Roles = 'ANONYMOUS' | 'CREATOR' | 'CUSTOMER' | 'ADMIN';
+export type Roles = 'anonymous' | 'creator' | 'customer' | 'admin';
 
 // SHOP
 

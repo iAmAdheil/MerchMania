@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import LeftSection from '@/components/app/pages/signup/leftSection';
 import OptionsBox from '@/components/app/pages/signup/optionsBox';
 import CustomerSignup from '@/components/app/pages/signup/customerSignup';

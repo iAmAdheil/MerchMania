@@ -27,8 +27,7 @@ model User {
 
   role        ROLE
   isOnboarded Boolean
-  shopId      String? @unique
-  Shop        Shop?   @relation(fields: [shopId], references: [id])
+  Shop        Shop?   @relation
 
   @@map("user")
 }
@@ -38,7 +37,8 @@ model Shop {
   name        String
   logo        String
   banner      String?
-  owner       User?        @relation
+  ownerId     String?      @unique
+  owner       User?        @relation(fields: [ownerId], references: [id])
   products    Product[]
   ShopDetails ShopDetails?
 }

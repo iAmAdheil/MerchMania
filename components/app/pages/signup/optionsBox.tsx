@@ -27,8 +27,10 @@ export default function OptionsBox({
 							<Users className="w-4 h-4" color="purple" />
 						</div>
 						<div className="flex flex-col text-left">
-							<p className="text-sm font-roboto font-semibold text-black">Join as Customer</p>
-							<p className="text-xs font-roboto text-gray-600">
+							<p className="text-sm md:text-base font-roboto font-semibold text-black">
+								Join as Customer
+							</p>
+							<p className="text-xs md:text-sm font-roboto text-gray-600">
 								Shop exclusive creator merchandise
 							</p>
 						</div>

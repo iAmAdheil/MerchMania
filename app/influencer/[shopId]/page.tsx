@@ -30,19 +30,6 @@ export default function InfluencerShop({ params }: Props) {
 	const [activeTab, setActiveTab] = useState<Tabs>('products');
 	const [role, setRole] = useState<Roles>('STRANGER');
 
-	useEffect(() => {
-		console.log('Shop Details:', shopDetails);
-		if (!shopDetails && !isLoading) {
-			router.push('/404');
-		}
-	}, [shopDetails, isLoading]);
-
-	useEffect(() => {
-		if (!isPending && session) {
-			setRole((session.role as Roles) || 'STRANGER');
-		}
-	}, [isPending, session]);
-
 	const onTabChange = (tab: Tabs) => {
 		setActiveTab(tab);
 	};
