@@ -18,7 +18,7 @@ export default function Navbar({ role }: { role: Roles }) {
 
 	return (
 		<div className="py-2 border-b-[0.5px] border-solid border-gray-200 shadow-lg flex flex-row justify-between items-center z-10 lg:py-4">
-			<div className="flex-1 flex flex-row items-center pl-6 pr-3 sm:px-6 lg:px-10">
+			<div className="flex-1 flex flex-row items-center">
 				<div className="w-full flex flex-row items-center justify-between sm:hidden">
 					<RxHamburgerMenu />
 					<Searchbar />
@@ -49,27 +49,29 @@ export default function Navbar({ role }: { role: Roles }) {
 						</Button>
 					</div>
 				</div>
-				<div className="w-full hidden flex-row items-center gap-4 lg:flex">
-					<div className="flex-auto flex flex-row items-center gap-4">
+
+				{/* large screen size navbar */}
+				<div className="w-full hidden flex-row items-center lg:flex gap-10">
+					<div className="flex-1 flex flex-row pl-10 items-center justify-start gap-4 bg-red-200">
 						<Link
 							href="/"
-							className="text-2xl font-roboto font-bold bg-gradient-to-r from-purple-600 to-purple-300 bg-clip-text text-transparent hover:cursor-pointer"
+							className="text-3xl font-roboto font-bold bg-gradient-to-r from-purple-600 to-purple-300 bg-clip-text text-transparent hover:cursor-pointer"
 						>
 							MerchMania
 						</Link>
 						<Searchbar />
 					</div>
-					<div className="flex flex-row items-center gap-10">
-						<div className="flex flex-row items-center gap-4 flex-shrink-0">
-							{role !== 'CREATOR' ? (
-								<>
+					<div className="flex-shrink-0 flex flex-row items-center justify-around gap-10">
+						<div className="flex flex-row items-center justify-around flex-shrink-0 bg-red-200">
+							{role !== 'creator' ? (
+								<div className="flex flex-row items-center gap-20">
 									<button className="text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200">
 										Explore
 									</button>
-									<button className="text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200">
+									<button className="text-nowrap text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200">
 										Our Influencers
 									</button>
-								</>
+								</div>
 							) : (
 								<>
 									<button onClick={() => handleNavigation('/influencer/dashboard')}>
@@ -81,40 +83,38 @@ export default function Navbar({ role }: { role: Roles }) {
 								</>
 							)}
 						</div>
-						<div className="flex flex-row items-center gap-4 flex-shrink-0">
-							{role === 'CREATOR' && (
+						<div className="flex-1 flex flex-row items-center justify-end gap-6 flex-shrink-0 pr-10">
+							{role === 'creator' && (
 								<>
 									<button className="flex items-center justify-center w-8 h-8 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200">
 										<User size={18} className="text-purple-600" />
 									</button>
 								</>
 							)}
-							{role === 'CUSTOMER' && (
-								<>
-									<button>Cart</button>
-									{/* <CartIcon /> */}
-									<button className="flex items-center justify-center w-8 h-8 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200">
-										<User size={18} className="text-purple-600" />
+							{role === 'customer' && (
+								<div className="flex flex-row items-center gap-10">
+									<CartIcon />
+									<button className="flex items-center justify-center w-12 h-12 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200">
+										<User size={22} className="text-purple-600" />
 									</button>
+								</div>
+							)}
+							{(role === 'anonymous' || (role !== 'creator' && role !== 'customer')) && (
+								<>
+									<Button
+										onClick={() => handleNavigation('/signin')}
+										className="ml-4 text-xs font-semibold font-roboto text-white bg-purple-500 border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60"
+									>
+										Log In
+									</Button>
+									<Button
+										onClick={() => handleNavigation('/signup')}
+										className="text-xs font-semibold font-roboto bg-black text-white border border-solid border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60"
+									>
+										Sign Up
+									</Button>
 								</>
 							)}
-							{role === 'ANONYMOUS' ||
-								(role !== 'CREATOR' && role !== 'CUSTOMER' && (
-									<>
-										<Button
-											onClick={() => handleNavigation('/signin')}
-											className="ml-4 text-xs font-semibold font-roboto text-white bg-purple-500 border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60"
-										>
-											Log In
-										</Button>
-										<Button
-											onClick={() => handleNavigation('/signup')}
-											className="text-xs font-semibold font-roboto bg-black text-white border border-solid border-gray-600 px-4 rounded-md hover:opacity-80 active:opacity-60"
-										>
-											Sign Up
-										</Button>
-									</>
-								))}
 						</div>
 					</div>
 				</div>
