@@ -3,7 +3,7 @@
 import { type Dispatch, type SetStateAction } from 'react';
 import { DollarSign } from 'lucide-react';
 import { Field, Input } from '@chakra-ui/react';
-import { ProductDetails } from './mainForm';
+// import { ProductDetails } from '../mainForm';
 
 export default function ProductPrice({
 	productDetails,

@@ -1,6 +1,7 @@
 'use client';
 
-import { Store, Upload } from 'lucide-react';
+import { useState } from 'react';
+import { Store, Upload, X } from 'lucide-react';
 import {
 	Field,
 	Input,
@@ -15,9 +16,26 @@ import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 
 export default function OnboardingForm() {
+	const [socialLinks, setSocialLinks] = useState<{ [key: string]: string }>({});
+	const [link, setLink] = useState<string>('');
+	const [platform, setPlatform] = useState<string>('');
+
+	const handleAdd = () => {
+		if (platform === '' || link === '') return;
+
+		setSocialLinks(prevState => {
+			return {
+				...prevState,
+				[platform]: link,
+			};
+		});
+		setLink('');
+		setPlatform('');
+	};
+
 	return (
 		<div className="w-full md:py-10 bg-gray-50">
-			<div className="bg-gray-50 w-full py-16 md:py-6 px-6 md:px-10 max-w-3xl mx-auto flex flex-col justify-center items-center gap-8 rounded-lg">
+			<div className="bg-gray-50 w-full py-16 md:py-6 px-6 md:px-10 max-w-5xl mx-auto flex flex-col justify-center items-center gap-8 rounded-lg">
 				<div className="w-full flex flex-col gap-4">
 					<Store className="h-16 w-16 mx-auto text-brand-purple" />
 					<div className="flex flex-col items-center">
@@ -36,7 +54,7 @@ export default function OnboardingForm() {
 						</Field.Root>
 						<Input
 							placeholder="Cyber Ninja"
-							className="w-full border border-solid border-gray-200 text-sm md:text-base font-light rounded-sm pl-3 py-1"
+							className="w-full border border-solid border-gray-300 text-sm md:text-base font-light rounded-sm pl-3 py-1"
 						/>
 					</div>
 					<div className="w-full flex flex-col gap-2">
@@ -49,7 +67,7 @@ export default function OnboardingForm() {
 							minH="3lh"
 							maxH="8lh"
 							placeholder="Cyber Ninja is a brand that sells cyber ninja products"
-							className="text-sm md:text-base py-1.5 px-2 border border-solid placeholder:text-gray-400 placeholder:font-light border-gray-200 rounded-sm"
+							className="text-sm md:text-base py-1.5 px-2 border border-solid placeholder:text-gray-400 placeholder:font-light border-gray-300 rounded-sm"
 							autoresize
 						/>
 					</div>
@@ -143,7 +161,7 @@ export default function OnboardingForm() {
 							<PhoneInput
 								countrySelectorStyleProps={{
 									buttonStyle: { paddingLeft: 15, paddingRight: 15, height: 45 },
-									dropdownStyleProps: { style: { marginTop: 10 } },
+									dropdownStyleProps: { style: { marginTop: 10, borderRadius: 5 } },
 								}}
 								inputStyle={{
 									width: '100%',
@@ -156,35 +174,82 @@ export default function OnboardingForm() {
 							/>
 						</div>
 						<div className="flex flex-col gap-2">
-							<Field.Root required className="flex flex-col gap-2">
-								<Field.Label className="text-sm md:text-base font-roboto">
-									Social Links (at least 1) <Field.RequiredIndicator color={'purple.500'} />
-								</Field.Label>
-							</Field.Root>
-							<div className="w-full flex flex-row items-center gap-3 md:gap-6">
-								<SocialInput />
-								<button className="text-xs sm:text-sm font-roboto cursor-pointer bg-white border-[1px] border-solid border-purple-500 text-purple-500 px-3 sm:px-4 py-3 sm:py-2 rounded-sm">
-									Add
-								</button>
+							<div className="flex flex-col gap-2">
+								<Field.Root required className="flex flex-col gap-2">
+									<Field.Label className="text-sm md:text-base font-roboto">
+										Social Links (at least 1) <Field.RequiredIndicator color={'purple.500'} />
+									</Field.Label>
+								</Field.Root>
+								<div className="w-full flex flex-row items-center gap-3 md:gap-6">
+									<SocialInput
+										link={link}
+										setLink={setLink}
+										platform={platform}
+										setPlatform={setPlatform}
+									/>
+									<button
+										onClick={handleAdd}
+										className="text-xs sm:text-sm font-roboto font-semibold cursor-pointer bg-purple-500 text-white px-3 sm:px-4 py-3 sm:py-2 rounded-sm"
+									>
+										Add
+									</button>
+								</div>
+							</div>
+							<div className="flex flex-col gap-2 md:gap-3 mt-2 md:mt-3">
+								{Object.keys(socialLinks).map(key => (
+									<div className="w-full flex flex-row items-center justify-between" key={key}>
+										<div className="flex flex-row items-center gap-3">
+											<p className="text-sm md:text-base font-roboto">{key}</p>
+											<p className="text-sm md:text-base font-roboto">
+												{socialLinks[key].length > 30
+													? socialLinks[key].slice(0, 30) + '...'
+													: socialLinks[key]}
+											</p>
+										</div>
+										<div
+											className="cursor-pointer"
+											onClick={() => {
+												setSocialLinks(prevState => {
+													const newState = { ...prevState } as { [key: string]: string };
+													delete newState[key];
+													return newState;
+												});
+											}}
+										>
+											<X className="h-4 w-4 md:h-5 md:w-5 text-gray-400" />
+										</div>
+									</div>
+								))}
 							</div>
 						</div>
 					</div>
+				</div>
+				<div className="w-full flex justify-center sm:justify-start">
+					<button className="bg-white text-black text-sm md:text-base font-roboto rounded-sm px-4 py-2 border border-solid border-purple-500">
+						Create Shop
+					</button>
 				</div>
 			</div>
 		</div>
 	);
 }
 
-const DomainSelect = () => (
+const DomainSelect = ({
+	platform,
+	setPlatform,
+}: {
+	platform: string;
+	setPlatform: (platform: string) => void;
+}) => (
 	<Select.Root
-		collection={frameworks}
+		collection={platforms}
 		size="sm"
-		className="w-20 px-2 text-sm font-roboto cursor-pointer flex flex-row items-center gap-3 border-l-[1px] border-solid border-gray-300"
+		className="w-20 md:w-28 px-1.5 md:px-2 text-sm font-roboto cursor-pointer flex flex-row items-center border-l-[1px] border-solid border-gray-300 outline-none"
 	>
 		<Select.HiddenSelect />
-		<Select.Control className="w-full">
-			<Select.Trigger>
-				<Select.ValueText placeholder="Social" />
+		<Select.Control className="w-full outline-none">
+			<Select.Trigger value={platform} className="w-full outline-none">
+				<Select.ValueText className="text-xs md:text-sm" placeholder="Social" />
 			</Select.Trigger>
 			<Select.IndicatorGroup>
 				<Select.Indicator />
@@ -192,10 +257,15 @@ const DomainSelect = () => (
 		</Select.Control>
 		<Portal>
 			<Select.Positioner className="-ml-3">
-				<Select.Content width={100} className="py-2 px-3 bg-white flex flex-col gap-2">
-					{frameworks.items.map(framework => (
-						<Select.Item item={framework} key={framework.value}>
-							{framework.label}
+				<Select.Content width={100} className="bg-white flex flex-col gap-2">
+					{platforms.items.map(platform => (
+						<Select.Item
+							item={platform}
+							key={platform.value}
+							onClick={() => setPlatform(platform.value)}
+							className="py-1 px-3"
+						>
+							{platform.label}
 							<Select.ItemIndicator />
 						</Select.Item>
 					))}
@@ -205,13 +275,25 @@ const DomainSelect = () => (
 	</Select.Root>
 );
 
-const SocialInput = () => {
+const SocialInput = ({
+	link,
+	setLink,
+	platform,
+	setPlatform,
+}: {
+	link: string;
+	setLink: (link: string) => void;
+	platform: string;
+	setPlatform: (platform: string) => void;
+}) => {
 	return (
 		<InputGroup
 			className="w-full pr-12 border-[1px] border-solid border-gray-300 rounded-sm"
-			endElement={<DomainSelect />}
+			endElement={<DomainSelect platform={platform} setPlatform={setPlatform} />}
 		>
 			<Input
+				value={link}
+				onChange={e => setLink(e.target.value)}
 				className="pl-2 pr-10 w-full text-sm md:text-base font-roboto cursor-pointer outline-none"
 				placeholder="yoursite.com"
 			/>
@@ -219,11 +301,17 @@ const SocialInput = () => {
 	);
 };
 
-const frameworks = createListCollection({
+const platforms = createListCollection({
 	items: [
-		{ label: 'React.js', value: 'react' },
-		{ label: 'Vue.js', value: 'vue' },
-		{ label: 'Angular', value: 'angular' },
-		{ label: 'Svelte', value: 'svelte' },
+		{ label: 'Instagram', value: 'Instagram' },
+		{ label: 'Youtube', value: 'Youtube' },
+		{ label: 'TikTok', value: 'Tiktok' },
+		{ label: 'Twitter', value: 'Twitter' },
+		{ label: 'Facebook', value: 'Facebook' },
+		{ label: 'LinkedIn', value: 'Linkedin' },
+		{ label: 'Pinterest', value: 'Pinterest' },
+		{ label: 'Reddit', value: 'Reddit' },
+		{ label: 'Snapchat', value: 'Snapchat' },
+		{ label: 'Telegram', value: 'Telegram' },
 	],
 });

@@ -48,17 +48,21 @@ export default function OptionsBox({
 							<Star className="w-4 h-4" color="red" />
 						</div>
 						<div className="flex flex-col text-left">
-							<p className="text-sm font-roboto font-semibold text-black">Join as Creator</p>
-							<p className="text-xs font-roboto text-gray-600">Start selling your merchandise</p>
+							<p className="text-sm md:text-base font-roboto font-semibold text-black">
+								Join as Creator
+							</p>
+							<p className="text-xs md:text-sm font-roboto text-gray-600">
+								Start selling your merchandise
+							</p>
 						</div>
 					</div>
 					<ArrowRight className="h-4 w-4" />
 				</button>
 			</div>
 			<div>
-				<p className="text-sm text-gray-600 font-roboto">
+				<p className="text-xs md:text-sm text-gray-600 font-roboto">
 					Already have an account?{' '}
-					<span className="text-purple-600 decoration-purple-600 cursor-pointer hover:underline">
+					<span className="text-sm md:text-base font-semibold text-purple-600 decoration-purple-600 cursor-pointer hover:underline">
 						Sign in
 					</span>
 				</p>

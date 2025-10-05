@@ -40,47 +40,51 @@ const Footer = () => {
 					</div>
 
 					<div className="flex flex-col justify-center items-center w-full">
-						<h3 className="font-semibold text-gray-900 mb-4 mr-5">For Customers</h3>
+						<h3 className="font-semibold text-gray-900 mb-4 mr-2 md:mr-5">For Customers</h3>
 						<ul className="space-y-3">
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
 									Explore Products
 								</p>
 							</li>
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
 									Find Creators
 								</p>
 							</li>
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
 									Track Your Order
 								</p>
 							</li>
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">FAQs</p>
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
+									FAQs
+								</p>
 							</li>
 						</ul>
 					</div>
 
 					<div className="flex flex-col justify-center items-center w-full">
-						<h3 className="font-semibold text-gray-900 mb-4 mr-7">For Creators</h3>
+						<h3 className="font-semibold text-gray-900 mb-4 mr-3 md:mr-7">For Creators</h3>
 						<ul className="space-y-3">
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
 									Get Started
 								</p>
 							</li>
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">Resources</p>
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
+									Resources
+								</p>
 							</li>
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
 									Success Stories
 								</p>
 							</li>
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
 									Creator FAQs
 								</p>
 							</li>
@@ -88,25 +92,25 @@ const Footer = () => {
 					</div>
 
 					<div className="flex flex-col items-center justify-center w-full">
-						<h3 className="font-semibold text-gray-900 mb-4 mr-24">Support</h3>
+						<h3 className="font-semibold text-gray-900 mb-4 mr-20 md:mr-24">Support</h3>
 						<ul className="space-y-3">
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
 									Contact Us
 								</p>
 							</li>
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
 									Shipping Policy
 								</p>
 							</li>
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
 									Returns & Exchanges
 								</p>
 							</li>
 							<li>
-								<p className="text-gray-600 hover:text-brand-purple transition-colors">
+								<p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
 									Privacy Policy
 								</p>
 							</li>
@@ -115,7 +119,7 @@ const Footer = () => {
 				</div>
 
 				<div className="mt-10 pt-10 lg:mt-12 border-t border-gray-200">
-					<p className="text-gray-500 text-center text-base">
+					<p className="text-gray-500 text-center text-sm md:text-base">
 						&copy; {new Date().getFullYear()} CreatorMerch. All rights reserved.
 					</p>
 				</div>
