@@ -19,10 +19,10 @@ export default function CartIcon() {
 				},
 			}}
 		>
-			<div className="relative flex items-center justify-center p-2 rounded-full hover:opacity-70 transition-all duration-300 active:scale-75">
-				<FiShoppingCart className="text-gray-600 dark:text-white" size={22} />
-				<div className="absolute bottom-5 left-5 bg-black dark:bg-white rounded-full w-4 h-4 flex items-center justify-center">
-					<span className="text-[10px] font-bold font-roboto text-white dark:text-black">3</span>
+			<div className="relative flex items-center justify-center rounded-full hover:opacity-70 transition-all duration-300 active:scale-75">
+				<FiShoppingCart className="text-gray-600 dark:text-white" size={28} />
+				<div className="absolute bottom-[8.5px] left-[57.5%] -translate-x-1/2 flex items-center justify-center">
+					<span className="text-[9px] font-bold font-roboto text-black dark:text-black">0</span>
 				</div>
 			</div>
 		</Tooltip>
