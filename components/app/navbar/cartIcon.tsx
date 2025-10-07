@@ -12,7 +12,7 @@ export default function CartIcon() {
 						{
 							name: 'offset',
 							options: {
-								offset: [0, -8],
+								offset: [6, -5],
 							},
 						},
 					],

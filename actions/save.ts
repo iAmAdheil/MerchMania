@@ -2,12 +2,10 @@
 
 import prisma from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
-import type { ShopDetailsSchema, InputProductDetailsSchema } from '@/types';
 import { generateUniqueId } from '@/utils/cuid';
+import { ShopDetailsSchema } from '@/types';
 
-type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
-
-const saveImage = async (file: File, filename: string) => {
+export const saveImage = async (file: File, filename: string, folder: string) => {
 	cloudinary.config({
 		cloud_name: 'dzaj1xdgz',
 		api_key: process.env.CLOUDINARY_KEY,
@@ -26,7 +24,7 @@ const saveImage = async (file: File, filename: string) => {
 			// Upload using data URI
 			const uploadResult = await cloudinary.uploader.upload(dataUri, {
 				resource_type: 'image',
-				folder: 'shop-logos',
+				folder: folder,
 				public_id: filename,
 				overwrite: false,
 			});
@@ -35,171 +33,45 @@ const saveImage = async (file: File, filename: string) => {
 			console.log(`Upload success - ${uploadResult.public_id}`);
 			return uploadResult.secure_url;
 		}
-	} catch (e: any) {
+	} catch (e) {
 		console.log(e);
 		return '';
 	}
 };
 
-export const saveShopDetails = async (
-	shopDetails: ShopDetailsSchema,
-	productDetails: InputProductDetailsSchema,
-	shopLogo: File | null,
-	productDesign: File | null,
-	userId: string
-) => {
+export const saveShopDetails = async (formData: FormData) => {
 	try {
-		const productId = generateUniqueId();
 		const shopId = generateUniqueId();
 
-		if (userId.length === 0) {
-			return {
-				status: 404,
-				msg: 'Invalid user',
-			};
-		}
+		const logoFile = formData.get('logo') as File;
+		const bannerFile = formData.get('banner') as File;
+		
+		const shopDetailsString = formData.get('shopDetails') as string;
+		const shopDetails = JSON.parse(shopDetailsString) as ShopDetailsSchema;
+		const ownerId = formData.get('ownerId') as string;
 
-		if (!shopLogo || !productDesign) {
-			return {
-				status: 404,
-				msg: 'Could not find image files',
-			};
-		}
+		const logoUrl = await saveImage(logoFile, `${shopId}-logo.png`, 'shop-logos');
+		const bannerUrl = await saveImage(bannerFile, `${shopId}-banner.png`, 'shop-banners');
 
-		const shopLogoURL = await saveImage(shopLogo, shopDetails.name + '_' + shopId);
-		const productDesignURL = await saveImage(
-			shopLogo,
-			productDetails.name + '_' + productId + '_' + '1'
-		);
-
-		if (
-			!shopLogoURL ||
-			!productDesignURL ||
-			shopLogoURL.length === 0 ||
-			productDesignURL.length === 0
-		) {
-			const e = {
-				status: 500,
-				msg: 'Could not save images',
-			};
-			throw e;
-		}
-
-		await prisma.$transaction(async tx => {
-			await tx.shop.create({
-				data: {
-					id: shopId,
-					name: shopDetails.name,
-					logo: shopLogoURL,
-					products: { create: [] },
-				},
-			});
-
-			const sizesArray: Sizes[] = [];
-
-			Object.keys(productDetails.sizes).forEach((size: string) => {
-				const i: Sizes = size as Sizes;
-				if (productDetails.sizes[i]) {
-					sizesArray.push(i);
-				}
-			});
-
-			await tx.product.create({
-				data: {
-					id: productId,
-					name: productDetails.name,
-					designs: [productDesignURL],
-					shopId: shopId,
-					description: productDetails.description,
-					gender: productDetails.gender,
-					sizes: sizesArray,
-					price: productDetails.price,
-					tags: [],
-					inStock: false,
-					remainingStock: 0,
-					createdAt: new Date(),
-					updatedAt: new Date(),
-				},
-			});
-
-			await tx.user.update({
-				where: {
-					id: userId,
-				},
-				data: {
-					isOnboarded: true,
-					shopId: shopId,
-				},
-			});
-		});
-
-		console.log('Shop Id:', shopId);
-
-		return {
-			status: 200,
-			shopId: shopId,
-		};
-	} catch (e: any) {
-		console.log(e);
-		if (e.status === 500 || e.msg === 'Could not save images') {
-			// delete any image that got stored
-			return {
-				status: 500,
-				msg: e.message || 'Something went wrong',
-			};
-		}
-	}
-};
-
-export const saveProductDetails = async (
-	productDetails: InputProductDetailsSchema,
-	shopId: string,
-	productDesigns: File[]
-) => {
-	const uploadedDesigns: string[] = [];
-
-	for (const design of productDesigns) {
-		const url = await saveImage(design, productDetails.name + Date.now());
-		if (!url || url.length === 0) {
-			throw new Error('Could not upload product design');
-		} else {
-			uploadedDesigns.push(url);
-		}
-	}
-
-	const sizesArray: Sizes[] = [];
-
-	Object.keys(productDetails.sizes).forEach((size: string) => {
-		const i: Sizes = size as Sizes;
-		if (productDetails.sizes[i]) {
-			sizesArray.push(i);
-		}
-	});
-
-	try {
-		const product = await prisma.product.create({
+		const shop = await prisma.shop.create({
 			data: {
-				name: productDetails.name,
-				description: productDetails.description,
-				gender: productDetails.gender,
-				sizes: sizesArray,
-				price: productDetails.price,
-				inStock: parseInt(productDetails.remainingStock) > 0,
-				remainingStock: parseInt(productDetails.remainingStock),
-				shopId: shopId,
-				designs: uploadedDesigns,
+				id: shopId,
+				name: shopDetails.name,
+				logo: logoUrl || '',
+				banner: bannerUrl || '',
+				description: shopDetails.description,
+				location: shopDetails.location,
+				contact: shopDetails.contact,
+				socialLinks: shopDetails.socialLinks,
+				ownerId: ownerId,
 			},
 		});
-
-		return {
-			status: 200,
-			productId: product.id,
-		};
-	} catch (e: any) {
+		if (shop) {
+			return 1;
+		}
+		return 0;
+	} catch (e) {
 		console.log(e);
-		return {
-			status: 500,
-			msg: e.message || 'Something went wrong',
-		};
+		return null;
 	}
 };

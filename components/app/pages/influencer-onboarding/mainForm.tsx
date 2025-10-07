@@ -12,13 +12,24 @@ import {
 	createListCollection,
 } from '@chakra-ui/react';
 import { PhoneInput } from 'react-international-phone';
+import { blobUrlToFile } from '@/utils/convert';
+import { saveShopDetails } from '@/actions/save';
 
 import 'react-international-phone/style.css';
+import { ShopDetailsSchema } from '@/types';
 
 export default function OnboardingForm() {
 	const [socialLinks, setSocialLinks] = useState<{ [key: string]: string }>({});
 	const [link, setLink] = useState<string>('');
 	const [platform, setPlatform] = useState<string>('');
+	const [shopName, setShopName] = useState<string>('');
+	const [description, setDescription] = useState<string>('');
+	const [contact, setContact] = useState<string>('');
+	// const [location, setLocation] = useState<string>('');
+	const [logoUrl, setLogoUrl] = useState<string>('');
+	const [bannerUrl, setBannerUrl] = useState<string>('');
+	const [logoDragActive, setLogoDragActive] = useState<boolean>(false);
+	const [bannerDragActive, setBannerDragActive] = useState<boolean>(false);
 
 	const handleAdd = () => {
 		if (platform === '' || link === '') return;
@@ -31,6 +42,89 @@ export default function OnboardingForm() {
 		});
 		setLink('');
 		setPlatform('');
+	};
+
+	const handleShopCreate = async () => {
+		try {
+			const formData = new FormData();
+
+			const shopDetails: ShopDetailsSchema = {
+				name: shopName,
+				description: description,
+				location: '',
+				logo: logoUrl,
+				banner: bannerUrl,
+				contact: contact,
+				socialLinks: socialLinks,
+			};
+
+			formData.append('shopDetails', JSON.stringify(shopDetails));
+
+			const logoFile = await blobUrlToFile(logoUrl, 'logo.png');
+			formData.append('logo', logoFile);
+			if (bannerUrl.length > 0) {
+				const bannerFile = await blobUrlToFile(bannerUrl, 'banner.png');
+				formData.append('banner', bannerFile);
+			}
+
+			formData.append('ownerId', 'NDz20MHsojeB6n8Mlr1ahgVoiGtFcrwn');
+
+			const response = await saveShopDetails(formData);
+			if (response === 1) {
+				alert('Shop created successfully!');
+			} else {
+				alert('Failed to create shop. Please try again.');
+			}
+		} catch (e) {
+			console.log(e);
+			alert('Failed to create shop. Please try again. ' + e);
+		}
+	};
+
+	const handleImageUpload = (file: File, type: 'logo' | 'banner') => {
+		if (file && file.type.startsWith('image/')) {
+			const url = URL.createObjectURL(file);
+			if (type === 'logo') {
+				setLogoUrl(url);
+			} else {
+				setBannerUrl(url);
+			}
+		}
+	};
+
+	const handleDragOver = (e: React.DragEvent, type: 'logo' | 'banner') => {
+		e.preventDefault();
+		e.stopPropagation();
+		if (type === 'logo') {
+			setLogoDragActive(true);
+		} else {
+			setBannerDragActive(true);
+		}
+	};
+
+	const handleDragLeave = (e: React.DragEvent, type: 'logo' | 'banner') => {
+		e.preventDefault();
+		e.stopPropagation();
+		if (type === 'logo') {
+			setLogoDragActive(false);
+		} else {
+			setBannerDragActive(false);
+		}
+	};
+
+	const handleDrop = (e: React.DragEvent, type: 'logo' | 'banner') => {
+		e.preventDefault();
+		e.stopPropagation();
+		if (type === 'logo') {
+			setLogoDragActive(false);
+		} else {
+			setBannerDragActive(false);
+		}
+
+		const file = e.dataTransfer.files?.[0];
+		if (file) {
+			handleImageUpload(file, type);
+		}
 	};
 
 	return (
@@ -55,6 +149,8 @@ export default function OnboardingForm() {
 						<Input
 							placeholder="Cyber Ninja"
 							className="w-full border border-solid border-gray-300 text-sm md:text-base font-light rounded-sm pl-3 py-1"
+							value={shopName}
+							onChange={e => setShopName(e.target.value)}
 						/>
 					</div>
 					<div className="w-full flex flex-col gap-2">
@@ -64,6 +160,8 @@ export default function OnboardingForm() {
 							</Field.Label>
 						</Field.Root>
 						<Textarea
+							value={description}
+							onChange={e => setDescription(e.target.value)}
 							minH="3lh"
 							maxH="8lh"
 							placeholder="Cyber Ninja is a brand that sells cyber ninja products"
@@ -77,34 +175,57 @@ export default function OnboardingForm() {
 								Logo <Field.RequiredIndicator color={'purple.500'} />
 							</Field.Label>
 						</Field.Root>
-						<div className="w-full flex flex-col justify-center items-center border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-							<Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
-							<button
-								onClick={() => {
-									document.getElementById('logo-upload')?.click();
-								}}
-								className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
-							>
-								Upload Logo
-							</button>
+						<div
+							className={`w-full flex flex-col justify-center items-center border-2 border-dashed rounded-lg p-6 text-center transition-colors duration-200 ${
+								logoDragActive ? 'border-purple-500 bg-purple-50' : 'border-gray-300'
+							}`}
+							onDragOver={e => handleDragOver(e, 'logo')}
+							onDragLeave={e => handleDragLeave(e, 'logo')}
+							onDrop={e => handleDrop(e, 'logo')}
+						>
+							{logoUrl ? (
+								<div className="flex flex-col items-center gap-4">
+									<img
+										src={logoUrl}
+										alt="Logo preview"
+										className="max-w-[200px] max-h-[200px] object-contain rounded-lg"
+									/>
+									<button
+										onClick={() => {
+											document.getElementById('logo-upload')?.click();
+										}}
+										className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
+									>
+										Change Logo
+									</button>
+								</div>
+							) : (
+								<>
+									<Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
+									<p className="text-sm md:text-base font-roboto mb-4">
+										{logoDragActive ? 'Drop image here' : 'Drag and drop or click to upload'}
+									</p>
+									<button
+										onClick={() => {
+											document.getElementById('logo-upload')?.click();
+										}}
+										className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
+									>
+										Upload Logo
+									</button>
+								</>
+							)}
 							<input
 								id="logo-upload"
 								type="file"
 								accept="image/*"
 								className="hidden"
-								// onChange={e => {
-								// 	const img = e.target.files?.[0];
-								// 	if (img) {
-								// 		const url = URL.createObjectURL(img);
-								// 		console.log(url);
-								// 		setShopDetails(prevState => {
-								// 			return {
-								// 				...prevState,
-								// 				logo: url,
-								// 			};
-								// 		});
-								// 	}
-								// }}
+								onChange={e => {
+									const img = e.target.files?.[0];
+									if (img) {
+										handleImageUpload(img, 'logo');
+									}
+								}}
 							/>
 							<div className="flex flex-col gap-2">
 								<p className="text-xs text-gray-500 mt-6">Preferred dimensions: 200 x 200</p>
@@ -116,34 +237,57 @@ export default function OnboardingForm() {
 						<Field.Root required className="flex flex-col gap-2">
 							<Field.Label className="text-sm md:text-base font-roboto">Banner</Field.Label>
 						</Field.Root>
-						<div className="w-full flex flex-col justify-center items-center border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-							<Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
-							<button
-								onClick={() => {
-									document.getElementById('logo-upload')?.click();
-								}}
-								className="px-3 py-2 rounded-md bg-white text-sm md:text-base font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
-							>
-								Upload Banner
-							</button>
+						<div
+							className={`w-full flex flex-col justify-center items-center border-2 border-dashed rounded-lg p-6 text-center transition-colors duration-200 ${
+								bannerDragActive ? 'border-purple-500 bg-purple-50' : 'border-gray-300'
+							}`}
+							onDragOver={e => handleDragOver(e, 'banner')}
+							onDragLeave={e => handleDragLeave(e, 'banner')}
+							onDrop={e => handleDrop(e, 'banner')}
+						>
+							{bannerUrl ? (
+								<div className="w-full flex flex-col items-center gap-4">
+									<img
+										src={bannerUrl}
+										alt="Banner preview"
+										className="max-w-full max-h-[300px] object-contain rounded-lg"
+									/>
+									<button
+										onClick={() => {
+											document.getElementById('banner-upload')?.click();
+										}}
+										className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
+									>
+										Change Banner
+									</button>
+								</div>
+							) : (
+								<>
+									<Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
+									<p className="text-sm md:text-base font-roboto mb-4">
+										{bannerDragActive ? 'Drop image here' : 'Drag and drop or click to upload'}
+									</p>
+									<button
+										onClick={() => {
+											document.getElementById('banner-upload')?.click();
+										}}
+										className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
+									>
+										Upload Banner
+									</button>
+								</>
+							)}
 							<input
-								id="logo-upload"
+								id="banner-upload"
 								type="file"
 								accept="image/*"
 								className="hidden"
-								// onChange={e => {
-								// 	const img = e.target.files?.[0];
-								// 	if (img) {
-								// 		const url = URL.createObjectURL(img);
-								// 		console.log(url);
-								// 		setShopDetails(prevState => {
-								// 			return {
-								// 				...prevState,
-								// 				logo: url,
-								// 			};
-								// 		});
-								// 	}
-								// }}
+								onChange={e => {
+									const img = e.target.files?.[0];
+									if (img) {
+										handleImageUpload(img, 'banner');
+									}
+								}}
 							/>
 							<div className="flex flex-col gap-2">
 								<p className="text-xs text-gray-500 mt-6">Preferred dimensions: 200 x 1000</p>
@@ -159,6 +303,8 @@ export default function OnboardingForm() {
 								</Field.Label>
 							</Field.Root>
 							<PhoneInput
+								value={contact}
+								onChange={e => setContact(e)}
 								countrySelectorStyleProps={{
 									buttonStyle: { paddingLeft: 15, paddingRight: 15, height: 45 },
 									dropdownStyleProps: { style: { marginTop: 10, borderRadius: 5 } },
@@ -225,7 +371,10 @@ export default function OnboardingForm() {
 					</div>
 				</div>
 				<div className="w-full flex justify-center sm:justify-start">
-					<button className="bg-white text-black text-sm md:text-base font-roboto rounded-sm px-4 py-2 border border-solid border-purple-500">
+					<button
+						onClick={handleShopCreate}
+						className="bg-white text-black text-sm md:text-base font-roboto rounded-sm px-4 py-2 border border-solid border-purple-500"
+					>
 						Create Shop
 					</button>
 				</div>

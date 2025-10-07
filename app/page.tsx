@@ -19,7 +19,7 @@ export default function Home() {
 	return (
 		<div className="w-full flex flex-col">
 			<div className="flex flex-col w-full lg:min-h-screen">
-				<Navbar role={'customer'} />
+				<Navbar role={'anonymous'} />
 				<HeroSection />
 			</div>
 			<BottomMain />

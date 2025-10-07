@@ -32,46 +32,6 @@ model User {
   @@map("user")
 }
 
-model Shop {
-  id          String       @id @default(cuid())
-  name        String
-  logo        String
-  banner      String?
-  ownerId     String?      @unique
-  owner       User?        @relation(fields: [ownerId], references: [id])
-  products    Product[]
-  ShopDetails ShopDetails?
-}
-
-model ShopDetails {
-  id          String   @id @default(cuid())
-  description String
-  location    String
-  contact     String
-  socialLinks String[]
-  shopId      String   @unique
-  shop        Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
-}
-
-model Product {
-  id             String   @id @default(cuid())
-  name           String
-  description    String
-  designs        String[]
-  gender         GENDER   @default(unisex)
-  sizes          SIZE[]   @default([])
-  price          String
-  tags           String[]
-  shopId         String
-  shop           Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
-  inStock        Boolean  @default(true)
-  remainingStock Int      @default(0)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  @@map("product")
-}
-
 model Session {
   id        String   @id
   userId    String
@@ -115,6 +75,41 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Shop {
+  id     String  @id @default(cuid())
+  name   String
+  logo   String
+  banner String?
+
+  description String
+  location    String @default("")
+  contact     String @default("")
+  socialLinks Json
+
+  ownerId  String?   @unique
+  owner    User?     @relation(fields: [ownerId], references: [id])
+  products Product[]
+}
+
+model Product {
+  id             String   @id @default(cuid())
+  name           String
+  description    String
+  designs        String[]
+  gender         GENDER   @default(unisex)
+  sizes          SIZE[]   @default([])
+  price          String
+  tags           String[]
+  shopId         String
+  shop           Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  inStock        Boolean  @default(true)
+  remainingStock Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("product")
 }
 
 enum ROLE {
