@@ -45,7 +45,7 @@ export const saveShopDetails = async (formData: FormData) => {
 
 		const logoFile = formData.get('logo') as File;
 		const bannerFile = formData.get('banner') as File;
-		
+
 		const shopDetailsString = formData.get('shopDetails') as string;
 		const shopDetails = JSON.parse(shopDetailsString) as ShopDetailsSchema;
 		const ownerId = formData.get('ownerId') as string;
@@ -66,7 +66,16 @@ export const saveShopDetails = async (formData: FormData) => {
 				ownerId: ownerId,
 			},
 		});
-		if (shop) {
+
+		const updateUser = await prisma.user.update({
+			where: {
+				id: ownerId,
+			},
+			data: {
+				isOnboarded: true,
+			},
+		});
+		if (shop && updateUser.isOnboarded) {
 			return 1;
 		}
 		return 0;

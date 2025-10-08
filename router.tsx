@@ -18,7 +18,7 @@ export function Router({ children }: { children: React.ReactNode }) {
 			!session.user.isOnboarded &&
 			pathname !== '/creator/onboarding'
 		) {
-			router.push('/creator/onboarding');
+			// router.push('/creator/onboarding');
 		}
 	}, [session, pathname, router, isPending]);
 

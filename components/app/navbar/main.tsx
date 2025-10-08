@@ -95,10 +95,10 @@ export default function Navbar({ role }: { role: Roles }) {
 								</div>
 							) : (
 								<div className="flex flex-row items-center gap-10">
-									<button onClick={() => handleNavigation('/influencer/dashboard')}>
+									<button onClick={() => handleNavigation('/creator/dashboard')}>
 										Dashboard
 									</button>
-									<button onClick={() => handleNavigation('/influencer/new-product')}>
+									<button onClick={() => handleNavigation('/creator/new-product')}>
 										Create New Product
 									</button>
 								</div>
