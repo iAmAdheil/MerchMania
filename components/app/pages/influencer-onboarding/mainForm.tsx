@@ -14,11 +14,14 @@ import {
 import { PhoneInput } from 'react-international-phone';
 import { blobUrlToFile } from '@/utils/convert';
 import { saveShopDetails } from '@/actions/save';
+import { ShopDetailsSchema } from '@/types';
+import Loader from '@/components/app/ui/loader';
 
 import 'react-international-phone/style.css';
-import { ShopDetailsSchema } from '@/types';
 
 export default function OnboardingForm() {
+	const [loading, setLoading] = useState<boolean>(false);
+
 	const [socialLinks, setSocialLinks] = useState<{ [key: string]: string }>({});
 	const [link, setLink] = useState<string>('');
 	const [platform, setPlatform] = useState<string>('');
@@ -46,6 +49,7 @@ export default function OnboardingForm() {
 
 	const handleShopCreate = async () => {
 		try {
+			setLoading(true);
 			const formData = new FormData();
 
 			const shopDetails: ShopDetailsSchema = {
@@ -78,6 +82,8 @@ export default function OnboardingForm() {
 		} catch (e) {
 			console.log(e);
 			alert('Failed to create shop. Please try again. ' + e);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -373,9 +379,9 @@ export default function OnboardingForm() {
 				<div className="w-full flex justify-center sm:justify-start">
 					<button
 						onClick={handleShopCreate}
-						className="bg-white text-black text-sm md:text-base font-roboto rounded-sm px-4 py-2 border border-solid border-purple-500"
+						className="max-w-28 md:max-w-32 w-full bg-white text-black text-sm md:text-base font-roboto rounded-sm px-4 py-2 border border-solid border-purple-500 flex items-center justify-center"
 					>
-						Create Shop
+						{loading ? <Loader size={20} /> : 'Create Shop'}
 					</button>
 				</div>
 			</div>
