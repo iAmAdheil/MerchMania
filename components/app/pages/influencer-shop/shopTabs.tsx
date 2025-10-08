@@ -1,6 +1,6 @@
 import { Button } from '@chakra-ui/react';
 import { ShoppingBag, Info } from 'lucide-react';
-import { Tabs } from '@/app/influencer/[shopId]/page';
+import { Tabs } from '@/app/creator/[shopId]/page';
 
 type props = {
 	activeTab: string;

@@ -17,7 +17,7 @@ interface Props {
 export type Tabs = 'products' | 'about';
 
 export default function InfluencerShop({ params }: Props) {
-	const { shopId } = use(params);
+	// const { shopId } = use(params);
 
 	const [activeTab, setActiveTab] = useState<Tabs>('products');
 
@@ -47,7 +47,7 @@ export default function InfluencerShop({ params }: Props) {
 					<div className="w-full flex flex-col gap-10 z-10">
 						<ShopTabs activeTab={activeTab} onTabChange={onTabChange} productCount={0} />
 						<div className={`${activeTab === 'products' ? 'block' : 'hidden'} w-full`}>
-							<ProductsTab shopId={shopId} />
+							<ProductsTab />
 						</div>
 						<div className={`${activeTab === 'about' ? 'block' : 'hidden'} w-full`}>
 							<AboutTab />

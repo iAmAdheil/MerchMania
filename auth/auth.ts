@@ -27,6 +27,9 @@ export const auth = betterAuth({
 			},
 		},
 	},
+	session: {
+		disableSessionRefresh: true
+	}
 	// socialProviders: {
 	// 	google: {
 	// 		prompt: 'select_account',

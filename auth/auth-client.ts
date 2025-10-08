@@ -32,6 +32,9 @@ export const authClient = createAuthClient({
 			defaultValue: false,
 		},
 	},
+	session: {
+		disableSessionRefresh: true
+	},
 });
 
 export const { signIn, signUp, useSession, signOut } = authClient;
