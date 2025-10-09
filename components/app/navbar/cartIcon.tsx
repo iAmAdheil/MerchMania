@@ -12,14 +12,14 @@ export default function CartIcon() {
 						{
 							name: 'offset',
 							options: {
-								offset: [6, -5],
+								offset: [6, 0],
 							},
 						},
 					],
 				},
 			}}
 		>
-			<div className="relative flex items-center justify-center rounded-full hover:opacity-70 transition-all duration-300 active:scale-75">
+			<div className="relative flex items-center justify-center rounded-full hover:opacity-70 transition-all duration-300 active:scale-75 cursor-pointer">
 				<FiShoppingCart className="text-gray-600 dark:text-white" size={28} />
 				<div className="absolute bottom-[8.5px] left-[57.5%] -translate-x-1/2 flex items-center justify-center">
 					<span className="text-[9px] font-bold font-roboto text-black dark:text-black">0</span>

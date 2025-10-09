@@ -154,7 +154,7 @@ export default function OnboardingForm() {
 						</Field.Root>
 						<Input
 							placeholder="Cyber Ninja"
-							className="w-full border border-solid border-gray-300 text-sm md:text-base font-light rounded-sm pl-3 py-1"
+							className="w-full border border-solid border-gray-300 text-sm md:text-base rounded-sm pl-3 py-1"
 							value={shopName}
 							onChange={e => setShopName(e.target.value)}
 						/>
@@ -171,7 +171,7 @@ export default function OnboardingForm() {
 							minH="3lh"
 							maxH="8lh"
 							placeholder="Cyber Ninja is a brand that sells cyber ninja products"
-							className="text-sm md:text-base py-1.5 px-2 border border-solid placeholder:text-gray-400 placeholder:font-light border-gray-300 rounded-sm"
+							className="text-sm md:text-base py-1.5 px-2 border border-solid placeholder:text-gray-400 border-gray-300 rounded-sm"
 							autoresize
 						/>
 					</div>

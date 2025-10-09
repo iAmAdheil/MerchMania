@@ -6,20 +6,71 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { blobUrlToFile } from '@/utils/convert';
 import { X } from 'lucide-react';
 import { Upload, Shirt } from 'lucide-react';
+import Loader from '@/components/app/ui/loader';
+import { ProductDetailsSchema } from '@/types';
+import { Sizes } from '@/types';
+import { saveProductDetails } from '@/actions/save';
 
 export default function Form() {
-	const [shopName, setShopName] = useState<string>('');
+	const [productName, setProductName] = useState<string>('');
 	const [productDescription, setProductDescription] = useState<string>('');
-	const [gender, setGender] = useState<string>('');
+	const [gender, setGender] = useState<'male' | 'female' | 'unisex'>('unisex');
 	const [price, setPrice] = useState<string>('');
-	const [sizes, setSizes] = useState<string[]>([]);
+	const [sizes, setSizes] = useState<Sizes[]>([]);
 
 	const [images, setImages] = useState<string[]>([]);
 	const [imageDragActive, setImageDragActive] = useState<boolean>(false);
 
-	const handleSizeSelect = (size: string) => {
+	const [loading, setLoading] = useState<boolean>(false);
+
+	const handleCreateProduct = async () => {
+		try {
+			setLoading(true);
+
+			const productDetails: ProductDetailsSchema = {
+				name: productName,
+				description: productDescription,
+				gender: gender,
+				images: images,
+				sizes: sizes,
+				price: price,
+				inStock: true,
+			};
+
+			const imageFile1 = await blobUrlToFile(images[0], 'image1.png');
+			const imageFile2 = await blobUrlToFile(images[1], 'image2.png');
+			const imageFile3 = await blobUrlToFile(images[2], 'image3.png');
+			const imageFile4 = await blobUrlToFile(images[3], 'image4.png');
+			const imageFile5 = await blobUrlToFile(images[4], 'image5.png');
+
+			const formData = new FormData();
+
+			formData.append('productDetails', JSON.stringify(productDetails));
+			formData.append('image1', imageFile1);
+			formData.append('image2', imageFile2);
+			formData.append('image3', imageFile3);
+			formData.append('image4', imageFile4);
+			formData.append('image5', imageFile5);
+			formData.append('shopId', 'cmggztk3n0000uauf36dtb682');
+
+			const response = await saveProductDetails(formData);
+			if (response === 1) {
+				alert('Product created successfully');
+			} else {
+				alert('Failed to create product. Please try again.');
+			}
+		} catch (e) {
+			console.log(e);
+			alert('Failed to create product. Please try again.');
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const handleSizeSelect = (size: Sizes) => {
 		if (sizes.includes(size)) {
 			setSizes(sizes.filter(s => s !== size));
 		} else {
@@ -83,14 +134,14 @@ export default function Form() {
 					<div className="w-full flex flex-col gap-2">
 						<Field.Root required className="flex flex-col gap-2">
 							<Field.Label className="text-sm md:text-base font-roboto">
-								Shop Name <Field.RequiredIndicator color={'purple.500'} />
+								Product Name <Field.RequiredIndicator color={'purple.500'} />
 							</Field.Label>
 						</Field.Root>
 						<Input
 							placeholder="Cyber Ninja"
-							className="w-full border border-solid border-gray-300 text-sm md:text-base font-light rounded-sm pl-3 py-1"
-							value={shopName}
-							onChange={e => setShopName(e.target.value)}
+							className="w-full border border-solid border-gray-300 placeholder:text-gray-400 text-sm md:text-base rounded-sm pl-3 py-1"
+							value={productName}
+							onChange={e => setProductName(e.target.value)}
 						/>
 					</div>
 					<div className="w-full flex flex-col gap-2">
@@ -103,7 +154,7 @@ export default function Form() {
 							minH="3lh"
 							maxH="8lh"
 							placeholder="Cyber Ninja is a brand that sells cyber ninja products"
-							className="text-sm md:text-base py-1.5 px-2 border border-solid placeholder:text-gray-400 placeholder:font-light border-gray-300 rounded-sm"
+							className="text-sm md:text-base py-1.5 px-2 border border-solid placeholder:text-gray-400 border-gray-300 rounded-sm"
 							autoresize
 							value={productDescription}
 							onChange={e => setProductDescription(e.target.value)}
@@ -121,16 +172,7 @@ export default function Form() {
 						>
 							<InputLabel sx={{ fontSize: 15, paddingTop: 1, color: '#9ca3af' }}>Gender</InputLabel>
 							<Select
-								// value={productDetails.gender}
 								label="Gender"
-								// onChange={e => {
-								// 	setProductDetails(prevState => {
-								// 		return {
-								// 			...prevState,
-								// 			gender: e.target.value,
-								// 		};
-								// 	});
-								// }}
 								sx={{ paddingY: 1 }}
 								value={gender}
 								onChange={e => setGender(e.target.value)}
@@ -267,16 +309,18 @@ export default function Form() {
 						</Field.Root>
 						<Input
 							placeholder=""
-							className="border border-solid border-gray-200 text-sm md:text-base font-light rounded-sm pl-3 py-1"
+							className="border border-solid border-gray-200 text-sm md:text-base rounded-sm pl-3 py-1"
 							value={price}
 							onChange={e => setPrice(e.target.value)}
 						/>
 					</div>
 				</div>
 				<div className="w-full flex justify-center sm:justify-start">
-					<button className="max-w-32 md:max-w-36 w-full bg-white text-black text-sm md:text-base font-roboto rounded-sm px-4 py-2 border border-solid border-purple-500 flex items-center justify-center">
-						{/* {loading ? <Loader size={20} /> : 'Save Product'} */}
-						Save Product
+					<button
+						onClick={handleCreateProduct}
+						className="max-w-32 md:max-w-36 w-full bg-white text-black text-sm md:text-base font-roboto rounded-sm px-4 py-2 border border-solid border-purple-500 flex items-center justify-center"
+					>
+						{loading ? <Loader size={20} /> : 'Save Product'}
 					</button>
 				</div>
 			</div>

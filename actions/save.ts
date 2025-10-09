@@ -3,7 +3,8 @@
 import prisma from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
 import { generateUniqueId } from '@/utils/cuid';
-import { ShopDetailsSchema } from '@/types';
+import { ProductDetailsSchema, ShopDetailsSchema } from '@/types';
+import { SIZE } from '@/app/generated/prisma/client';
 
 export const saveImage = async (file: File, filename: string, folder: string) => {
 	cloudinary.config({
@@ -81,6 +82,51 @@ export const saveShopDetails = async (formData: FormData) => {
 		return 0;
 	} catch (e) {
 		console.log(e);
-		return null;
+		return 0;
+	}
+};
+
+export const saveProductDetails = async (formData: FormData) => {
+	try {
+		const productId = generateUniqueId();
+
+		const images = [];
+
+		const productDetailsString = formData.get('productDetails') as string;
+		const productDetails = JSON.parse(productDetailsString) as ProductDetailsSchema;
+
+		const shopId = formData.get('shopId') as string;
+		const sizes = productDetails.sizes as unknown as SIZE[];
+
+		for (let i = 1; i <= 5; i++) {
+			const image = formData.get(`image${i}`) as File;
+			const imageUrl = await saveImage(image, `${productId}-image${i}.png`, 'product-images');
+			if (!imageUrl || imageUrl.length === 0) {
+				throw new Error('Failed to save image');
+			}
+			images.push(imageUrl);
+		}
+		
+		const product = await prisma.product.create({
+			data: {
+				id: productId,
+				name: productDetails.name,
+				description: productDetails.description,
+				images: images,
+				sizes: sizes,
+				price: productDetails.price,
+				inStock: productDetails.inStock,
+				shopId: shopId,
+			},
+		});
+
+		if (!product) {
+			throw new Error('Failed to create product');
+		}
+
+		return 1;
+	} catch (e) {
+		console.log(e);
+		return 0;
 	}
 };

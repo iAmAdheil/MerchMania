@@ -17,14 +17,7 @@ export type ShopDetailsSchema = {
 
 // PRODUCT
 
-export type Sizes = {
-	XS: boolean;
-	S: boolean;
-	M: boolean;
-	L: boolean;
-	XL: boolean;
-	XXL: boolean;
-};
+export type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
 export type ProductCardSchema = {
 	id: string;
@@ -39,7 +32,7 @@ export type ProductDetailsSchema = {
 	description: string;
 	gender: 'female' | 'male' | 'unisex';
 	images: string[];
-	sizes: Sizes;
+	sizes: Sizes[];
 	price: string;
 	inStock: boolean;
 };

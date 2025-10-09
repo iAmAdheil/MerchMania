@@ -86,19 +86,25 @@ export default function Navbar({ role }: { role: Roles }) {
 						<div className="flex flex-row items-center flex-shrink-0">
 							{role !== 'creator' ? (
 								<div className="flex flex-row items-center gap-10">
-									<button className="text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200">
+									<button className="font-roboto text-gray-600 hover:text-purple-500 duration-200">
 										Explore
 									</button>
-									<button className="text-nowrap text-sm font-roboto text-gray-600 hover:text-purple-500 duration-200">
+									<button className="text-nowrap font-roboto text-gray-600 hover:text-purple-500 duration-200">
 										Our Influencers
 									</button>
 								</div>
 							) : (
 								<div className="flex flex-row items-center gap-10">
-									<button onClick={() => handleNavigation('/creator/dashboard')}>
+									<button
+										className="text-nowrap font-roboto text-gray-600 hover:text-purple-500 duration-200"
+										onClick={() => handleNavigation('/creator/dashboard')}
+									>
 										Dashboard
 									</button>
-									<button onClick={() => handleNavigation('/creator/new-product')}>
+									<button
+										className="text-nowrap font-roboto text-gray-600 hover:text-purple-500 duration-200"
+										onClick={() => handleNavigation('/creator/new-product')}
+									>
 										Create New Product
 									</button>
 								</div>
