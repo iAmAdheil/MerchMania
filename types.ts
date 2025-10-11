@@ -1,5 +1,7 @@
 // COMMON
 
+import { JsonValue } from './app/generated/prisma/runtime/library';
+
 export type Roles = 'anonymous' | 'creator' | 'customer' | 'admin';
 
 // SHOP
@@ -8,11 +10,11 @@ export type ShopDetailsSchema = {
 	id?: string;
 	name: string;
 	logo: string;
-	banner?: string;
+	banner: string;
 	description: string;
 	location: string;
 	contact: string;
-	socialLinks: { [key: string]: string };
+	socialLinks: JsonValue;
 };
 
 // PRODUCT
@@ -35,4 +37,5 @@ export type ProductDetailsSchema = {
 	sizes: Sizes[];
 	price: string;
 	inStock: boolean;
+	shopId?: string;
 };

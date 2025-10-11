@@ -1,26 +1,29 @@
 'use server';
 
 import prisma from '@/lib/prisma';
-import { ProductDetailsSchema } from '@/types';
-import { Details, ReqShopDetailsSchema } from '@/components/app/pages/product/productDetails';
+import { ProductDetailsSchema, ShopDetailsSchema, ProductCardSchema } from '@/types';
+import { Details } from '@/components/app/pages/product/productDetails';
 
-export const fetchProductDetails = async (productId: string, shopId: string): Promise<Details | null> => {
+export const fetchProductDetails = async (productId: string): Promise<Details | null> => {
 	try {
-		const [product, shop]: [ProductDetailsSchema | null, ReqShopDetailsSchema | null] = await Promise.all([
-			prisma.product.findUnique({
-				where: {
-					id: productId,
-				},
-			}),
-			prisma.shop.findUnique({
-				where: {
-					id: shopId,
-				},
-			})
-		]);
+		const product: ProductDetailsSchema | null = await prisma.product.findUnique({
+			where: {
+				id: productId,
+			},
+		});
 
-		if (!product || !shop) {
-			throw new Error('Product or shop not found.');
+		if (!product) {
+			throw new Error('Product not found.');
+		}
+
+		const shop: ShopDetailsSchema | null = await prisma.shop.findUnique({
+			where: {
+				id: product.shopId || '',
+			},
+		});
+
+		if (!shop) {
+			throw new Error('Shop not found.');
 		}
 
 		return {
@@ -35,7 +38,7 @@ export const fetchProductDetails = async (productId: string, shopId: string): Pr
 				inStock: product.inStock,
 			},
 			shop: {
-				id: shop.id,
+				id: shop.id || '',
 				name: shop.name,
 				logo: shop.logo,
 			},
@@ -43,5 +46,26 @@ export const fetchProductDetails = async (productId: string, shopId: string): Pr
 	} catch (e: any) {
 		console.error('Error fetching product details:', e);
 		return null;
+	}
+};
+
+export const fetchShopProducts = async (shopId: string, count?: number): Promise<ProductCardSchema[]> => {
+	try {
+		const products = await prisma.product.findMany({
+			where: {
+				shopId: shopId,
+			},
+			take: count,
+		});
+
+		return products.map(product => ({
+			id: product.id,
+			name: product.name,
+			image: product.images[0],
+			price: product.price,
+		}));
+	} catch (e: any) {
+		console.error('Error fetching shop products:', e.message);
+		return [];
 	}
 };

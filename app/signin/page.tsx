@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Navbar from '@/components/app/navbar/main';
 import SigninSection from '@/components/app/pages/signin/signinSection';
 import Footer from '@/components/app/ui/footer';
@@ -10,22 +10,10 @@ import { useRouter } from 'next/navigation';
 
 export default function SignIn() {
 	const router = useRouter();
-	const {
-		data: session,
-		isPending, //loading state
-		error, //error object
-		refetch, //refetch the session
-	} = useSession();
-
-	const [role, setRole] = useState<string | null>(null);
+	const { data: session, isPending } = useSession();
 
 	useEffect(() => {
-		if ((!isPending && !session) || (!isPending && error)) {
-			console.log(isPending);
-			console.log(session);
-			console.log(error);
-		} else if (!isPending && session) {
-			console.log(session, isPending);
+		if (!isPending && session) {
 			router.push('/');
 		}
 	}, [isPending, session]);
@@ -40,7 +28,7 @@ export default function SignIn() {
 
 	return (
 		<div className="w-full">
-			<Navbar role={role} />
+			<Navbar role={'anonymous'} />
 			<SigninSection />
 			<Footer />
 		</div>

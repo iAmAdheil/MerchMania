@@ -82,7 +82,7 @@ model Shop {
   id     String  @id @default(cuid())
   name   String
   logo   String
-  banner String?
+  banner String
 
   description String
   location    String @default("")

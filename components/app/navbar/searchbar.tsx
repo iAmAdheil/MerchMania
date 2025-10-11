@@ -11,7 +11,7 @@ export default function Searchbar() {
 				}
 			>
 				<Input
-					className="h-fit py-2 w-full px-4 border-[0.5px] border-gray-700 rounded-2xl border-opacity-20 font-roboto text-xs text-gray-700 dark:text-white dark:placeholder:text-gray-300"
+					className="h-fit py-2 w-full px-4 border-[0.5px] border-gray-700 rounded-2xl border-opacity-20 font-roboto text-xs lg:text-sm text-gray-700 dark:text-white dark:placeholder:text-gray-300"
 					placeholder="Search products, brands, or influencers..."
 				/>
 			</InputGroup>

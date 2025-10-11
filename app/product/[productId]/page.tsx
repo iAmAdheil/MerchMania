@@ -4,7 +4,9 @@ import { use } from 'react';
 import Navbar from '@/components/app/navbar/main';
 import Footer from '@/components/app/ui/footer';
 import ProductDetails from '@/components/app/pages/product/productDetails';
+import SimilarProducts from '@/components/app/pages/product/similarProducts';
 import useFetchProductDetails from '@/hooks/useProductDetails';
+import useFetchShopProducts from '@/hooks/useShopProducts';
 import Loader from '@/components/app/ui/loader';
 
 interface Props {
@@ -15,10 +17,8 @@ interface Props {
 
 const ProductDetail = ({ params }: Props) => {
 	const { productId } = use(params);
-	const { productDetails, isLoading, error } = useFetchProductDetails(
-		productId,
-		'cmggztk3n0000uauf36dtb682'
-	);
+	const { productDetails, isLoading } = useFetchProductDetails(productId);
+	const { products } = useFetchShopProducts(productDetails?.shop.id || '');
 
 	if (isLoading) {
 		return (
@@ -29,9 +29,17 @@ const ProductDetail = ({ params }: Props) => {
 	}
 
 	return (
-		<div className="flex flex-col min-h-screen">
+		<div className="w-full flex flex-col min-h-screen">
 			<Navbar role="customer" />
-			<ProductDetails productDetails={productDetails} />
+			<div className="w-full flex flex-col">
+				<ProductDetails productDetails={productDetails} />
+				{products.length > 0 && (
+					<>
+						<div className="w-[95%] mx-auto h-px bg-gray-200" />
+						<SimilarProducts products={products} />
+					</>
+				)}
+			</div>
 			<Footer />
 		</div>
 	);

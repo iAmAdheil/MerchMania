@@ -14,27 +14,6 @@ export interface Details {
 	shop: ReqShopDetailsSchema;
 }
 
-// const productDetails: ProductDetailsSchema = {
-// 	name: 'Product Name',
-// 	description: 'Product Description',
-// 	images: [
-// 		'https://res.cloudinary.com/dzaj1xdgz/image/upload/v1759867755/shop-logos/cmggztk3n0000uauf36dtb682-logo.png.jpg',
-// 		'https://res.cloudinary.com/dzaj1xdgz/image/upload/v1759867755/shop-logos/cmggztk3n0000uauf36dtb682-logo.png.jpg',
-// 		'https://res.cloudinary.com/dzaj1xdgz/image/upload/v1759867755/shop-logos/cmggztk3n0000uauf36dtb682-logo.png.jpg',
-// 		'https://res.cloudinary.com/dzaj1xdgz/image/upload/v1759867755/shop-logos/cmggztk3n0000uauf36dtb682-logo.png.jpg',
-// 		'https://res.cloudinary.com/dzaj1xdgz/image/upload/v1759867755/shop-logos/cmggztk3n0000uauf36dtb682-logo.png.jpg',
-// 	],
-// 	price: '1000',
-// 	gender: 'unisex',
-// 	sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-// 	inStock: true,
-// };
-
-// const shopDetails: ReqShopDetailsSchema = {
-// 	logo: 'https://res.cloudinary.com/dzaj1xdgz/image/upload/v1759867755/shop-logos/cmggztk3n0000uauf36dtb682-logo.png.jpg',
-// 	name: 'Shop Name',
-// };
-
 export default function ProductDetails({ productDetails }: { productDetails: Details | null }) {
 	const [activeImage, setActiveImage] = useState(0);
 	const [quantity, setQuantity] = useState(1);
@@ -79,15 +58,6 @@ export default function ProductDetails({ productDetails }: { productDetails: Det
 
 			{/* Product Details */}
 			<div className="w-full flex flex-col gap-6 lg:max-w-lg xl:max-w-md">
-				<div className="flex flex-col gap-3">
-					<h1 className="text-3xl font-bold font-roboto">{productDetails?.product.name}</h1>
-					<div>
-						<span className="text-3xl font-roboto font-semibold">
-							&#8377;{productDetails?.product.price}
-						</span>
-					</div>
-					<p className="text-gray-600">{productDetails?.product.description}</p>
-				</div>
 				<div className="flex flex-row items-center gap-4">
 					<div className="h-8 w-8 rounded-full overflow-hidden">
 						<img
@@ -96,7 +66,18 @@ export default function ProductDetails({ productDetails }: { productDetails: Det
 							className="h-full w-full object-cover"
 						/>
 					</div>
-					<h3 className="text-xl font-medium font-roboto text-gray-500">{productDetails?.shop.name}</h3>
+					<h3 className="text-xl font-medium font-roboto text-gray-500">
+						{productDetails?.shop.name}
+					</h3>
+				</div>
+				<div className="flex flex-col gap-3">
+					<h1 className="text-3xl font-bold font-roboto">{productDetails?.product.name}</h1>
+					<div>
+						<span className="text-3xl font-roboto font-semibold">
+							&#8377;{productDetails?.product.price}
+						</span>
+					</div>
+					<p className="text-gray-600">{productDetails?.product.description}</p>
 				</div>
 				<div className="flex flex-col gap-2">
 					<h3 className="text-base font-roboto font-medium">Quantity</h3>
@@ -134,12 +115,12 @@ export default function ProductDetails({ productDetails }: { productDetails: Det
 						))}
 					</div>
 				</div>
-				<div className="w-full flex justify-center mt-4">
-					<button className="max-w-xl w-full flex flex-row items-center justify-center bg-purple-500 text-white rounded-md py-2 gap-4">
-						<FiShoppingCart className="text-white" />
-						<p className="text-base font-medium font-roboto">Add to Cart</p>
+				{/* <div className="w-full flex justify-center mt-4">
+					<button className="max-w-2xl w-full flex flex-row items-center justify-center bg-purple-500 text-white rounded-md py-2 gap-4">
+						<FiShoppingCart className="text-white text-base md:text-lg" />
+						<p className="text-base md:text-lg font-medium font-roboto">Add to Cart</p>
 					</button>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

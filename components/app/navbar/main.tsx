@@ -18,7 +18,7 @@ export default function Navbar({ role }: { role: Roles }) {
 
 	return (
 		<div className="py-2 border-b-[0.5px] border-solid border-gray-200 shadow-lg flex flex-row justify-between items-center z-10 lg:py-4">
-			<div className="flex-1 flex flex-row items-center px-6 lg:px-10">
+			<div className="flex-1 flex flex-row items-center px-6 lg:px-8 xl:px-10">
 				<div className="w-full flex flex-row items-center justify-between sm:hidden">
 					<RxHamburgerMenu />
 					<Searchbar />
@@ -72,24 +72,24 @@ export default function Navbar({ role }: { role: Roles }) {
 				</div>
 
 				{/* large screen size navbar */}
-				<div className="w-full hidden flex-row items-center lg:flex gap-10">
-					<div className="flex-1 flex flex-row items-center justify-start gap-4">
-						<Link
-							href="/"
-							className="text-3xl font-roboto font-bold bg-gradient-to-r from-purple-600 to-purple-300 bg-clip-text text-transparent hover:cursor-pointer"
-						>
-							MerchMania
-						</Link>
-						<Searchbar />
-					</div>
-					<div className="flex-shrink-0 flex flex-row items-center gap-20">
-						<div className="flex flex-row items-center flex-shrink-0">
+				<div className="w-full">
+					<div className="w-full hidden flex-row items-center gap-10 lg:flex justify-between">
+						<div className="w-full max-w-xl flex flex-row items-center gap-4 bg-red-200">
+							<Link
+								href="/"
+								className="text-3xl font-roboto font-bold bg-gradient-to-r from-purple-600 to-purple-300 bg-clip-text text-transparent hover:cursor-pointer"
+							>
+								MerchMania
+							</Link>
+							<Searchbar />
+						</div>
+						<div className="flex flex-row items-center lg:justify-end xl:justify-center">
 							{role !== 'creator' ? (
 								<div className="flex flex-row items-center gap-10">
-									<button className="font-roboto text-gray-600 hover:text-purple-500 duration-200">
+									<button className="text-[15px] font-roboto text-gray-600 hover:text-purple-500 duration-200">
 										Explore
 									</button>
-									<button className="text-nowrap font-roboto text-gray-600 hover:text-purple-500 duration-200">
+									<button className="text-[15px] text-nowrap font-roboto text-gray-600 hover:text-purple-500 duration-200">
 										Our Influencers
 									</button>
 								</div>
@@ -110,7 +110,7 @@ export default function Navbar({ role }: { role: Roles }) {
 								</div>
 							)}
 						</div>
-						<div className="flex-1 flex flex-row items-center justify-end flex-shrink-0">
+						<div className="flex flex-row items-center">
 							{role === 'creator' && (
 								<>
 									<button className="flex items-center justify-center w-10 h-10 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200">
