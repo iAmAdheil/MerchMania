@@ -1,37 +1,18 @@
 import { Plus } from 'lucide-react';
+import useFetchCreatorProducts from '@/hooks/useShopProducts';
+import Loader from '@/components/app/ui/loader';
 
-const mockProducts = [
-	{
-		id: 1,
-		name: 'Neon Dragon Tee',
-		sales: 45,
-		revenue: 1349.55,
-		image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200&auto=format',
-	},
-	{
-		id: 2,
-		name: 'Retro Wave Hoodie',
-		sales: 28,
-		revenue: 1679.72,
-		image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=200&auto=format',
-	},
-	{
-		id: 3,
-		name: 'Cosmic Patterns',
-		sales: 33,
-		revenue: 1154.67,
-		image: 'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=200&auto=format',
-	},
-	{
-		id: 4,
-		name: 'Neon Dragon Tee',
-		sales: 45,
-		revenue: 1349.55,
-		image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=200&auto=format',
-	},
-];
+export default function Products({ shopId }: { shopId: string }) {
+	const { products, isLoading } = useFetchCreatorProducts(shopId);
 
-export default function Products() {
+	if (isLoading) {
+		return (
+			<div className="flex flex-col gap-6 justify-center items-center w-full h-[20rem]">
+				<Loader size={60} />
+			</div>
+		);
+	}
+
 	return (
 		<div className="flex flex-col gap-6">
 			<div className="flex flex-row justify-between items-center">
@@ -43,7 +24,7 @@ export default function Products() {
 			</div>
 			<div className="w-full">
 				<div className="mx-auto w-fit grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-6">
-					{mockProducts.map(product => {
+					{products.map(product => {
 						return (
 							<div
 								key={product.id}
@@ -58,9 +39,9 @@ export default function Products() {
 								</div>
 								<div className="px-3">
 									<h2 className="text-lg font-semibold font-roboto">{product.name}</h2>
-									<p className="text-sm text-gray-600">
+									{/* <p className="text-sm text-gray-600">
 										{product.sales} sales • ${product.revenue} revenue
-									</p>
+									</p> */}
 								</div>
 								<div className="px-3 flex flex-row gap-4">
 									<button className="flex-1 py-1 text-sm font-semibold border border-solid border-gray-300 rounded-md hover:bg-slate-100">

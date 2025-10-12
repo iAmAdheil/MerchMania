@@ -9,10 +9,12 @@ import { useRouter } from 'next/navigation';
 import { useSession } from '@/auth/auth-client';
 import { Roles } from '@/types';
 import Loader from '@/components/app/ui/loader';
+import useShopDetails from '@/hooks/useShopDetails';
 
 export default function InfluencerDashBoard() {
 	const router = useRouter();
 	const { data: session, isPending } = useSession();
+	const { shopDetails, isLoading } = useShopDetails(session?.user?.id || '');
 
 	useEffect(() => {
 		if (!(!isPending && session && session.user.role === 'creator')) {
@@ -21,7 +23,7 @@ export default function InfluencerDashBoard() {
 		}
 	}, [router, isPending, session]);
 
-	if (isPending) {
+	if (isPending || isLoading) {
 		return (
 			<div className="min-h-screen flex justify-center items-center">
 				<Loader size={60} />
@@ -31,8 +33,8 @@ export default function InfluencerDashBoard() {
 	return (
 		<div className="w-full border-[0.5px] border-solid border-gray-300">
 			<Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
-			<Header />
-			<Tabs />
+			<Header name={shopDetails?.name || ''} />
+			<Tabs shopId={shopDetails?.id || ''} />
 			<Footer />
 		</div>
 	);

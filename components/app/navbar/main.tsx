@@ -5,6 +5,7 @@ import { Button } from '@chakra-ui/react';
 import CartIcon from './cartIcon';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { User } from 'lucide-react';
+import { signOut } from '@/auth/auth-client';
 import Link from 'next/link';
 import Searchbar from './searchbar';
 import { Roles } from '@/types';
@@ -14,6 +15,11 @@ export default function Navbar({ role }: { role: Roles }) {
 
 	const handleNavigation = (route: string) => {
 		router.push(route);
+	};
+
+	const handleSignOut = async () => {
+		await signOut();
+		router.push('/');
 	};
 
 	return (
@@ -32,7 +38,7 @@ export default function Navbar({ role }: { role: Roles }) {
 							<div className="flex flex-row items-center gap-4">
 								<CartIcon />
 								<button className="flex items-center justify-center w-9 h-9 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200">
-									<User size={20} className="text-purple-600" />
+									<User onClick={handleSignOut} size={20} className="text-purple-600" />
 								</button>
 							</div>
 						</>
@@ -69,14 +75,17 @@ export default function Navbar({ role }: { role: Roles }) {
 					<Searchbar />
 					{role === 'creator' && (
 						<button className="flex items-center justify-center w-10 h-10 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200">
-							<User size={22} className="text-purple-600" />
+							<User onClick={handleSignOut} size={22} className="text-purple-600" />
 						</button>
 					)}
 					{role === 'customer' && (
 						<>
 							<div className="flex flex-row items-center gap-4 md:gap-6">
 								<CartIcon />
-								<button className="flex items-center justify-center w-9 h-9 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200">
+								<button
+									onClick={handleSignOut}
+									className="flex items-center justify-center w-9 h-9 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200"
+								>
 									<User size={20} className="text-purple-600" />
 								</button>
 							</div>
@@ -139,7 +148,10 @@ export default function Navbar({ role }: { role: Roles }) {
 							<div className="flex flex-row items-center gap-8">
 								{role === 'creator' && (
 									<>
-										<button className="flex items-center justify-center w-10 h-10 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200">
+										<button
+											onClick={handleSignOut}
+											className="flex items-center justify-center w-10 h-10 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200"
+										>
 											<User size={22} className="text-purple-600" />
 										</button>
 									</>
@@ -147,7 +159,10 @@ export default function Navbar({ role }: { role: Roles }) {
 								{role === 'customer' && (
 									<>
 										<CartIcon />
-										<button className="flex items-center justify-center w-10 h-10 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200">
+										<button
+											onClick={handleSignOut}
+											className="flex items-center justify-center w-10 h-10 bg-purple-100 hover:bg-purple-200 rounded-full cursor-pointer transition-colors duration-200"
+										>
 											<User size={22} className="text-purple-600" />
 										</button>
 									</>

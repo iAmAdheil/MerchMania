@@ -7,12 +7,12 @@ import Products from './products';
 import Orders from './orders';
 import Analytics from './analytics';
 
-export default function InfoTabs() {
+export default function InfoTabs({ shopId }: { shopId: string }) {
 	const [activeTab, setActiveTab] = useState('overview');
 
 	return (
 		<div className="bg-gray-50 px-6 md:px-8 lg:px-12 py-10">
-			<Tabs.Root value={activeTab} variant={'subtle'} className="flex flex-col gap-6">
+			<Tabs.Root value={activeTab} variant={'subtle'} className="flex flex-col gap-6" lazyMount>
 				<Tabs.List className="flex flex-row justify-between bg-gray-200 p-1 rounded-sm">
 					<Tabs.Trigger
 						onClick={() => setActiveTab('overview')}
@@ -55,7 +55,7 @@ export default function InfoTabs() {
 					<Overview />
 				</Tabs.Content>
 				<Tabs.Content value="products">
-					<Products />
+					<Products shopId={shopId} />
 				</Tabs.Content>
 				<Tabs.Content value="orders">
 					<Orders />

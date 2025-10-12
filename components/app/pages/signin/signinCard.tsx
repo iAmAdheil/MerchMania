@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
-import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { FcGoogle } from 'react-icons/fc';
 import { signIn } from '@/auth/auth-client';
 import { useRouter } from 'next/navigation';
@@ -13,20 +13,44 @@ export default function SigninCard() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const handleGoogleSignin = async () => {
-		try {
-			const { data, error } = await signIn.social({
-				provider: 'google',
-				errorCallbackURL: '/signin',
+	const handleSignin = async () => {
+		const { data, error } = await signIn.email(
+			{
+				email,
+				password,
 				callbackURL: '/',
-				requestSignUp: false,
-			});
-			console.log(data);
-			console.log(error);
-		} catch (e: any) {
-			console.log(e);
-		}
+				rememberMe: true,
+			},
+			{
+				onRequest: ctx => {
+					console.log(ctx);
+				},
+				onSuccess: ctx => {
+					console.log(ctx);
+					router.replace('/');
+				},
+				onError: ctx => {
+					console.log(ctx);
+					alert(ctx.error.message);
+				},
+			}
+		);
 	};
+
+	// const handleGoogleSignin = async () => {
+	// 	try {
+	// 		const { data, error } = await signIn.social({
+	// 			provider: 'google',
+	// 			errorCallbackURL: '/signin',
+	// 			callbackURL: '/',
+	// 			requestSignUp: false,
+	// 		});
+	// 		console.log(data);
+	// 		console.log(error);
+	// 	} catch (e: any) {
+	// 		console.log(e);
+	// 	}
+	// };
 
 	return (
 		<div className="w-full max-w-[30rem] px-6 md:px-8 py-8 flex flex-col gap-5 border border-solid border-gray-200 rounded-md">
@@ -38,7 +62,7 @@ export default function SigninCard() {
 					</h2>
 				</div>
 				<Button
-					onClick={async () => await handleGoogleSignin()}
+					// onClick={async () => await handleGoogleSignin()}
 					colorPalette="teal"
 					variant="solid"
 					className="py-2 border border-solid border-gray-300 text-xs md:text-sm font-roboto font-semibold hover:bg-slate-100 flex flex-row items-center gap-2 md:gap-4"
@@ -88,7 +112,7 @@ export default function SigninCard() {
 			<div className="w-full flex flex-col gap-3 md:gap-4 mt-1">
 				<Button
 					className="w-full text-xs md:text-sm font-semibold text-white bg-purple-600 hover:opacity-80"
-					// onClick={async () => await handleClick()}
+					onClick={handleSignin}
 				>
 					Sign In
 				</Button>

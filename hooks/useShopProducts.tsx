@@ -4,21 +4,25 @@ import { fetchShopProducts } from '@/actions/fetch';
 
 const useFetchCreatorProducts = (shopId: string) => {
 	const [products, setProducts] = useState<ProductCardSchema[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		const fetchSimilarProducts = async () => {
+		const fetchCreatorProducts = async () => {
+			setIsLoading(true);
 			const similarProducts: ProductCardSchema[] = await fetchShopProducts(shopId, 8);
 			console.log('Fetched products:', similarProducts);
 			setProducts(similarProducts);
+			setIsLoading(false);
 		};
 
 		if (shopId && shopId.length > 0) {
-			fetchSimilarProducts();
+			fetchCreatorProducts();
 		}
 	}, [shopId]);
 
 	return {
 		products,
+		isLoading,
 	};
 };
 
