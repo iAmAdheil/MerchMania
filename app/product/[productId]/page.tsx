@@ -8,6 +8,8 @@ import SimilarProducts from '@/components/app/pages/product/similarProducts';
 import useFetchProductDetails from '@/hooks/useProductDetails';
 import useFetchShopProducts from '@/hooks/useShopProducts';
 import Loader from '@/components/app/ui/loader';
+import { useSession } from '@/auth/auth-client';
+import { Roles } from '@/types';
 
 interface Props {
 	params: Promise<{
@@ -19,8 +21,9 @@ const ProductDetail = ({ params }: Props) => {
 	const { productId } = use(params);
 	const { productDetails, isLoading } = useFetchProductDetails(productId);
 	const { products } = useFetchShopProducts(productDetails?.shop.id || '');
+	const { data: session, isPending } = useSession();
 
-	if (isLoading) {
+	if (isLoading || isPending) {
 		return (
 			<div className="min-h-screen flex justify-center items-center">
 				<Loader size={60} />
@@ -30,9 +33,9 @@ const ProductDetail = ({ params }: Props) => {
 
 	return (
 		<div className="w-full flex flex-col min-h-screen">
-			<Navbar role="customer" />
+			<Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
 			<div className="w-full flex flex-col">
-				<ProductDetails productDetails={productDetails} />
+				<ProductDetails productDetails={productDetails} role={(session?.user?.role as Roles) || 'anonymous'} />
 				{products.length > 0 && (
 					<>
 						<div className="w-[95%] mx-auto h-px bg-gray-200" />

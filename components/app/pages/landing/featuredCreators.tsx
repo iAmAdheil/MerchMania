@@ -66,7 +66,7 @@ export default function FeaturedCreators() {
 	};
 
 	return (
-		<div className="py-10 w-full">
+		<div className="py-16 w-full">
 			<div className="w-full px-6 md:px-10 lg:px-12 xl:px-16">
 				<div className="slider-container">
 					<Slider {...settings}>
@@ -74,22 +74,24 @@ export default function FeaturedCreators() {
 							return (
 								<div
 									key={creator.id}
-									className="mx-4 flex-1 w-full h-[25rem] max-w-[22rem] sm:max-w-[25rem] relative rounded-xl overflow-hidden"
+									className="mx-4 flex-1 w-full h-[25rem] max-w-[22rem] sm:max-w-[25rem] relative rounded-xl overflow-hidden group"
 								>
 									<img
 										src={creator.logo}
 										alt={creator.name}
 										className="h-full w-full object-cover rounded-xl"
 									/>
-									<h1 className="absolute bottom-4 left-4 text-white text-3xl font-bold">
-										{creator.name}
-									</h1>
-									<div className="absolute bottom-4 right-4 bg-black h-14 w-14 rounded-full flex justify-center items-center hover:scale-110 duration-200 parent group">
-										<ArrowUp
-											color="white"
-											size={28}
-											className="rotate-45 group-hover:rotate-90 duration-200 child"
-										/>
+									<div className="w-full absolute bottom-3 left-0 right-0 flex flex-row items-end justify-between px-5">
+										<h1 className="text-white text-3xl font-bold group-hover:scale-105 duration-200">
+											{creator.name}
+										</h1>
+										<div className="bg-black h-14 w-14 rounded-full flex justify-center items-center group-hover:scale-110 duration-200 parent group">
+											<ArrowUp
+												color="white"
+												size={28}
+												className="rotate-45 group-hover:rotate-90 duration-200 child"
+											/>
+										</div>
 									</div>
 									<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 rounded-b-xl" />
 								</div>

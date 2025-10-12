@@ -17,7 +17,7 @@ export default function Navbar({ role }: { role: Roles }) {
 	};
 
 	return (
-		<div className="border-b-[0.5px] border-solid border-gray-200 shadow-lg flex flex-row justify-between items-center z-10">
+		<div className="border-b-[0.5px] border-solid border-gray-200 shadow-md flex flex-row justify-between items-center z-10">
 			<div className="flex-1 flex flex-row items-center px-4 sm:px-6 lg:px-8 xl:px-10">
 				<div className="py-2 w-full flex flex-row items-center justify-between gap-4 sm:hidden">
 					<RxHamburgerMenu />
@@ -110,7 +110,7 @@ export default function Navbar({ role }: { role: Roles }) {
 							MerchMania
 						</Link>
 						<Searchbar />
-						<div className="flex flex-row items-center justify-between gap-8">
+						<div className="flex flex-row items-center justify-between gap-10">
 							{role !== 'creator' ? (
 								<>
 									<button className="text-[15px] font-roboto text-gray-600 hover:text-purple-500 duration-200">
@@ -121,20 +121,20 @@ export default function Navbar({ role }: { role: Roles }) {
 									</button>
 								</>
 							) : (
-								<>
+								<div className="flex flex-row items-center gap-8">
 									<button
-										className="text-nowrap font-roboto text-gray-600 hover:text-purple-500 duration-200"
+										className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
 										onClick={() => handleNavigation('/creator/dashboard')}
 									>
 										Dashboard
 									</button>
 									<button
-										className="text-nowrap font-roboto text-gray-600 hover:text-purple-500 duration-200"
+										className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
 										onClick={() => handleNavigation('/creator/new-product')}
 									>
 										Create New Product
 									</button>
-								</>
+								</div>
 							)}
 							<div className="flex flex-row items-center gap-8">
 								{role === 'creator' && (

@@ -43,7 +43,7 @@ const mockRecentOrders = [
 	},
 ];
 
-export default function OrdersTab() {
+export default function Orders() {
 	const getStatusBase = (status: string) => {
 		if (status === 'delivered') {
 			return (
@@ -71,18 +71,18 @@ export default function OrdersTab() {
 	};
 
 	return (
-		<div className="flex flex-col gap-8 py-2">
-			<h2 className="text-2xl font-bold">Order Management</h2>
-			<div className="w-full">
+		<div className="flex flex-col gap-6 py-2">
+			<h2 className="text-2xl md:text-3xl font-bold">Order Management</h2>
+			<div className="w-full overflow-x-scroll">
 				<table className="w-full border border-solid border-gray-200 rounded-md">
 					<thead className="bg-gray-100 border-b">
 						<tr>
-							<th className="text-left p-4 font-semibold">Order ID</th>
-							<th className="text-left p-4 font-semibold">Product</th>
-							<th className="text-left p-4 font-semibold">Customer</th>
-							<th className="text-left p-4 font-semibold">Amount</th>
-							<th className="text-left p-4 font-semibold">Status</th>
-							<th className="text-left p-4 font-semibold">Actions</th>
+							<th className="text-left p-4 font-semibold min-w-[100px]">Order ID</th>
+							<th className="text-left p-4 font-semibold min-w-[150px]">Product</th>
+							<th className="text-left p-4 font-semibold min-w-[150px]">Customer</th>
+							<th className="text-left p-4 font-semibold min-w-[100px]">Amount</th>
+							<th className="text-left p-4 font-semibold min-w-[100px]">Status</th>
+							<th className="text-left p-4 font-semibold min-w-[100px]">Actions</th>
 						</tr>
 					</thead>
 					<tbody>

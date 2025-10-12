@@ -14,12 +14,12 @@ export default function SimilarProducts({ products }: { products: ProductCardSch
 
 function ProductCard({ product }: { product: ProductCardSchema }) {
 	return (
-		<div className="max-w-[25rem] w-full flex flex-col border border-solid border-gray-200 rounded-sm overflow-hidden group hover:shadow-md duration-150">
+		<div className="group max-w-[25rem] w-full flex flex-col border border-solid border-gray-200 rounded-sm overflow-hidden hover:shadow-md duration-150">
 			<div className="relative w-full overflow-hidden">
 				<img
 					src={product.image}
 					alt={'nike air forces'}
-					className="w-full aspect-square object-cover hover:scale-105 duration-150"
+					className="w-full aspect-square object-cover group-hover:scale-105 duration-150"
 				/>
 				<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-black/10 p-2 sm:p-3">
 					<div className="px-2 sm:px-3 flex items-center gap-2">

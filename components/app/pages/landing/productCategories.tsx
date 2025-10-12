@@ -9,7 +9,7 @@ const images = [
 
 export default function ProductCategories() {
 	return (
-		<div className="px-10 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-center gap-x-8 gap-y-16">
+		<div className="px-10 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-center gap-x-8 gap-y-16">
 			{images.map((image, index) => (
 				<div key={index} className="h-[25rem] w-full overflow-hidden rounded-sm">
 					<img

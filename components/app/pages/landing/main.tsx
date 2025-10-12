@@ -28,7 +28,9 @@ export function BottomMain() {
 	return (
 		<div className="w-full">
 			<DisplayCarousel />
+			<div className="w-[90%] mx-auto h-px bg-gray-200" />
 			<FeaturedCreators />
+			<div className="w-[90%] mx-auto h-px bg-gray-200" />
 			<ProductCategories />
 			<HowItWorksSection />
 		</div>
