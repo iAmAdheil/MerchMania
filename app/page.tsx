@@ -21,8 +21,7 @@ export default function Home() {
 	return (
 		<div className="w-full flex flex-col">
 			<div className="flex flex-col w-full lg:min-h-screen">
-				{/* <Navbar role={(session?.user?.role as Roles) || 'anonymous'} /> */}
-				<Navbar role={'creator'} />
+				<Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
 				<HeroSection />
 			</div>
 			<BottomMain />
