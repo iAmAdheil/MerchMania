@@ -119,18 +119,18 @@ export default function Navbar({ role }: { role: Roles }) {
 							MerchMania
 						</Link>
 						<Searchbar />
-						<div className="flex flex-row items-center justify-between gap-10">
+						<div className="flex flex-row items-center justify-between gap-10 xl:gap-14">
 							{role !== 'creator' ? (
-								<>
+								<div className="flex flex-row items-center justify-between gap-8 xl:gap-10">
 									<button className="text-[15px] font-roboto text-gray-600 hover:text-purple-500 duration-200">
 										Explore
 									</button>
 									<button className="text-[15px] text-nowrap font-roboto text-gray-600 hover:text-purple-500 duration-200">
 										Our Influencers
 									</button>
-								</>
+								</div>
 							) : (
-								<div className="flex flex-row items-center gap-8">
+								<div className="flex flex-row items-center gap-8 xl:gap-10">
 									<button
 										className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
 										onClick={() => handleNavigation('/creator/dashboard')}
@@ -145,7 +145,7 @@ export default function Navbar({ role }: { role: Roles }) {
 									</button>
 								</div>
 							)}
-							<div className="flex flex-row items-center gap-8">
+							<div className="flex flex-row items-center gap-8 xl:gap-10">
 								{role === 'creator' && (
 									<>
 										<button

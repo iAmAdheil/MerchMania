@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from '@/auth/auth-client';
 import { Roles } from '@/types';
 import Loader from '@/components/app/ui/loader';
-import useShopDetails from '@/hooks/useShopDetails';
+import useShopDetails from '@/hooks/useShopByUserId';
 
 export default function InfluencerDashBoard() {
 	const router = useRouter();

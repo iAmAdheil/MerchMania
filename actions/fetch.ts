@@ -86,3 +86,20 @@ export const fetchShopDetailsByUserId = async (userId: string): Promise<ShopDeta
 		return null;
 	}
 };
+
+export const fetchShopDetailsByShopId = async (shopId: string): Promise<ShopDetailsSchema | null> => {
+	try {
+		const shop = await prisma.shop.findUnique({
+			where: {
+				id: shopId,
+			},
+		});
+		if (!shop) {
+			throw new Error('Shop not found.');
+		}
+		return shop;
+	} catch (e: any) {
+		console.error('Error fetching shop details:', e);
+		return null;
+	}
+};

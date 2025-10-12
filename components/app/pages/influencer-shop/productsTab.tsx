@@ -1,11 +1,34 @@
-import ProductCard from '../../ui/productCard';
+import { ProductCardSchema } from '@/types';
 
-export default function ProductsTab() {
+export default function ProductsTab({ products }: { products: ProductCardSchema[] }) {
 	return (
-		<div>
-			{/* {products.map(product => {
-				return <ProductCard key={product.id} product={product} />;
-			})} */}
+		<div className="w-full">
+			<div className="mx-auto w-fit grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 sm:gap-x-8 md:gap-x-10 gap-y-10">
+				{products.map(product => (
+					<ProductCard key={product.id} product={product} />
+				))}
+			</div>
+		</div>
+	);
+}
+
+function ProductCard({ product }: { product: ProductCardSchema }) {
+	return (
+		<div className="group max-w-[25rem] w-full flex flex-col border border-solid border-gray-200 rounded-sm overflow-hidden hover:shadow-md duration-150">
+			<div className="relative w-full overflow-hidden">
+				<img
+					src={product.image}
+					alt={'nike air forces'}
+					className="w-full aspect-square object-cover group-hover:scale-105 duration-150"
+				/>
+				<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-black/10 p-2 sm:p-3" />
+			</div>
+			<div className="flex flex-col gap-1 py-4 px-4 lg:px-6">
+				<h2 className="font-semibold text-wrap text-sm sm:text-base lg:text-lg group-hover:text-purple-500 duration-150">
+					{product.name}
+				</h2>
+				<h3 className="font-bold text-sm sm:text-base lg:text-lg">₹ {product.price}</h3>
+			</div>
 		</div>
 	);
 }

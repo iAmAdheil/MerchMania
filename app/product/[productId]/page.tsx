@@ -38,7 +38,7 @@ const ProductDetail = ({ params }: Props) => {
 				<ProductDetails productDetails={productDetails} role={(session?.user?.role as Roles) || 'anonymous'} />
 				{products.length > 0 && (
 					<>
-						<div className="w-[95%] mx-auto h-px bg-gray-200" />
+						<div className="w-[100%] mx-auto h-px bg-gray-200" />
 						<SimilarProducts products={products} />
 					</>
 				)}

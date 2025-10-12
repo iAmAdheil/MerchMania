@@ -29,6 +29,7 @@ model User {
   role        ROLE
   isOnboarded Boolean
   Shop        Shop?   @relation
+  Cart        Cart[]
 
   @@map("user")
 }
@@ -79,7 +80,7 @@ model Verification {
 }
 
 model Shop {
-  id     String  @id @default(cuid())
+  id     String @id @default(cuid())
   name   String
   logo   String
   banner String
@@ -95,6 +96,8 @@ model Shop {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("shop")
 }
 
 model Product {
@@ -113,8 +116,21 @@ model Product {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Cart      Cart[]
 
   @@map("product")
+}
+
+model Cart {
+  id       String @id @default(cuid())
+  quantity Int
+
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("cart")
 }
 
 enum ROLE {

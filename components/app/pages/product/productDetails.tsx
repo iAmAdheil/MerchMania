@@ -1,7 +1,7 @@
 import { ProductDetailsSchema } from '@/types';
 import { useState } from 'react';
 import { Sizes } from '@/types';
-import { FiShoppingCart } from 'react-icons/fi';
+import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 import { Roles } from '@/types';
 
 export interface ReqShopDetailsSchema {
@@ -86,7 +86,9 @@ export default function ProductDetails({
 							&#8377;{productDetails?.product.price}
 						</span>
 					</div>
-					<p className="text-gray-700 font-roboto text-base">{productDetails?.product.description}</p>
+					<p className="text-gray-700 font-roboto text-base">
+						{productDetails?.product.description}
+					</p>
 				</div>
 				{role === 'customer' && (
 					<>
@@ -126,10 +128,14 @@ export default function ProductDetails({
 								))}
 							</div>
 						</div>
-						<div className="w-full flex justify-center mt-4">
-							<button className="w-full flex flex-row items-center justify-center bg-purple-500 text-white rounded-md py-2 gap-4">
+						<div className="w-full flex flex-row lg:flex-col justify-center mt-4 gap-4 sm:gap-6 md:gap-8 lg:gap-4 duration-150">
+							<button className="w-full flex flex-row items-center justify-center bg-purple-500 sm:hover:opacity-80 text-white py-2 gap-4">
 								<FiShoppingCart className="text-white text-base md:text-lg" />
 								<p className="text-base md:text-lg font-medium font-roboto">Add to Cart</p>
+							</button>
+							<button className="w-full flex flex-row items-center justify-center bg-black sm:hover:opacity-80 text-white py-2 gap-4 duration-150">
+								<FiHeart className="text-white text-base md:text-lg" />
+								<p className="text-base md:text-lg font-medium font-roboto">Add to Favourites</p>
 							</button>
 						</div>
 					</>
