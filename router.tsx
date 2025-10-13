@@ -5,10 +5,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import { authClient } from './auth/auth-client';
 import ProviderWrapper from './clientProvider';
 import Loader from './components/app/ui/loader';
+import { useCartQuantityStore } from './store/cart';
+import { fetchCartQuantity } from './actions/fetch';
 
 export function Router({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname();
 	const router = useRouter();
+	const { setQuantity } = useCartQuantityStore.getState();
 	const { data: session, isPending } = authClient.useSession();
 
 	useEffect(() => {
@@ -18,9 +21,17 @@ export function Router({ children }: { children: React.ReactNode }) {
 			!session.user.isOnboarded &&
 			pathname !== '/creator/onboarding'
 		) {
-			// router.push('/creator/onboarding');
+			router.push('/creator/onboarding');
 		}
 	}, [session, pathname, router, isPending]);
+
+	useEffect(() => {
+		if (!isPending && session?.user?.id) {
+			fetchCartQuantity(session.user.id).then(quantity => {
+				setQuantity(quantity);
+			});
+		}
+	}, [session, isPending]);
 
 	if (isPending) {
 		return (

@@ -13,8 +13,9 @@ import Loader from '@/components/app/ui/loader';
 import { ProductDetailsSchema } from '@/types';
 import { Sizes } from '@/types';
 import { saveProductDetails } from '@/actions/save';
+import { fetchShopDetailsByUserId } from '@/actions/fetch';
 
-export default function Form() {
+export default function Form({userId: ownerId}: {userId: string}) {
 	const [productName, setProductName] = useState<string>('');
 	const [productDescription, setProductDescription] = useState<string>('');
 	const [gender, setGender] = useState<'male' | 'female' | 'unisex'>('unisex');
@@ -29,6 +30,8 @@ export default function Form() {
 	const handleCreateProduct = async () => {
 		try {
 			setLoading(true);
+
+			const shopDetails = await fetchShopDetailsByUserId(ownerId);
 
 			const productDetails: ProductDetailsSchema = {
 				name: productName,
@@ -54,7 +57,7 @@ export default function Form() {
 			formData.append('image3', imageFile3);
 			formData.append('image4', imageFile4);
 			formData.append('image5', imageFile5);
-			formData.append('shopId', 'cmggztk3n0000uauf36dtb682');
+			formData.append('shopId', shopDetails?.id || '');
 
 			const response = await saveProductDetails(formData);
 			if (response === 1) {

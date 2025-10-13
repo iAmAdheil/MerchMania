@@ -1,5 +1,3 @@
-'use client';
-
 import { useRouter } from 'next/navigation';
 import { Button } from '@chakra-ui/react';
 import CartIcon from './cartIcon';

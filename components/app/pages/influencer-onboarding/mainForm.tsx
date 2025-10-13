@@ -19,7 +19,7 @@ import Loader from '@/components/app/ui/loader';
 
 import 'react-international-phone/style.css';
 
-export default function OnboardingForm() {
+export default function OnboardingForm({ userId: ownerId }: { userId: string }) {
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const [socialLinks, setSocialLinks] = useState<{ [key: string]: string }>({});
@@ -55,7 +55,7 @@ export default function OnboardingForm() {
 			const shopDetails: ShopDetailsSchema = {
 				name: shopName,
 				description: description,
-				location: '',
+				location: 'USA',
 				logo: logoUrl,
 				banner: bannerUrl,
 				contact: contact,
@@ -71,7 +71,7 @@ export default function OnboardingForm() {
 				formData.append('banner', bannerFile);
 			}
 
-			formData.append('ownerId', 'NDz20MHsojeB6n8Mlr1ahgVoiGtFcrwn');
+			formData.append('ownerId', ownerId);
 
 			const response = await saveShopDetails(formData);
 			if (response === 1) {
@@ -379,9 +379,9 @@ export default function OnboardingForm() {
 				<div className="w-full flex justify-center sm:justify-start">
 					<button
 						onClick={handleShopCreate}
-						className="max-w-28 md:max-w-32 w-full bg-white text-black text-sm md:text-base font-roboto rounded-sm px-4 py-2 border border-solid border-purple-500 flex items-center justify-center"
+						className="flex items-center justify-center max-w-28 md:max-w-32 w-full bg-white text-black text-sm md:text-base font-roboto rounded-sm px-4 py-2 border border-solid border-purple-500"
 					>
-						{loading ? <Loader size={20} /> : 'Create Shop'}
+						{loading ? <Loader size={16} /> : 'Create Shop'}
 					</button>
 				</div>
 			</div>

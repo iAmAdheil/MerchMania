@@ -124,6 +124,7 @@ model Product {
 model Cart {
   id       String @id @default(cuid())
   quantity Int
+	size     SIZE
 
   userId    String
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)

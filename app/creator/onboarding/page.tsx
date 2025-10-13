@@ -30,7 +30,7 @@ export default function Onboarding() {
 	return (
 		<div className="w-full">
 			<Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
-			<OnboardingForm />
+			<OnboardingForm userId={session?.user?.id || ''} />
 			<Footer />
 		</div>
 	);

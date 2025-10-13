@@ -35,7 +35,7 @@ const ProductDetail = ({ params }: Props) => {
 		<div className="w-full flex flex-col min-h-screen">
 			<Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
 			<div className="w-full flex flex-col">
-				<ProductDetails productDetails={productDetails} role={(session?.user?.role as Roles) || 'anonymous'} />
+				<ProductDetails productDetails={productDetails} role={(session?.user?.role as Roles) || 'anonymous'} userId={session?.user?.id || ''} />
 				{products.length > 0 && (
 					<>
 						<div className="w-[100%] mx-auto h-px bg-gray-200" />

@@ -103,3 +103,22 @@ export const fetchShopDetailsByShopId = async (shopId: string): Promise<ShopDeta
 		return null;
 	}
 };
+
+export const fetchCartQuantity = async (userId: string): Promise<number> => {
+	try {
+		const quantity = await prisma.cart.count({
+			where: {
+				userId: userId,
+			},
+		});
+
+		if (!quantity) {
+			throw new Error('Cart quantity not found.');
+		}
+
+		return quantity;
+	} catch (e: any) {
+		console.error('Error fetching cart quantity:', e);
+		return 0;
+	}
+};

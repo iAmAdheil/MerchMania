@@ -5,6 +5,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { generateUniqueId } from '@/utils/cuid';
 import { ProductDetailsSchema, ShopDetailsSchema } from '@/types';
 import { SIZE } from '@/app/generated/prisma/client';
+import { InputJsonValue, JsonValue } from '@prisma/client/runtime/library';
 
 export const saveImage = async (file: File, filename: string, folder: string) => {
 	cloudinary.config({
@@ -54,6 +55,8 @@ export const saveShopDetails = async (formData: FormData) => {
 		const logoUrl = await saveImage(logoFile, `${shopId}-logo.png`, 'shop-logos');
 		const bannerUrl = await saveImage(bannerFile, `${shopId}-banner.png`, 'shop-banners');
 
+		console.log(ownerId);
+
 		const shop = await prisma.shop.create({
 			data: {
 				id: shopId,
@@ -63,7 +66,7 @@ export const saveShopDetails = async (formData: FormData) => {
 				description: shopDetails.description,
 				location: shopDetails.location,
 				contact: shopDetails.contact,
-				socialLinks: shopDetails.socialLinks,
+				socialLinks: shopDetails.socialLinks as JsonValue as InputJsonValue,
 				ownerId: ownerId,
 			},
 		});
@@ -106,7 +109,7 @@ export const saveProductDetails = async (formData: FormData) => {
 			}
 			images.push(imageUrl);
 		}
-		
+
 		const product = await prisma.product.create({
 			data: {
 				id: productId,

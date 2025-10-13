@@ -43,7 +43,7 @@ const AddProduct = () => {
 	return (
 		<div className="flex flex-col">
 			<Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
-			<Form />
+			<Form userId={session?.user?.id || ''} />
 			<Footer />
 		</div>
 	);

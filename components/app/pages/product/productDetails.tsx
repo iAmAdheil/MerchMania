@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Sizes } from '@/types';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 import { Roles } from '@/types';
+import { addToCart } from '@/actions/add';
 
 export interface ReqShopDetailsSchema {
 	id: string;
@@ -16,15 +17,17 @@ export interface Details {
 }
 
 export default function ProductDetails({
+	userId,
 	productDetails,
 	role,
 }: {
+	userId: string;
 	productDetails: Details | null;
 	role: Roles;
 }) {
 	const [activeImage, setActiveImage] = useState(0);
 	const [quantity, setQuantity] = useState(1);
-	const [sizes, setSizes] = useState<Sizes>(productDetails?.product.sizes[0] || 'S');
+	const [size, setSize] = useState<Sizes>(productDetails?.product.sizes[0] || 'S');
 
 	const incrementQuantity = () => {
 		setQuantity(prev => Math.min(prev + 1, 10)); // Max 10 items
@@ -32,6 +35,20 @@ export default function ProductDetails({
 
 	const decrementQuantity = () => {
 		setQuantity(prev => Math.max(prev - 1, 1)); // Min 1 item
+	};
+
+	const handleAddToCart = async () => {
+		try {
+			const response = await addToCart(userId, productDetails?.product.id || '', size, quantity);
+			if (response === 1) {
+				alert('Product added to cart successfully');
+			} else {
+				alert('Failed to add product to cart. Please try again.');
+			}
+		} catch (error) {
+			console.error('Error adding to cart:', error);
+			alert('Failed to add product to cart. Please try again.');
+		}
 	};
 
 	return (
@@ -117,19 +134,22 @@ export default function ProductDetails({
 						<div className="flex flex-col gap-2">
 							<h3 className="text-base font-roboto font-medium">Sizes</h3>
 							<div className="flex flex-row gap-2">
-								{productDetails?.product.sizes.map((size: Sizes) => (
+								{productDetails?.product.sizes.map((s: Sizes) => (
 									<button
-										key={size}
-										className={`px-3 py-1 rounded-sm text-base font-roboto border-solid border-gray-300 ${sizes === size ? 'border-[1px] border-purple-500' : ''}`}
-										onClick={() => setSizes(size)}
+										key={s}
+										className={`px-3 py-1 rounded-sm text-base font-roboto border-solid border-gray-300 ${size === s ? 'border-[1px] border-purple-500' : ''}`}
+										onClick={() => setSize(s)}
 									>
-										{size}
+										{s}
 									</button>
 								))}
 							</div>
 						</div>
 						<div className="w-full flex flex-row lg:flex-col justify-center mt-4 gap-4 sm:gap-6 md:gap-8 lg:gap-4 duration-150">
-							<button className="w-full flex flex-row items-center justify-center bg-purple-500 sm:hover:opacity-80 text-white py-2 gap-4">
+							<button
+								onClick={handleAddToCart}
+								className="w-full flex flex-row items-center justify-center bg-purple-500 sm:hover:opacity-80 text-white py-2 gap-4"
+							>
 								<FiShoppingCart className="text-white text-base md:text-lg" />
 								<p className="text-base md:text-lg font-medium font-roboto">Add to Cart</p>
 							</button>

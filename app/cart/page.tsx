@@ -21,9 +21,6 @@ export default function Cart() {
 		<div className="w-full">
 			<Navbar role={'anonymous'} />
 			<div className="h-full w-full flex flex-col px-6 md:px-10 lg:px-12 py-10">
-				{/* {cartItems.map(item => (
-					<CartItem key={item.id} item={item} />
-				))} */}
 				<CartItem />
 			</div>
 		</div>
@@ -53,8 +50,6 @@ function CartItem() {
 					</div>
 					<div className="flex flex-row items-center">
 						<button
-							// onClick={decrementQuantity}
-							// disabled={quantity <= 1}
 							className={`px-3 py-1 rounded-l-sm text-sm md:text-base font-roboto border-y-[1px] border-l-[1px] border-solid border-gray-300 ${cartItems[0].quantity <= 1 ? 'opacity-40' : ''}`}
 						>
 							-
@@ -63,8 +58,6 @@ function CartItem() {
 							1
 						</p>
 						<button
-							// onClick={incrementQuantity}
-							// disabled={quantity >= 10}
 							className={`px-3 py-1 rounded-r-sm text-sm md:text-base font-roboto border-y-[1px] border-r-[1px] border-solid border-gray-300 ${cartItems[0].quantity >= 10 ? 'opacity-40' : ''}`}
 						>
 							+
