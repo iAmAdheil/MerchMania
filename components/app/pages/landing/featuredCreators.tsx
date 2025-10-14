@@ -56,7 +56,7 @@ export default function FeaturedCreators() {
 		className: 'slider variable-width',
 		autoplay: true,
 		autoplaySpeed: 5000,
-		dots: true,
+		dots: false,
 		infinite: true,
 		speed: 500,
 		centerMode: true,
@@ -66,8 +66,8 @@ export default function FeaturedCreators() {
 	};
 
 	return (
-		<div className="py-16 w-full">
-			<div className="w-full px-6 md:px-10 lg:px-12 xl:px-16">
+		<div className="pb-12 pt-8 w-full">
+			<div className="relative w-full">
 				<div className="slider-container">
 					<Slider {...settings}>
 						{creators.map(creator => {
@@ -81,15 +81,13 @@ export default function FeaturedCreators() {
 										alt={creator.name}
 										className="h-full w-full object-cover rounded-xl"
 									/>
-									<div className="w-full absolute bottom-3 left-0 right-0 flex flex-row items-end justify-between px-5">
-										<h1 className="text-white text-3xl font-bold group-hover:scale-105 duration-200">
-											{creator.name}
-										</h1>
-										<div className="bg-black h-14 w-14 rounded-full flex justify-center items-center group-hover:scale-110 duration-200 parent group">
+									<div className="w-full absolute bottom-5 left-0 right-0 flex flex-row items-end justify-between px-5">
+										<h1 className="text-white text-3xl font-bold duration-200">{creator.name}</h1>
+										<div className="bg-black h-14 w-14 rounded-full flex justify-center items-center duration-200 parent group">
 											<ArrowUp
 												color="white"
 												size={28}
-												className="rotate-45 group-hover:rotate-90 duration-200 child"
+												className="rotate-45 group-hover:rotate-90 group-hover:scale-105 duration-200 child"
 											/>
 										</div>
 									</div>

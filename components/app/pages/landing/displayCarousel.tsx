@@ -22,7 +22,7 @@ export default function DisplayCarousel() {
 	}, []);
 
 	return (
-		<div className="flex-1 w-full flex justify-center items-center px-6 md:px-10 lg:px-16 py-10 lg:py-16">
+		<div className="flex-1 w-full flex justify-center items-center px-6 md:px-10 lg:px-16 py-6 lg:py-16">
 			<div className="relative w-full h-[35rem]">
 				<img
 					src={images[activeIndex]}
