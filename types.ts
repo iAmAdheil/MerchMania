@@ -39,3 +39,19 @@ export type ProductDetailsSchema = {
 	inStock: boolean;
 	shopId?: string;
 };
+
+// CART
+
+export type CartItemSchema = {
+	id: string;
+	quantity: number;
+	size: Sizes;
+	productId: string;
+	product: {
+		id: string;
+		name: string;
+		image: string;
+		price: string;
+		shopName: string;
+	};
+};

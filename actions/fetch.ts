@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from '@/lib/prisma';
-import { ProductDetailsSchema, ShopDetailsSchema, ProductCardSchema } from '@/types';
+import { ProductDetailsSchema, ShopDetailsSchema, ProductCardSchema, CartItemSchema } from '@/types';
 import { Details } from '@/components/app/pages/product/productDetails';
 
 export const fetchProductDetails = async (productId: string): Promise<Details | null> => {
@@ -120,5 +120,53 @@ export const fetchCartQuantity = async (userId: string): Promise<number> => {
 	} catch (e: any) {
 		console.error('Error fetching cart quantity:', e);
 		return 0;
+	}
+};
+
+export const fetchCartItems = async (userId: string): Promise<CartItemSchema[]> => {
+	try {
+		const items = await prisma.cart.findMany({
+			where: {
+				userId: userId
+			},
+			include: {
+				product: {
+					select: {
+						id: true,
+						name: true,
+						images: true,
+						price: true,
+						shop: {
+							select: {
+								name: true
+							}
+						}
+					}
+				}
+			}
+		});
+
+		if (!items) {
+			throw new Error('Cart items not found.');
+		}
+
+		const cartItems = items.map(item => ({
+			id: item.id,
+			quantity: item.quantity,
+			size: item.size,
+			productId: item.productId,
+			product: {
+				id: item.product.id,
+				name: item.product.name,
+				image: item.product.images[0],
+				price: item.product.price,
+				shopName: item.product.shop.name
+			}
+		}));
+
+		return cartItems;
+	} catch (e: any) {
+		console.error('Error fetching cart items:', e);
+		return [];
 	}
 };

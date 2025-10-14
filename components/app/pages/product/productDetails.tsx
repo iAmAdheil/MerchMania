@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Sizes } from '@/types';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 import { Roles } from '@/types';
-import { addToCart } from '@/actions/add';
+import { addToCart } from '@/actions/update';
 
 export interface ReqShopDetailsSchema {
 	id: string;

@@ -26,3 +26,30 @@ export const addToCart = async (userId: string, productId: string, size: Sizes, 
 		return 0;
 	}
 }
+
+export const updateCart = async (id: string, quantity: number) => {
+	try {
+		await prisma.cart.update({
+			where: { id: id },
+			data: { quantity: quantity }
+		});
+
+		return 1;
+	} catch (e: any) {
+		console.error('Error updating cart:', e.message);
+		return 0;
+	}
+}
+
+export const deleteCartItem = async (id: string) => {
+	try {
+		await prisma.cart.delete({
+			where: { id: id }
+		});
+
+		return 1;
+	} catch (e: any) {
+		console.error('Error deleting cart item:', e.message);
+		return 0;
+	}
+}
