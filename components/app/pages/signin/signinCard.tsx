@@ -14,7 +14,7 @@ export default function SigninCard() {
 	const [password, setPassword] = useState('');
 
 	const handleSignin = async () => {
-		const { data, error } = await signIn.email(
+		await signIn.email(
 			{
 				email,
 				password,

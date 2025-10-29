@@ -108,7 +108,7 @@ export default function ProductDetails({
 					</p>
 				</div>
 				{role === 'customer' && (
-					<>
+					<div className="w-full flex flex-col gap-6">
 						<div className="flex flex-col gap-2">
 							<h3 className="text-base font-roboto font-medium">Quantity</h3>
 							<div className="flex items-center">
@@ -131,34 +131,36 @@ export default function ProductDetails({
 								</button>
 							</div>
 						</div>
-						<div className="flex flex-col gap-2">
-							<h3 className="text-base font-roboto font-medium">Sizes</h3>
-							<div className="flex flex-row gap-2">
-								{productDetails?.product.sizes.map((s: Sizes) => (
-									<button
-										key={s}
-										className={`px-3 py-1 rounded-sm text-base font-roboto border-solid border-gray-300 ${size === s ? 'border-[1px] border-purple-500' : ''}`}
-										onClick={() => setSize(s)}
-									>
-										{s}
-									</button>
-								))}
+						<div className="w-full flex flex-col gap-12">
+							<div className="flex flex-col gap-2">
+								<h3 className="text-base font-roboto font-medium">Sizes</h3>
+								<div className="flex flex-row gap-2">
+									{productDetails?.product.sizes.map((s: Sizes) => (
+										<button
+											key={s}
+											className={`px-3 py-1 rounded-sm text-base font-roboto border-solid border-gray-300 ${size === s ? 'border-[1px] border-purple-500' : ''}`}
+											onClick={() => setSize(s)}
+										>
+											{s}
+										</button>
+									))}
+								</div>
+							</div>
+							<div className="w-full flex flex-col sm:flex-row lg:flex-col justify-center gap-4 sm:gap-6 lg:gap-4 duration-150">
+								<button
+									onClick={handleAddToCart}
+									className="w-full flex flex-row items-center justify-center bg-purple-500 rounded-md sm:hover:opacity-80 text-white py-2 gap-4 duration-150"
+								>
+									<FiShoppingCart className="text-white text-base md:text-lg" />
+									<p className="text-base md:text-lg font-medium font-roboto">Add to Cart</p>
+								</button>
+								<button className="w-full flex flex-row items-center justify-center bg-black rounded-md sm:hover:opacity-80 text-white py-2 gap-4 duration-150">
+									<FiHeart className="text-white text-base md:text-lg" />
+									<p className="text-base md:text-lg font-medium font-roboto">Add to Favourites</p>
+								</button>
 							</div>
 						</div>
-						<div className="w-full flex flex-row lg:flex-col justify-center mt-4 gap-4 sm:gap-6 md:gap-8 lg:gap-4 duration-150">
-							<button
-								onClick={handleAddToCart}
-								className="w-full flex flex-row items-center justify-center bg-purple-500 sm:hover:opacity-80 text-white py-2 gap-4"
-							>
-								<FiShoppingCart className="text-white text-base md:text-lg" />
-								<p className="text-base md:text-lg font-medium font-roboto">Add to Cart</p>
-							</button>
-							<button className="w-full flex flex-row items-center justify-center bg-black sm:hover:opacity-80 text-white py-2 gap-4 duration-150">
-								<FiHeart className="text-white text-base md:text-lg" />
-								<p className="text-base md:text-lg font-medium font-roboto">Add to Favourites</p>
-							</button>
-						</div>
-					</>
+					</div>
 				)}
 			</div>
 		</div>
