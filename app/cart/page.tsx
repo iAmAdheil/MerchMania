@@ -12,8 +12,6 @@ import { updateCart, deleteCartItem } from '@/actions/update';
 import Footer from '@/components/app/ui/footer';
 import Header from '@/components/app/pages/cart/header';
 import { useRouter } from 'next/navigation';
-import { cashfree } from '@/lib/cashfree';
-import { createOrder } from '@/actions/billing';
 
 export default function Cart() {
 	const router = useRouter();
@@ -59,30 +57,7 @@ export default function Cart() {
 		deleteCartItem(id);
 	};
 
-	const handleCheckout = async () => {
-		// create order using server action => return session id
-		const sessionId = await createOrder();
-
-		if (!sessionId) {
-			alert('Failed to create order');
-			return;
-		}
-
-		const checkoutOptions = {
-			paymentSessionId: sessionId,
-			returnUrl: 'http://localhost:3000/',
-		};
-		cashfree.checkout(checkoutOptions).then(function (result: any) {
-			console.log(result);
-			if (result.error) {
-				alert(result.error.message);
-			}
-
-			if (result.redirect) {
-				console.log('Redirection');
-			}
-		});
-	};
+	
 
 	if (isLoading || isPending) {
 		return (
@@ -96,7 +71,7 @@ export default function Cart() {
 		<div className="w-full">
 			<Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
 			<div className="w-full flex flex-col px-6 md:px-10 lg:px-12 pt-10 pb-14 gap-8">
-				<Header handleCheckout={handleCheckout} />
+				<Header />
 				{cartItems.length === 0 ? (
 					<EmptyCart />
 				) : (
