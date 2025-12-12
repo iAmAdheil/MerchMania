@@ -1,9 +1,0 @@
-todos -
-
-check out the entire auth flows -> both customer and creator[creator first]
-signup -> onboarding -> new product -> dashboard -> also update shop details
-
-
-
-
-every product needs -> shop name and shop image
