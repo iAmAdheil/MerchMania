@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from "react";
-import { ArrowLeft, Search, Filter, RefreshCw } from "lucide-react";
+import { ArrowLeft, Search, Filter, RefreshCw, ChevronDown, Check, Home } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 enum ORDER_STATUS {
   PENDING = "PENDING",
@@ -94,10 +95,11 @@ const statusColors: Record<ORDER_STATUS, string> = {
 };
 
 const StaffOrders = () => {
+  const router = useRouter();
+
   const [orders, setOrders] = useState<Order[]>(mockOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
-  // const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
@@ -124,22 +126,26 @@ const StaffOrders = () => {
     <div className="min-h-screen bg-background p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-row items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            {/* <Link to="/">
-              <button>
-                <ArrowLeft className="h-5 w-5" />
-              </button>
-            </Link> */}
             <div>
               <h1 className="text-2xl font-bold text-foreground">Order Management</h1>
               <p className="text-sm text-muted-foreground">Staff Portal</p>
             </div>
           </div>
-          <button>
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh
-          </button>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <button
+              onClick={() => router.push('/')}
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              <Home className="h-4 w-4 mr-2" />
+              Home
+            </button>
+            <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Refresh
+            </button>
+          </div>
         </div>
 
         {/* Filters */}
@@ -150,23 +156,22 @@ const StaffOrders = () => {
               placeholder="Search by Order ID, Customer Name, or Email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"
             />
           </div>
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-muted-foreground" />
-            <select
+            <CustomSelect
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="appearance-none h-10 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMUw2IDZMMTEgMSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+')] bg-[length:9px_9px] bg-[position:right_0.6rem_center] bg-no-repeat"
-            >
-              <option value="ALL">All Statuses</option>
-              {Object.values(ORDER_STATUS).map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
-            </select>
+              onChange={setStatusFilter}
+              options={[
+                { label: "All Statuses", value: "ALL" },
+                ...Object.values(ORDER_STATUS).map((status) => ({
+                  label: status,
+                  value: status,
+                })),
+              ]}
+            />
           </div>
         </div>
 
@@ -208,13 +213,13 @@ const StaffOrders = () => {
                   <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground min-w-[100px]">Total</th>
                   <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground min-w-[180px]">Date</th>
                   <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground min-w-[150px]">Status</th>
-                  {/* <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground min-w-[100px]">Actions</th> */}
                 </tr>
               </thead>
               <tbody>
                 {filteredOrders.map((order) => (
                   <tr
                     key={order.id}
+                    onClick={() => router.push(`/staff/order/${order.id}`)}
                     className="border-b border-border transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
                   >
                     <td className="p-4 font-mono font-medium">{order.id}</td>
@@ -263,3 +268,62 @@ const StaffOrders = () => {
 };
 
 export default StaffOrders;
+
+interface SelectOption {
+  label: string;
+  value: string;
+}
+
+interface CustomSelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  options: SelectOption[];
+  placeholder?: string;
+  width?: string;
+}
+
+export const CustomSelect = ({ value, onChange, options, placeholder = "Select...", width = "w-[180px]" }: CustomSelectProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectedOption = options.find(opt => opt.value === value);
+
+  return (
+    <div className="relative z-10">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`flex items-center justify-between h-10 ${width} rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
+      >
+        <span className="truncate">
+          {selectedOption ? selectedOption.label : placeholder}
+        </span>
+        <ChevronDown className="h-4 w-4 opacity-50" />
+      </button>
+
+      {isOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-0"
+            onClick={() => setIsOpen(false)}
+          />
+          <div className={`absolute top-full mt-2 ${width} rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in fade-in-0 zoom-in-95 z-50 bg-background`}>
+            <div className="p-1 max-h-[300px] overflow-y-auto">
+              {options.map((option) => (
+                <div
+                  key={option.value}
+                  className={`relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${value === option.value ? 'bg-accent text-accent-foreground' : ''}`}
+                  onClick={() => {
+                    onChange(option.value);
+                    setIsOpen(false);
+                  }}
+                >
+                  {option.label}
+                  {value === option.value && <Check className="ml-auto h-4 w-4" />}
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
