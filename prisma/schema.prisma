@@ -138,9 +138,11 @@ model CartItem {
 }
 
 model Order {
-  id       String      @id @default(cuid())
+  id       String       @id @default(cuid())
   items    OrderItem[]
   totalAmt String
+  paid     Boolean
+  status   ORDER_STATUS @default(PENDING)
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
@@ -186,4 +188,14 @@ enum SIZE {
   L
   XL
   XXL
+}
+
+enum ORDER_STATUS {
+  PENDING
+  PROCESSED
+  MANUFACTURED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  RETURNED
 }
