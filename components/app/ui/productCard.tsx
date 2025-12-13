@@ -1,16 +1,24 @@
 import { ProductCardSchema } from '@/types';
 
-export default function ProductCard({ product }: { product: ProductCardSchema }) {
+const product: ProductCardSchema = {
+	id: '1',
+	name: 'Nike Air Forces',
+	image:
+		'https://res.cloudinary.com/dzaj1xdgz/image/upload/v1759867755/shop-logos/cmggztk3n0000uauf36dtb682-logo.png.jpg',
+	price: '100',
+};
+
+export default function ProductCard() {
 	return (
-		<div className="group w-[20rem] flex flex-col border border-solid border-gray-200 rounded-xl hover:scale-105 hover:shadow-lg duration-150">
-			<div className="relative w-full">
+		<div className="max-w-[25rem] w-full flex flex-col border border-solid border-gray-200 rounded-sm overflow-hidden group hover:shadow-md duration-150">
+			<div className="relative w-full overflow-hidden">
 				<img
 					src={product.image}
 					alt={'nike air forces'}
-					className="w-full h-[20rem] object-cover"
+					className="w-full aspect-square object-cover hover:scale-105 duration-150"
 				/>
-				<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
-					{/* <div className="flex items-center gap-3">
+				<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-black/10 p-3">
+					<div className="px-3 flex items-center gap-4">
 						<div className="h-6 w-6 rounded-full overflow-hidden bg-gray-300">
 							<img
 								src={
@@ -20,15 +28,15 @@ export default function ProductCard({ product }: { product: ProductCardSchema })
 								className="h-full w-full object-fit"
 							/>
 						</div>
-						<span className="text-white text-sm font-medium truncate">{'Nike'}</span>
-					</div> */}
+						<p className="text-white text-base font-medium truncate">{'Nike'}</p>
+					</div>
 				</div>
 			</div>
-			<div className="flex flex-col gap-1 py-3 px-4">
-				<h2 className="font-semibold text-wrap group-hover:text-purple-500 duration-150">
+			<div className="flex flex-col gap-1 py-4 px-6">
+				<h2 className="font-semibold text-wrap text-lg group-hover:text-purple-500 duration-150">
 					{product.name}
 				</h2>
-				<h3 className="font-bold text-sm">$ {product.price}</h3>
+				<h3 className="font-bold text-lg">₹ {product.price}</h3>
 			</div>
 		</div>
 	);

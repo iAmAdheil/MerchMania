@@ -3,7 +3,9 @@
 import prisma from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
 import { generateUniqueId } from '@/utils/cuid';
-import { ShopDetailsSchema } from '@/types';
+import { ProductDetailsSchema, ShopDetailsSchema } from '@/types';
+import { SIZE } from '@/app/generated/prisma/client';
+import { InputJsonValue, JsonValue } from '@prisma/client/runtime/library';
 
 export const saveImage = async (file: File, filename: string, folder: string) => {
 	cloudinary.config({
@@ -45,13 +47,15 @@ export const saveShopDetails = async (formData: FormData) => {
 
 		const logoFile = formData.get('logo') as File;
 		const bannerFile = formData.get('banner') as File;
-		
+
 		const shopDetailsString = formData.get('shopDetails') as string;
 		const shopDetails = JSON.parse(shopDetailsString) as ShopDetailsSchema;
 		const ownerId = formData.get('ownerId') as string;
 
 		const logoUrl = await saveImage(logoFile, `${shopId}-logo.png`, 'shop-logos');
 		const bannerUrl = await saveImage(bannerFile, `${shopId}-banner.png`, 'shop-banners');
+
+		console.log(ownerId);
 
 		const shop = await prisma.shop.create({
 			data: {
@@ -62,16 +66,70 @@ export const saveShopDetails = async (formData: FormData) => {
 				description: shopDetails.description,
 				location: shopDetails.location,
 				contact: shopDetails.contact,
-				socialLinks: shopDetails.socialLinks,
+				socialLinks: shopDetails.socialLinks as JsonValue as InputJsonValue,
 				ownerId: ownerId,
 			},
 		});
-		if (shop) {
+
+		const updateUser = await prisma.user.update({
+			where: {
+				id: ownerId,
+			},
+			data: {
+				isOnboarded: true,
+			},
+		});
+		if (shop && updateUser.isOnboarded) {
 			return 1;
 		}
 		return 0;
 	} catch (e) {
 		console.log(e);
-		return null;
+		return 0;
+	}
+};
+
+export const saveProductDetails = async (formData: FormData) => {
+	try {
+		const productId = generateUniqueId();
+
+		const images = [];
+
+		const productDetailsString = formData.get('productDetails') as string;
+		const productDetails = JSON.parse(productDetailsString) as ProductDetailsSchema;
+
+		const shopId = formData.get('shopId') as string;
+		const sizes = productDetails.sizes as unknown as SIZE[];
+
+		for (let i = 1; i <= 5; i++) {
+			const image = formData.get(`image${i}`) as File;
+			const imageUrl = await saveImage(image, `${productId}-image${i}.png`, 'product-images');
+			if (!imageUrl || imageUrl.length === 0) {
+				throw new Error('Failed to save image');
+			}
+			images.push(imageUrl);
+		}
+
+		const product = await prisma.product.create({
+			data: {
+				id: productId,
+				name: productDetails.name,
+				description: productDetails.description,
+				images: images,
+				sizes: sizes,
+				price: productDetails.price,
+				inStock: productDetails.inStock,
+				shopId: shopId,
+			},
+		});
+
+		if (!product) {
+			throw new Error('Failed to create product');
+		}
+
+		return 1;
+	} catch (e) {
+		console.log(e);
+		return 0;
 	}
 };

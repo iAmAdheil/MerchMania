@@ -1,4 +1,5 @@
 import { Youtube, Twitter, Instagram, Twitch, ExternalLink, MapPin, PhoneIcon } from 'lucide-react';
+import { ShopDetailsSchema } from '@/types';
 
 const categories = ['Apparel', 'Accessories', 'Posters', 'Stickers', 'Limited Edition'];
 
@@ -14,22 +15,13 @@ const socialPlatforms = [
 	{ name: 'Twitch', icon: Twitch, url: '', color: 'text-purple-600' },
 ];
 
-export default function AboutTab() {
+export default function AboutTab({ shopDetails }: { shopDetails: ShopDetailsSchema | null }) {
 	return (
 		<div className="w-full flex flex-col gap-x-8 gap-y-8">
 			<div className="w-full flex flex-col lg:flex-row items-stretch gap-x-8 gap-y-8">
 				<div className="flex-1 w-full flex flex-col gap-4 px-5 py-5 border-[0.5px] border-solid border-gray-300 rounded-lg">
-					<h1 className="text-2xl font-bold">About GamingWithAlex</h1>
-					<p className="text-base/6 font-medium text-slate-700">
-						Gaming content creator passionate about indie games and tech reviews. Creating awesome
-						merchandise for the gaming community!
-					</p>
-					<p className="text-base/6 font-medium text-slate-700">
-						Welcome to my official merchandise store! Here you&apos;ll find exclusive designs and
-						products that represent my brand and the amazing community we&apos;ve built together.
-						Every purchase supports content creation and helps me continue bringing you the content
-						you love.
-					</p>
+					<h1 className="text-2xl font-bold">About {shopDetails?.name}</h1>
+					<p className="text-base/6 font-medium text-slate-700">{shopDetails?.description}</p>
 				</div>
 				<div className="w-full md:max-w-[22rem] flex flex-col px-5 py-5 border-[0.5px] border-solid border-gray-300 rounded-lg">
 					<h1 className="mb-2 text-2xl font-bold">Connect With Me</h1>
@@ -63,7 +55,7 @@ export default function AboutTab() {
 								<p className="text-sm md:text-base font-medium">Location</p>
 							</div>
 							<div className="px-2 md:px-4">
-								<p className="text-sm md:text-base font-medium">San Francisco, CA</p>
+								<p className="text-sm md:text-base font-medium">{shopDetails?.location}</p>
 							</div>
 						</div>
 						<div className="flex flex-col gap-2">
@@ -72,7 +64,7 @@ export default function AboutTab() {
 								<p className="text-sm md:text-base font-medium">Contact</p>
 							</div>
 							<div className="px-2 md:px-4">
-								<p className="text-sm md:text-base font-medium">+1 (555) 123-4567</p>
+								<p className="text-sm md:text-base font-medium">{shopDetails?.contact}</p>
 							</div>
 						</div>
 					</div>

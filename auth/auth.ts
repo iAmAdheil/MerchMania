@@ -13,6 +13,13 @@ export const auth = betterAuth({
 		requireEmailVerification: false,
 		autoSignIn: true,
 	},
+	accountLinking: {
+		enabled: true,
+		trustedProviders: ["google", "github"]
+	},
+	session: {
+		disableSessionRefresh: true
+	},
 	user: {
 		additionalFields: {
 			role: {
@@ -27,9 +34,6 @@ export const auth = betterAuth({
 			},
 		},
 	},
-	session: {
-		disableSessionRefresh: true
-	}
 	// socialProviders: {
 	// 	google: {
 	// 		prompt: 'select_account',
@@ -37,12 +41,6 @@ export const auth = betterAuth({
 	// 		clientId: process.env.AUTH_GOOGLE_ID as string,
 	// 		clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
 	// 		overrideUserInfoOnSignIn: false,
-	// 	},
-	// },
-	// account: {
-	// 	accountLinking: {
-	// 		enabled: true,
-	// 		trustedProviders: ['google'],
 	// 	},
 	// },
 });

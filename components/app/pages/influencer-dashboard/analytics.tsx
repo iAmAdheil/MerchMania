@@ -9,12 +9,12 @@ const mockStats = {
 	avgOrderValue: 45.6,
 };
 
-export default function AnalyticsTab() {
+export default function Analytics() {
 	return (
-		<div className="flex flex-col gap-8 py-2">
-			<h2 className="text-2xl font-bold">Analytics & insights</h2>
-			<div className="flex flex-row justify-between gap-10">
-				<div className="flex-1 bg-white flex flex-col gap-4 pl-8 py-5 border border-solid border-gray-200 rounded-lg">
+		<div className="flex flex-col gap-6 py-2">
+			<h2 className="text-2xl md:text-3xl font-bold">Analytics & insights</h2>
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-6">
+				<div className="relative bg-white flex flex-col gap-4 pl-8 py-5 border border-solid border-gray-200 rounded-lg">
 					<div className="flex items-center gap-1">
 						<BarChart3 className="h-5 w-5 mr-2" />
 						<h2 className="text-xl font-bold">Conversion Rate</h2>
@@ -25,8 +25,11 @@ export default function AnalyticsTab() {
 							<span className="text-green-600">+0.5%</span> from last month
 						</p>
 					</div>
+					<div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-10 backdrop-blur-[2px] rounded-lg">
+						<p className="text-base font-medium">Coming Soon</p>
+					</div>
 				</div>
-				<div className="flex-1 bg-white flex flex-col gap-4 pl-8 py-5 border border-solid border-gray-200 rounded-lg">
+				<div className="relative flex-1 bg-white flex flex-col gap-4 pl-8 py-5 border border-solid border-gray-200 rounded-lg">
 					<div className="flex items-center gap-1">
 						<DollarSign className="h-5 w-5 mr-2" />
 						<h2 className="text-xl font-bold">Avg Order Value</h2>
@@ -37,8 +40,11 @@ export default function AnalyticsTab() {
 							<span className="text-green-600">+$2.30</span> from last month
 						</p>
 					</div>
+					<div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-10 backdrop-blur-[2px] rounded-lg">
+						<p className="text-base font-medium">Coming Soon</p>
+					</div>
 				</div>
-				<div className="flex-1 bg-white flex flex-col gap-4 pl-8 py-5 border border-solid border-gray-200 rounded-lg">
+				<div className="relative flex-1 bg-white flex flex-col gap-4 pl-8 py-5 border border-solid border-gray-200 rounded-lg">
 					<div className="flex items-center gap-1">
 						<Users className="h-5 w-5 mr-2" />
 						<h2 className="text-xl font-bold">Repeat Customers</h2>
@@ -49,9 +55,12 @@ export default function AnalyticsTab() {
 							<span className="text-green-600">+3%</span> from last month
 						</p>
 					</div>
+					<div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-10 backdrop-blur-[2px] rounded-lg">
+						<p className="text-base font-medium">Coming Soon</p>
+					</div>
 				</div>
 			</div>
-			<div className="bg-white w-full border border-solid border-gray-200 px-6 py-6 flex flex-col gap-6">
+			<div className="relative bg-white w-full border border-solid border-gray-200 px-6 py-6 flex flex-col gap-6">
 				<div>
 					<h2 className="text-xl font-semibold">Sales Chart</h2>
 					<p className="text-sm font-roboto text-gray-600">

@@ -1,26 +1,5 @@
 import { motion } from 'framer-motion';
-
-import {
-	TrendingUp,
-	Package,
-	ShoppingBag,
-	DollarSign,
-	Eye,
-	Plus,
-	BarChart3,
-	Users,
-	Star,
-	Settings,
-} from 'lucide-react';
-
-const mockStats = {
-	totalEarnings: 2847.5,
-	totalOrders: 156,
-	totalProducts: 12,
-	totalViews: 8945,
-	conversionRate: 3.2,
-	avgOrderValue: 45.6,
-};
+import { Package, ShoppingBag, DollarSign, Star } from 'lucide-react';
 
 const mockRecentOrders = [
 	{
@@ -70,9 +49,7 @@ const mockProducts = [
 	},
 ];
 
-type Status = 'shipped' | 'printing' | 'delivered';
-
-export default function OverviewTab() {
+export default function Overview() {
 	const getStatusBase = (status: string) => {
 		if (status === 'delivered') {
 			return (
@@ -100,13 +77,13 @@ export default function OverviewTab() {
 	};
 
 	return (
-		<div className="flex flex-col gap-8">
-			<div className="flex flex-row justify-between items-center">
+		<div className="w-full flex flex-col items-center gap-6">
+			<div className="w-full grid grid-cols-2 gap-4 lg:gap-6 lg:grid-cols-4">
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ delay: 0.1 }}
-					className="w-[18rem] flex flex-col gap-3 px-5 py-2 bg-white border-[1px] border-solid border-gray-200"
+					className="relative flex flex-col gap-3 px-5 py-2 bg-white border border-solid border-gray-200"
 				>
 					<div className="flex flex-row justify-between items-center">
 						<h2 className="text-sm font-medium">Total Earnings</h2>
@@ -118,13 +95,16 @@ export default function OverviewTab() {
 							<span className="text-green-600">+12.5%</span> from last month
 						</p>
 					</div>
+					<div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-10 backdrop-blur-[2px]">
+						<p className="text-base font-medium">Coming Soon</p>
+					</div>
 				</motion.div>
 
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ delay: 0.2 }}
-					className="w-[18rem] flex flex-col gap-3 px-5 py-2 bg-white border-[1px] border-solid border-gray-200"
+					className="relative flex flex-col gap-3 px-5 py-2 bg-white border border-solid border-gray-200"
 				>
 					<div className="flex flex-row justify-between items-center">
 						<h2 className="text-sm font-medium">Total Orders</h2>
@@ -136,13 +116,16 @@ export default function OverviewTab() {
 							<span className="text-green-600">+8.2%</span> from last month
 						</p>
 					</div>
+					<div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-10 backdrop-blur-[2px]">
+						<p className="text-base font-medium">Coming Soon</p>
+					</div>
 				</motion.div>
 
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ delay: 0.3 }}
-					className="w-[18rem] flex flex-col gap-3 px-5 py-2 bg-white border-[1px] border-solid border-gray-200"
+					className="relative flex flex-col gap-3 px-5 py-2 bg-white border border-solid border-gray-200"
 				>
 					<div className="flex flex-row justify-between items-center">
 						<h2 className="text-sm font-medium">Products</h2>
@@ -154,13 +137,16 @@ export default function OverviewTab() {
 							<span className="text-green-600">+2</span> this month
 						</p>
 					</div>
+					<div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-10 backdrop-blur-[2px]">
+						<p className="text-base font-medium">Coming Soon</p>
+					</div>
 				</motion.div>
 
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ delay: 0.4 }}
-					className="w-[18rem] flex flex-col gap-3 px-5 py-2 bg-white border-[1px] border-solid border-gray-200"
+					className="relative flex flex-col gap-3 px-5 py-2 bg-white border border-solid border-gray-200"
 				>
 					<div className="flex flex-row justify-between items-center">
 						<h2 className="text-sm font-medium">Store Views</h2>
@@ -172,10 +158,13 @@ export default function OverviewTab() {
 							<span className="text-green-600">+15.3%</span> from last month
 						</p>
 					</div>
+					<div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-10 backdrop-blur-[2px]">
+						<p className="text-base font-medium">Coming Soon</p>
+					</div>
 				</motion.div>
 			</div>
-			<div className="flex flex-row gap-8">
-				<div className="flex-1 h-fit flex flex-col gap-6 px-6 py-4 bg-white border-[1px] border-solid border-gray-200">
+			<div className="w-full flex flex-col md:flex-row gap-6">
+				<div className="relative flex-1 h-fit flex flex-col gap-6 px-6 py-4 bg-white border border-solid border-gray-200">
 					<div className="flex flex-col gap-1">
 						<h2 className="text-2xl font-bold">Recent Orders</h2>
 						<p className="text-sm text-gray-600">Your latest customer orders</p>
@@ -198,8 +187,11 @@ export default function OverviewTab() {
 							);
 						})}
 					</div>
+					<div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-10 backdrop-blur-[2px]">
+						<p className="text-base font-medium">Coming Soon</p>
+					</div>
 				</div>
-				<div className="flex-1 h-fit flex flex-col gap-8 px-6 py-4 bg-white border-[1px] border-solid border-gray-200">
+				<div className="relative flex-1 h-fit flex flex-col gap-8 px-6 py-4 bg-white border border-solid border-gray-200">
 					<div className="flex flex-col gap-1">
 						<h2 className="text-2xl font-bold">Top Products</h2>
 						<p className="text-sm text-gray-600">Your best performing products</p>
@@ -224,6 +216,9 @@ export default function OverviewTab() {
 								</div>
 							</div>
 						))}
+					</div>
+					<div className="absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-10 backdrop-blur-[2px]">
+						<p className="text-base font-medium">Coming Soon</p>
 					</div>
 				</div>
 			</div>

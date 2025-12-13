@@ -1,88 +1,57 @@
 // COMMON
 
-export type Roles = 'anonymous' | 'creator' | 'customer' | 'admin';
+import { JsonValue } from './app/generated/prisma/runtime/library';
+
+export type Roles = 'anonymous' | 'creator' | 'customer' | 'staff';
 
 // SHOP
 
 export type ShopDetailsSchema = {
-	id?: string;
-	name: string;
-	logo: string;
-	banner?: string;
-	description: string;
-	location: string;
-	contact: string;
-	socialLinks: { [key: string]: string };
+  id?: string;
+  name: string;
+  logo: string;
+  banner: string;
+  description: string;
+  location: string;
+  contact: string;
+  socialLinks: JsonValue;
 };
 
 // PRODUCT
 
-// export type SizesSchema = {
-// 	XS: boolean;
-// 	S: boolean;
-// 	M: boolean;
-// 	L: boolean;
-// 	XL: boolean;
-// 	XXL: boolean;
-// };
+export type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
-// export type ProductCardSchema = {
-// 	id: string;
-// 	name: string;
-// 	image: string;
-// 	price: string;
-// };
+export type ProductCardSchema = {
+  id: string;
+  name: string;
+  image: string;
+  price: string;
+};
 
-// export type ProductDetailsSchema = {
-// 	id?: string;
-// 	name: string;
-// 	description: string;
-// 	gender: 'female' | 'male' | 'unisex';
-// 	designs: string[];
-// 	sizes: SizesSchema;
-// 	price: string;
-// 	inStock: boolean;
-// 	remainingStock: number;
-// 	brand?: string;
-// 	brandImage?: string;
-// };
+export type ProductDetailsSchema = {
+  id?: string;
+  name: string;
+  description: string;
+  gender: 'female' | 'male' | 'unisex';
+  images: string[];
+  sizes: Sizes[];
+  price: string;
+  inStock: boolean;
+  shopId?: string;
+};
 
-// export type CreateProductDetailsSchema = {
-// 	name: string;
-// 	description: string;
-// 	gender: 'female' | 'male' | 'unisex';
-// 	designs: string[];
-// 	sizes: SizesSchema;
-// 	price: string;
-// 	remainingStock: string;
-// };
+// CART
 
-// CREATOR TYPES
-
-// export type MinorCreatorDetailsSchema = {
-// 	id: string;
-// 	name: string;
-// 	logo: string;
-// };
-
-// export type MajorCreatorDetailsSchema = {
-// 	name: string;
-// 	handle?: string;
-// 	logo: string;
-// 	coverImage?: string;
-// 	bio?: string;
-// 	followers?: string;
-// 	products?: number;
-// 	location?: string;
-// 	website?: string;
-// 	joinedDate?: string;
-// 	verified?: boolean;
-// 	socialLinks?: {
-// 		youtube?: string;
-// 		twitter?: string;
-// 		instagram?: string;
-// 		twitch?: string;
-// 	};
-// };
-
-// USER TYPES
+export type CartItemSchema = {
+  id: string;
+  quantity: number;
+  size: Sizes;
+  productId: string;
+  product: {
+    id: string;
+    name: string;
+    image: string;
+    price: string;
+    shopName: string;
+  };
+};

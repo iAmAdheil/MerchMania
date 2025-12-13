@@ -17,7 +17,7 @@ export default function LeftMain() {
 						Shop Now
 					</button>
 					<button className="w-fit px-5 py-2 bg-white text-purple-600 text-base font-roboto font-semibold rounded-lg border border-solid border-purple-600">
-						Become a Creator
+						Our Influencers
 					</button>
 				</div>
 			</div>

@@ -3,15 +3,12 @@
 import Navbar from '@/components/app/navbar/main';
 import HeroSection, { BottomMain } from '@/components/app/pages/landing/main';
 import Footer from '@/components/app/ui/footer';
-import { authClient } from '@/auth/auth-client';
+import { useSession } from '@/auth/auth-client';
 import Loader from '@/components/app/ui/loader';
 import { Roles } from '@/types';
 
 export default function Home() {
-	const {
-		data: session,
-		isPending,
-	} = authClient.useSession();
+	const { data: session, isPending } = useSession();
 
 	if (isPending) {
 		return (
