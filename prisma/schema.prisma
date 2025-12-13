@@ -11,7 +11,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -97,7 +96,6 @@ model Shop {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  Order     Order[]
 
   @@map("shop")
 }
@@ -140,14 +138,13 @@ model CartItem {
 model Order {
   id       String       @id @default(cuid())
   items    OrderItem[]
+  address  String
   totalAmt String
   paid     Boolean
   status   ORDER_STATUS @default(PENDING)
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
-  shopId String
-  shop   Shop   @relation(fields: [shopId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -171,7 +168,7 @@ model OrderItem {
 
 enum ROLE {
   customer
-  admin
+  staff
   creator
 }
 

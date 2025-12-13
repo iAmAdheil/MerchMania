@@ -1,29 +1,43 @@
 'use server';
 
-import axios from 'axios';
+import { Cashfree, CFEnvironment } from "cashfree-pg";
+import prisma from "@/lib/prisma";
 
 export const createOrder = async () => {
+  try {
+    const cashfree = new Cashfree(
+      CFEnvironment.SANDBOX,
+      process.env.CASHFREE_APPID,
+      process.env.CASHFREE_KEY
+    );
 
-  const response: any = await axios({
-    method: 'POST',
-    url: 'https://sandbox.cashfree.com/pg/orders',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-client-id': process.env.CASHFREE_APPID,
-      'x-client-secret': process.env.CASHFREE_KEY,
-      'x-api-version': '2022-09-01',
-    },
-    data: {
+    var request = {
       order_amount: 100,
-      order_currency: 'INR',
+      order_currency: "INR",
       customer_details: {
-        "customer_id": "7112AAA812234",
-        "customer_email": "john@cashfree.com",
-        "customer_phone": "9908734801",
-        "customer_name": "John Doe",
-      }
-    },
-  })
+        customer_id: "node_sdk_test",
+        customer_name: "",
+        customer_email: "example@gmail.com",
+        customer_phone: "9999999999",
+      },
+      order_meta: {
+        return_url:
+          "https://test.cashfree.com/pgappsdemos/return.php?order_id=order_123",
+      },
+      order_note: "",
+    };
 
-  return response.data.payment_session_id || null;
+    cashfree
+      .PGCreateOrder(request)
+      .then((response) => {
+        var a = response.data;
+        console.log(a);
+      })
+      .catch((error) => {
+        console.error("Error setting up order request:", error.response.data);
+      }); ``
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 };

@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, Search, Filter, RefreshCw, ChevronDown, Check, Home } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useSession } from '@/auth/auth-client';
+import Loader from "@/components/app/ui/loader";
 
 enum ORDER_STATUS {
   PENDING = "PENDING",
@@ -94,12 +96,23 @@ const statusColors: Record<ORDER_STATUS, string> = {
   [ORDER_STATUS.RETURNED]: "bg-orange-500/20 text-orange-400 border-orange-500/30",
 };
 
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleString();
+};
+
 const StaffOrders = () => {
   const router = useRouter();
+  const { data: session, isPending } = useSession();
 
   const [orders, setOrders] = useState<Order[]>(mockOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
+
+  useEffect(() => {
+    if (!isPending && session?.user.role !== 'staff') {
+      router.push('/');
+    }
+  }, [router, isPending, session]);
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
@@ -110,17 +123,13 @@ const StaffOrders = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const handleStatusChange = (orderId: string, newStatus: ORDER_STATUS) => {
-    setOrders((prev) =>
-      prev.map((order) =>
-        order.id === orderId ? { ...order, status: newStatus } : order
-      )
+  if (isPending) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <Loader size={60} />
+      </div>
     );
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString();
-  };
+  }
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-6">
@@ -156,7 +165,7 @@ const StaffOrders = () => {
               placeholder="Search by Order ID, Customer Name, or Email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 pl-10"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -237,20 +246,6 @@ const StaffOrders = () => {
                         {order.status}
                       </div>
                     </td>
-                    {/* <td className="p-4" onClick={(e) => e.stopPropagation()}>
-                      <select
-                        value={order.status}
-                        onChange={(e) =>
-                          handleStatusChange(order.id, e.target.value as ORDER_STATUS)
-                        }
-                        className="h-8 w-full min-w-[120px] rounded-md border border-border bg-background px-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-ring"
-                      >
-                        <option value="PENDING">Pending</option>
-                        <option value="PROCESSED">Processed</option>
-                        <option value="SHIPPED">Shipped</option>
-                        <option value="DELIVERED">Delivered</option>
-                      </select>
-                    </td> */}
                   </tr>
                 ))}
               </tbody>
@@ -290,7 +285,7 @@ export const CustomSelect = ({ value, onChange, options, placeholder = "Select..
     <div className="relative z-10">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center justify-between h-10 ${width} rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
+        className={`flex items-center justify-between h-10 ${width} rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
       >
         <span className="truncate">
           {selectedOption ? selectedOption.label : placeholder}
