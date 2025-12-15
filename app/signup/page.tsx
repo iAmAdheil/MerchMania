@@ -1,60 +1,30 @@
-'use client';
-
-import { useState, Dispatch, SetStateAction, useEffect } from 'react';
-import LeftSection from '@/components/app/pages/signup/leftSection';
-import OptionsBox from '@/components/app/pages/signup/optionsBox';
-import CustomerSignup from '@/components/app/pages/signup/customerSignup';
-import CreatorSignup from '@/components/app/pages/signup/creatorSignup';
-import { useSession } from '@/auth/auth-client';
-import { useRouter } from 'next/navigation';
-import Loader from '@/components/app/ui/loader';
+import { redirect } from 'next/navigation';
+import LeftSection from '@/components/app/pages/signup/LeftSection';
+import FormSection from '@/components/app/pages/signup/FormSection';
+import { auth } from "@/auth/auth"; // path to your Better Auth server instance
+import { headers } from "next/headers";
 
 export type Display = 'options' | 'customer' | 'creator';
 
-export default function Signup() {
-	const router = useRouter();
-	const { data: session, isPending } = useSession();
+async function Page() {
+  const session = await auth.api.getSession({
+    headers: await headers() // you need to pass the headers object.
+  })
 
-	useEffect(() => {
-		if (!isPending && session) {
-			router.push('/');
-		}
-	}, [router, isPending, session]);
+  if (session) {
+    redirect('/');
+  }
 
-	const [display, setDisplay] = useState<Display>('options');
-
-	if (isPending) {
-		return (
-			<div className="min-h-screen flex justify-center items-center">
-				<Loader size={60} />
-			</div>
-		);
-	}
-
-	return (
-		<div className="min-h-screen w-full flex lg:flex-row">
-			<div className="flex-1">
-				<LeftSection />
-			</div>
-			<div className="flex-1 hidden justify-center items-center bg-gray-50 lg:flex">
-				<Form display={display} setDisplay={setDisplay} />
-			</div>
-		</div>
-	);
+  return (
+    <div className="min-h-screen w-full flex lg:flex-row">
+      <div className="flex-1">
+        <LeftSection />
+      </div>
+      <div className="flex-1 hidden justify-center items-center bg-gray-50 lg:flex">
+        <FormSection />
+      </div>
+    </div>
+  );
 }
 
-export function Form({
-	display,
-	setDisplay,
-}: {
-	display: Display;
-	setDisplay: Dispatch<SetStateAction<Display>>;
-}) {
-	return (
-		<>
-			{display === 'options' && <OptionsBox setDisplay={setDisplay} />}
-			{display === 'customer' && <CustomerSignup setDisplay={setDisplay} />}
-			{display === 'creator' && <CreatorSignup setDisplay={setDisplay} />}
-		</>
-	);
-}
+export default Page;

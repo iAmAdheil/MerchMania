@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { type CartItemSchema } from "@/types";
+import { type CartItemSchema } from "@/types/types";
 import { CreditCard } from "lucide-react";
 
 export default function OrderSummary({ cartItems }: { cartItems: CartItemSchema[] }) {

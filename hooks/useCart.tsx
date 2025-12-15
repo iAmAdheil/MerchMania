@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
 import { fetchCartItems } from '@/actions/fetch';
-import { CartItemSchema } from '@/types';
+import { CartItemSchema } from '@/types/types';
 
 export default function useCart(userId: string) {
-	const [cartItems, setCartItems] = useState<CartItemSchema[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
+  const [cartItems, setCartItems] = useState<CartItemSchema[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-	useEffect(() => {
-		const fetchCart = async () => {
-			setIsLoading(true);
+  useEffect(() => {
+    const fetchCart = async () => {
+      setIsLoading(true);
 
-			const items = await fetchCartItems(userId);
-			setCartItems(items);
+      const items = await fetchCartItems(userId);
+      setCartItems(items);
 
-			setIsLoading(false);
-		};
+      setIsLoading(false);
+    };
 
-		if (userId && userId.length > 0) {
-			fetchCart();
-		}
-	}, [userId]);
+    if (userId && userId.length > 0) {
+      fetchCart();
+    }
+  }, [userId]);
 
-	return { cartItems, isLoading };
+  return { cartItems, isLoading };
 }

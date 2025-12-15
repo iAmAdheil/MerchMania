@@ -1,4 +1,4 @@
-import { PrismaClient } from '../app/generated/prisma/client';
+import { PrismaClient } from '../generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 // import { queryTags } from '@prisma/sqlcommenter-query-tags';
 // import { traceContext } from '@prisma/sqlcommenter-trace-context';
