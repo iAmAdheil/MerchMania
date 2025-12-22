@@ -6,9 +6,11 @@ import FormSection from '@/components/app/pages/signup/FormSection';
 import { auth } from "@/auth/auth";
 import { headers } from "next/headers";
 
+export type Display = 'options' | 'customer' | 'creator';
+
 async function Page() {
   const session = await auth.api.getSession({
-    headers: await headers() // you need to pass the headers object.
+    headers: await headers()
   })
 
   if (session) {

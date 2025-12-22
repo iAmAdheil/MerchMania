@@ -50,9 +50,7 @@ export default function CreatorSignup({
         password: userDetails.password,
         confirmPassword: userDetails.confirmPassword,
       };
-
       console.log(details);
-
       const result = detailsParser.safeParse(details);
       console.log(result);
       if (!result.success) {

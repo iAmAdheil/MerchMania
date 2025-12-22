@@ -6,8 +6,8 @@ import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-i
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Display } from '@/app/signup/page';
-import Loader from '../../ui/Loader';
 import * as z from 'zod/v4';
+import Loader from '../../ui/Loader';
 
 type UserDetails = {
   username: string;
@@ -49,9 +49,7 @@ export default function CustomerSignup({
         password: userDetails.password,
         confirmPassword: userDetails.confirmPassword,
       };
-
       console.log(details);
-
       const result = detailsParser.safeParse(details);
       console.log(result);
       if (!result.success) {
@@ -89,7 +87,6 @@ export default function CustomerSignup({
       );
       console.log(data);
       console.log(error);
-      // throw or set errors if any
     } catch (e: any) {
       console.log(e);
       alert(e.message);

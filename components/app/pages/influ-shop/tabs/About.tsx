@@ -1,8 +1,9 @@
+'use client'
+
 import { Youtube, Twitter, Instagram, Twitch, ExternalLink, MapPin, PhoneIcon } from 'lucide-react';
 import { ShopDetailsSchema } from '@/types/types';
 
 const categories = ['Apparel', 'Accessories', 'Posters', 'Stickers', 'Limited Edition'];
-
 const socialPlatforms = [
   { name: 'YouTube', icon: Youtube, url: '', color: 'text-red-600' },
   { name: 'Twitter', icon: Twitter, url: '', color: 'text-blue-400' },
@@ -15,7 +16,7 @@ const socialPlatforms = [
   { name: 'Twitch', icon: Twitch, url: '', color: 'text-purple-600' },
 ];
 
-export default function AboutTab({ shopDetails }: { shopDetails: ShopDetailsSchema | null }) {
+export default function About({ shopDetails }: { shopDetails: ShopDetailsSchema | null }) {
   return (
     <div className="w-full flex flex-col gap-x-8 gap-y-8">
       <div className="w-full flex flex-col lg:flex-row items-stretch gap-x-8 gap-y-8">

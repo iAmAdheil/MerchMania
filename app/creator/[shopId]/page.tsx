@@ -1,17 +1,15 @@
-'use client';
+'use server';
 
-import { useState, use, useEffect } from 'react';
-import Header from '@/components/app/pages/influ-shop/header';
+import { auth } from '@/auth/auth';
+import { headers } from 'next/headers';
+import Header from '@/components/app/pages/influ-shop/Header';
+import Main from '@/components/app/pages/influ-shop/tabs/Main';
 import Navbar from '@/components/app/navbar/Main';
-import ShopTabs from '@/components/app/pages/influ-shop/shopTabs';
-import ProductsTab from '@/components/app/pages/influ-shop/productsTab';
-import AboutTab from '@/components/app/pages/influ-shop/aboutTab';
 import Footer from '@/components/app/ui/Footer';
-import { useSession } from '@/auth/auth-client';
 import { Roles } from '@/types/types';
-import Loader from '@/components/app/ui/Loader';
-import useShopDetails from '@/hooks/useShopByShopId';
-import useFetchShopProducts from '@/hooks/useShopProducts';
+import { fetchShopByShopId, fetchShopProductsById } from '@/actions/fetch';
+
+export type Tabs = 'products' | 'about';
 
 interface Props {
   params: Promise<{
@@ -19,40 +17,17 @@ interface Props {
   }>;
 }
 
-export type Tabs = 'products' | 'about';
-
-export default function InfluencerShop({ params }: Props) {
-  const { shopId } = use(params);
-  const { data: session, isPending } = useSession();
-  const { shopDetails, isLoading } = useShopDetails(shopId);
-  const { products } = useFetchShopProducts(shopId);
-
-  const [activeTab, setActiveTab] = useState<Tabs>('products');
-  const [productCount, setProductCount] = useState<number>(0);
-
-  const onTabChange = (tab: Tabs) => {
-    setActiveTab(tab);
-  };
-
-  const handleProductCount = (count: number) => {
-    setProductCount(count);
-  };
-
-  useEffect(() => {
-    handleProductCount(products.length);
-  }, [products]);
-
-  if (isPending || isLoading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <Loader size={60} />
-      </div>
-    );
-  }
+async function Page({ params }: Props) {
+  const Aparams = await params;
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+  const shopDetails = await fetchShopByShopId(Aparams.shopId);
+  const products = await fetchShopProductsById(Aparams.shopId);
 
   return (
     <div className="w-full">
-      <Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
+      <Navbar role={session?.user?.role as Roles || 'anonymous'} />
       <div className="relative w-full min-h-36 px-8 sm:px-10 md:px-12 lg:px-16 xl:px-24 py-16">
         <img
           src={shopDetails?.banner || ''}
@@ -61,18 +36,12 @@ export default function InfluencerShop({ params }: Props) {
         />
         <div className="relative w-full flex flex-col gap-10">
           <Header shopDetails={shopDetails} />
-          <div className="w-full flex flex-col gap-10 z-10">
-            <ShopTabs activeTab={activeTab} onTabChange={onTabChange} productCount={productCount} />
-            <div className={`${activeTab === 'products' ? 'block' : 'hidden'} w-full`}>
-              <ProductsTab products={products} />
-            </div>
-            <div className={`${activeTab === 'about' ? 'block' : 'hidden'} w-full`}>
-              <AboutTab shopDetails={shopDetails} />
-            </div>
-          </div>
+          <Main productCount={products.length} products={products} shopDetails={shopDetails} />
         </div>
       </div>
       <Footer />
     </div>
   );
 }
+
+export default Page;
