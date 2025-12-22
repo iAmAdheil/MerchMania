@@ -5,6 +5,7 @@ import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui
 import { PasswordInput } from '@/components/ui/password-input';
 import { FcGoogle } from 'react-icons/fc';
 import { signIn } from '@/auth/auth-client';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function Card() {
@@ -105,7 +106,6 @@ export default function Card() {
                   onChange={e => setPassword(e.target.value)}
                   className="border border-solid border-gray-200 text-xs md:text-sm font-light rounded-sm px-3 py-1"
                 />
-                {/* <PasswordStrengthMeter value={2} /> */}
               </div>
             </Stack>
           </Field.Root>
@@ -119,12 +119,12 @@ export default function Card() {
           </Button>
           <p className="flex flex-row justify-center items-end gap-1 text-xs md:text-sm font-roboto text-gray-600">
             Don&apos;t have an account?{' '}
-            <a
+            <Link
               href="/signup"
               className="text-xs md:text-sm decoration-purple-500 hover:underline font-semibold"
             >
               <span className="font-semibold text-purple-500">Sign up</span>
-            </a>
+            </Link>
           </p>
         </div>
       </div>

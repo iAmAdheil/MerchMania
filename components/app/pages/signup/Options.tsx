@@ -3,6 +3,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Users, ArrowRight, Star } from 'lucide-react';
 import { Display } from '@/app/signup/page';
+import Link from 'next/link';
 
 export default function OptionsBox({
   setDisplay,
@@ -64,9 +65,11 @@ export default function OptionsBox({
       <div>
         <p className="text-xs md:text-sm text-gray-600 font-roboto">
           Already have an account?{' '}
-          <span className="text-sm md:text-base font-semibold text-purple-600 decoration-purple-600 cursor-pointer hover:underline">
-            Sign in
-          </span>
+          <Link href="/signin">
+            <span className="text-sm md:text-base font-semibold text-purple-600 decoration-purple-600 cursor-pointer hover:underline">
+              Sign in
+            </span>
+          </Link>
         </p>
       </div>
     </div>
