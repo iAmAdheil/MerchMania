@@ -1,5 +1,3 @@
-'use server';
-
 import { Users, Star, Palette } from 'lucide-react';
 import FormSection from './FormSection';
 

@@ -1,25 +1,6 @@
 import { ProductCardSchema } from '@/types/types';
-import { useRouter } from 'next/navigation';
 
-export default function SimilarProducts({ products }: { products: ProductCardSchema[] }) {
-  const router = useRouter();
-
-  const handleProductClick = (productId: string) => {
-    router.push(`/product/${productId}`);
-  };
-
-  return (
-    <div className="w-full px-8 md:px-10 lg:px-12 xl:px-16 py-12">
-      <div className="mx-auto w-fit grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 sm:gap-x-8 md:gap-x-10 gap-y-10">
-        {products.map(product => (
-          <ProductCard key={product.id} product={product} handleProductClick={handleProductClick} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ProductCard({
+export default function Card({
   product,
   handleProductClick,
 }: {

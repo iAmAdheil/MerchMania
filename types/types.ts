@@ -3,6 +3,13 @@
 import { JsonValue } from '../generated/prisma/runtime/library';
 
 export type Roles = 'anonymous' | 'creator' | 'customer' | 'staff';
+export type Gender = 'male' | 'female' | 'unisex';
+export type ProductCardSchema = {
+  id: string;
+  name: string;
+  image: string;
+  price: string;
+};
 
 // SHOP
 
@@ -21,18 +28,11 @@ export type ShopDetailsSchema = {
 
 export type Sizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
-export type ProductCardSchema = {
-  id: string;
-  name: string;
-  image: string;
-  price: string;
-};
-
 export type ProductDetailsSchema = {
   id?: string;
   name: string;
   description: string;
-  gender: 'female' | 'male' | 'unisex';
+  gender: Gender;
   images: string[];
   sizes: Sizes[];
   price: string;
@@ -55,3 +55,23 @@ export type CartItemSchema = {
     shopName: string;
   };
 };
+
+// PAGES
+// PRODUCT PAGE
+export type ProductDisplaySchema = {
+  product: {
+    id: string,
+    name: string,
+    description: string,
+    gender: Gender,
+    sizes: Sizes[],
+    images: string[],
+    price: string,
+    inStock: boolean,
+  },
+  shop: {
+    id: string,
+    name: string,
+    logo: string,
+  },
+}

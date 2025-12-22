@@ -1,36 +1,28 @@
-'use client';
+'use server';
 
-import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
 import Navbar from '@/components/app/navbar/Main';
-import SigninSection from '@/components/app/pages/signin/signinSection';
 import Footer from '@/components/app/ui/Footer';
-import { useSession } from '@/auth/auth-client';
-import Loader from '@/components/app/ui/Loader';
-import { useRouter } from 'next/navigation';
+import { auth } from "@/auth/auth";
+import { headers } from "next/headers";
+import SigninCard from '@/components/app/pages/signin/Card';
 
-export default function SignIn() {
-  const router = useRouter();
-  const { data: session, isPending } = useSession();
+async function Page() {
+  const session = await auth.api.getSession({
+    headers: await headers() // you need to pass the headers object.
+  })
 
-  useEffect(() => {
-    if (!isPending && session) {
-      router.push('/');
-    }
-  }, [router, isPending, session]);
-
-  if (isPending) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <Loader size={60} />
-      </div>
-    );
+  if (session) {
+    redirect('/');
   }
 
   return (
     <div className="w-full">
       <Navbar role={'anonymous'} />
-      <SigninSection />
+      <SigninCard />
       <Footer />
     </div>
   );
 }
+
+export default Page;

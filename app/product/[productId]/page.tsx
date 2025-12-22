@@ -1,15 +1,12 @@
-'use client';
+'use server';
 
-import { use } from 'react';
+import { headers } from 'next/headers';
+import { auth } from "@/auth/auth";
+import { Roles } from '@/types/types';
 import Navbar from '@/components/app/navbar/Main';
 import Footer from '@/components/app/ui/Footer';
-import ProductDetails from '@/components/app/pages/product/productDetails';
-import SimilarProducts from '@/components/app/pages/product/similarProducts';
-import useFetchProductDetails from '@/hooks/useProductDetails';
-import useFetchShopProducts from '@/hooks/useShopProducts';
-import Loader from '@/components/app/ui/Loader';
-import { useSession } from '@/auth/auth-client';
-import { Roles } from '@/types/types';
+import Details from '@/components/app/pages/product/details/Main';
+import SimilarProducts from '@/components/app/pages/product/Similar';
 
 interface Props {
   params: Promise<{
@@ -17,39 +14,27 @@ interface Props {
   }>;
 }
 
-const ProductDetail = ({ params }: Props) => {
-  const { productId } = use(params);
-  const { productDetails, isLoading } = useFetchProductDetails(productId);
-  const { products } = useFetchShopProducts(productDetails?.shop.id || '');
-  const { data: session, isPending } = useSession();
-
-  if (isLoading || isPending) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <Loader size={60} />
-      </div>
-    );
-  }
+async function Page({ params }: Props) {
+  const Aparams = await params;
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
 
   return (
     <div className="w-full flex flex-col min-h-screen">
-      <Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
+      <Navbar role={session?.user.role as Roles || 'anonymous'} />
       <div className="w-full flex flex-col">
-        <ProductDetails
-          productDetails={productDetails}
-          role={(session?.user?.role as Roles) || 'anonymous'}
+        <Details
+          productId={Aparams.productId}
           userId={session?.user?.id || ''}
+          role={(session?.user?.role as Roles) || 'anonymous'}
         />
-        {products.length > 0 && (
-          <>
-            <div className="w-[100%] mx-auto h-px bg-gray-200" />
-            <SimilarProducts products={products} />
-          </>
-        )}
+        <div className="w-[100%] mx-auto h-px bg-gray-200" />
+        {/* <SimilarProducts /> */}
       </div>
       <Footer />
     </div>
   );
 };
 
-export default ProductDetail;
+export default Page;

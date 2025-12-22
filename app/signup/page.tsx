@@ -1,10 +1,10 @@
+'use server'
+
 import { redirect } from 'next/navigation';
 import LeftSection from '@/components/app/pages/signup/LeftSection';
 import FormSection from '@/components/app/pages/signup/FormSection';
-import { auth } from "@/auth/auth"; // path to your Better Auth server instance
+import { auth } from "@/auth/auth";
 import { headers } from "next/headers";
-
-export type Display = 'options' | 'customer' | 'creator';
 
 async function Page() {
   const session = await auth.api.getSession({
