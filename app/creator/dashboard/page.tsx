@@ -1,41 +1,36 @@
-'use client';
+'use server';
 
-import { useEffect } from 'react';
+import { auth } from '@/auth/auth';
+import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 import Navbar from '@/components/app/navbar/Main';
-import Header from '@/components/app/pages/influ-dashboard/header';
-import Tabs from '@/components/app/pages/influ-dashboard/tabs';
+import Header from '@/components/app/pages/influ-dashboard/Header';
+import Tabs from '@/components/app/pages/influ-dashboard/tabs/Main';
 import Footer from '@/components/app/ui/Footer';
-import { useRouter } from 'next/navigation';
-import { useSession } from '@/auth/auth-client';
 import { Roles } from '@/types/types';
-import Loader from '@/components/app/ui/Loader';
-import useShopDetails from '@/hooks/useShopByUserId';
+import { fetchShopByUserId } from '@/actions/fetch';
 
-export default function InfluencerDashBoard() {
-  const router = useRouter();
-  const { data: session, isPending } = useSession();
-  const { shopDetails, isLoading } = useShopDetails(session?.user?.id || '');
-
-  useEffect(() => {
-    if (!(!isPending && session && session.user.role === 'creator')) {
-      // && session.user.isOnboarded
-      router.push('/');
-    }
-  }, [router, isPending, session]);
-
-  if (isPending || isLoading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <Loader size={60} />
-      </div>
-    );
+async function Page() {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+  if (!session?.user || session.user.role !== 'creator' || !session.user.isOnboarded) {
+    redirect('/');
   }
+  const shopDetails = await fetchShopByUserId(session.user.id);
+  if (!shopDetails) {
+    alert('Shop not found');
+    redirect('/');
+  }
+
   return (
     <div className="w-full border-[0.5px] border-solid border-gray-300">
-      <Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
-      <Header name={shopDetails?.name || ''} />
-      <Tabs shopId={shopDetails?.id || ''} />
+      <Navbar role={session.user.role as Roles || 'anonymous'} />
+      <Header name={shopDetails.name} />
+      <Tabs shopId={shopDetails.id as string} />
       <Footer />
     </div>
   );
 }
+
+export default Page;

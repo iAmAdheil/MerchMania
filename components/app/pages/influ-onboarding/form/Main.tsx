@@ -1,6 +1,8 @@
 'use client';
 
+import 'react-international-phone/style.css';
 import { useState } from 'react';
+import { PhoneInput } from 'react-international-phone';
 import { Store, Upload, X } from 'lucide-react';
 import {
   Field,
@@ -11,24 +13,19 @@ import {
   Portal,
   createListCollection,
 } from '@chakra-ui/react';
-import { PhoneInput } from 'react-international-phone';
 import { blobUrlToFile } from '@/utils/convert';
-import { saveShopDetails } from '@/actions/save';
+import { saveShop } from '@/actions/save';
 import { ShopDetailsSchema } from '@/types/types';
 import Loader from '@/components/app/ui/Loader';
 
-import 'react-international-phone/style.css';
-
 export default function OnboardingForm({ userId: ownerId }: { userId: string }) {
   const [loading, setLoading] = useState<boolean>(false);
-
   const [socialLinks, setSocialLinks] = useState<{ [key: string]: string }>({});
   const [link, setLink] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
   const [shopName, setShopName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [contact, setContact] = useState<string>('');
-  // const [location, setLocation] = useState<string>('');
   const [logoUrl, setLogoUrl] = useState<string>('');
   const [bannerUrl, setBannerUrl] = useState<string>('');
   const [logoDragActive, setLogoDragActive] = useState<boolean>(false);
@@ -73,7 +70,7 @@ export default function OnboardingForm({ userId: ownerId }: { userId: string }) 
 
       formData.append('ownerId', ownerId);
 
-      const response = await saveShopDetails(formData);
+      const response = await saveShop(formData);
       if (response === 1) {
         alert('Shop created successfully!');
       } else {

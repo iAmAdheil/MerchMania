@@ -1,10 +1,8 @@
-'use server';
-
 import { auth } from '@/auth/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Navbar from '@/components/app/navbar/Main';
-import OnboardingForm from '@/components/app/pages/influ-onboarding/form/Main';
+import Form from '@/components/app/pages/influ-create-product/Form';
 import Footer from '@/components/app/ui/Footer';
 import { Roles } from '@/types/types';
 
@@ -12,17 +10,17 @@ async function Page() {
   const session = await auth.api.getSession({
     headers: await headers()
   })
-  if (!session?.user || session.user.role !== 'creator' || session.user.isOnboarded) {
+  if (!session?.user || session.user.role !== 'creator' || !session.user.isOnboarded) {
     redirect('/');
   }
 
   return (
-    <div className="w-full">
-      <Navbar role={session.user.role as Roles || 'anonymous'} />
-      <OnboardingForm userId={session.user.id} />
+    <div className="flex flex-col">
+      <Navbar role={session?.user?.role as Roles || 'anonymous'} />
+      <Form userId={session?.user?.id} />
       <Footer />
     </div>
   );
-}
+};
 
 export default Page;

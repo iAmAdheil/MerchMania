@@ -1,19 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { Field, Input, Textarea } from '@chakra-ui/react';
+import { blobUrlToFile } from '@/utils/convert';
+import { saveProduct } from '@/actions/save';
+import { fetchShopByUserId } from '@/actions/fetch';
+import { ProductDetailsSchema, Sizes } from '@/types/types';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { blobUrlToFile } from '@/utils/convert';
-import { X } from 'lucide-react';
-import { Upload, Shirt } from 'lucide-react';
+import { Field, Input, Textarea } from '@chakra-ui/react';
+import { Upload, Shirt, X } from 'lucide-react';
 import Loader from '@/components/app/ui/Loader';
-import { ProductDetailsSchema } from '@/types/types';
-import { Sizes } from '@/types/types';
-import { saveProductDetails } from '@/actions/save';
-import { fetchShopDetailsByUserId } from '@/actions/fetch';
 
 export default function Form({ userId: ownerId }: { userId: string }) {
   const [productName, setProductName] = useState<string>('');
@@ -30,9 +28,7 @@ export default function Form({ userId: ownerId }: { userId: string }) {
   const handleCreateProduct = async () => {
     try {
       setLoading(true);
-
-      const shopDetails = await fetchShopDetailsByUserId(ownerId);
-
+      const shopDetails = await fetchShopByUserId(ownerId);
       const productDetails: ProductDetailsSchema = {
         name: productName,
         description: productDescription,
@@ -48,9 +44,7 @@ export default function Form({ userId: ownerId }: { userId: string }) {
       const imageFile3 = await blobUrlToFile(images[2], 'image3.png');
       const imageFile4 = await blobUrlToFile(images[3], 'image4.png');
       const imageFile5 = await blobUrlToFile(images[4], 'image5.png');
-
       const formData = new FormData();
-
       formData.append('productDetails', JSON.stringify(productDetails));
       formData.append('image1', imageFile1);
       formData.append('image2', imageFile2);
@@ -59,7 +53,7 @@ export default function Form({ userId: ownerId }: { userId: string }) {
       formData.append('image5', imageFile5);
       formData.append('shopId', shopDetails?.id || '');
 
-      const response = await saveProductDetails(formData);
+      const response = await saveProduct(formData);
       if (response === 1) {
         alert('Product created successfully');
       } else {

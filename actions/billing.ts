@@ -1,7 +1,6 @@
 'use server';
 
 import { Cashfree, CFEnvironment } from "cashfree-pg";
-import prisma from "@/lib/prisma";
 
 export const createOrder = async () => {
   try {
