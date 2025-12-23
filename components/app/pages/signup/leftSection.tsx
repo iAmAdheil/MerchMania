@@ -9,7 +9,7 @@ export default function LeftSection() {
           <h1 className="w-full text-5xl font-bold mb-4 text-black text-center">
             Welcome to
             <br />
-            <span className="bg-gradient-to-r from-gray-300 to-orange-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 to-orange-400 bg-clip-text text-transparent">
               MerchMania
             </span>
           </h1>

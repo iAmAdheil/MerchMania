@@ -2,6 +2,9 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
+import { auth } from '@/auth/auth';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import ProviderWrapper from '@/config/ClientProvider';
 
 export const roboto = Roboto({

@@ -88,7 +88,7 @@ async function Navbar({ role }: { role: Roles }) {
               MerchMania
             </Link>
             <Searchbar />
-            {role !== 'creator' ? (
+            {role !== 'creator' && (
               <div className="flex flex-row items-center justify-between gap-8 xl:gap-12">
                 <button className="text-[15px] font-roboto text-gray-600 hover:text-purple-500 duration-200">
                   Explore
@@ -97,7 +97,8 @@ async function Navbar({ role }: { role: Roles }) {
                   Our Influencers
                 </button>
               </div>
-            ) : (
+            )}
+            {role === 'creator' && (
               <div className="flex flex-row items-center gap-8 xl:gap-12">
                 <Link
                   className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
@@ -111,21 +112,15 @@ async function Navbar({ role }: { role: Roles }) {
                 >
                   Create New Product
                 </Link>
+                <Profile />
               </div>
             )}
-            <div className="flex flex-row items-center gap-8 xl:gap-12">
-              {role === 'creator' && (
-                <>
-                  <Profile />
-                </>
-              )}
-              {role === 'customer' && (
-                <>
-                  <Cart />
-                  <Profile />
-                </>
-              )}
-            </div>
+            {role === 'customer' && (
+              <div className="flex flex-row items-center gap-8 xl:gap-12">
+                <Cart />
+                <Profile />
+              </div>
+            )}
             {(role === 'anonymous' || (role !== 'creator' && role !== 'customer')) && (
               <div className="flex flex-row items-center gap-4">
                 <Link href="/signin">
@@ -147,7 +142,7 @@ async function Navbar({ role }: { role: Roles }) {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

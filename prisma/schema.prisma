@@ -90,7 +90,7 @@ model Shop {
   socialLinks Json
 
   ownerId String? @unique
-  owner   User?   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner   User?   @relation(fields: [ownerId], references: [id], onDelete: SetNull)
 
   products Product[]
 
@@ -111,8 +111,8 @@ model Product {
   inStock     Boolean  @default(true)
   tags        String[]
 
-  shopId String
-  shop   Shop   @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  shopId String? @unique
+  shop   Shop?   @relation(fields: [shopId], references: [id], onDelete: SetNull)
 
   Cart      CartItem[]
   OrderItem OrderItem[]
@@ -138,19 +138,19 @@ model CartItem {
 }
 
 model Order {
-  id        String       @id @default(cuid())
-  items     OrderItem[]
-  address   String
-  firstName String
-  lastName  String
-  email     String
-  phone     String
-  totalAmt  String
-  paid      Boolean
-  status    ORDER_STATUS @default(PENDING)
+  id            String               @id @default(cuid())
+  items         OrderItem[]
+  address       String
+  firstName     String
+  lastName      String
+  email         String
+  phone         String
+  totalAmt      String
+  paymentStatus ORDER_PAYMENT_STATUS @default(active)
+  status        ORDER_STATUS         @default(pending)
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -163,8 +163,8 @@ model OrderItem {
   quantity Int
   size     SIZE
 
-  productId String
-  product   Product @relation(fields: [productId], references: [id])
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
 
   orderId String
   order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
@@ -193,12 +193,19 @@ enum SIZE {
   XXL
 }
 
+enum ORDER_PAYMENT_STATUS {
+  active
+  paid
+  failed
+  cancelled
+}
+
 enum ORDER_STATUS {
-  PENDING
-  PROCESSED
-  MANUFACTURED
-  SHIPPED
-  DELIVERED
-  CANCELLED
-  RETURNED
+  pending
+  processed
+  manufactured
+  shipped
+  delivered
+  cancelled
+  returned
 }

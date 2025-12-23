@@ -10,7 +10,7 @@ async function Page() {
   const session = await auth.api.getSession({
     headers: await headers()
   })
-  if (!session?.user || session.user.role !== 'creator' || session.user.isOnboarded) {
+  if (!session || !session.user || session.user.role !== 'creator' || session.user.isOnboarded) {
     redirect('/');
   }
 

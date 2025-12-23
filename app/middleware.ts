@@ -1,16 +1,23 @@
-// middleware.ts
-
 import { NextResponse, type NextRequest } from 'next/server';
+import { auth } from '@/auth/auth';
 
-export default function middleware(request: NextRequest) {
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('referer', request.nextUrl.pathname);
-
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
+export default async function middleware(request: NextRequest) {
+  const session = await auth.api.getSession({
+    headers: request.headers,
   });
+  const pathname = request.nextUrl.pathname;
+  if (
+    session &&
+    session.user.role === 'creator' &&
+    !session.user.isOnboarded &&
+    !pathname.startsWith('/creator/onboarding')
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/creator/onboarding';
+    return NextResponse.redirect(url);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {

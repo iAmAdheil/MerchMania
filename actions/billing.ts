@@ -22,8 +22,8 @@ export const createOrder = async (userId: string, cartItems: CartItemSchema[], u
         email: userDetails.email,
         phone: userDetails.phone,
         totalAmt: totalAmt.toString(),
-        paid: false,
-        status: "PENDING",
+        paymentStatus: 'active',
+        status: "pending",
         items: {
           create: cartItems.map(item => ({
             productId: item.productId,
