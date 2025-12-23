@@ -1,5 +1,3 @@
-'use server'
-
 import { redirect } from 'next/navigation';
 import LeftSection from '@/components/app/pages/signup/LeftSection';
 import FormSection from '@/components/app/pages/signup/FormSection';

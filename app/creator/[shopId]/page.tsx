@@ -1,5 +1,3 @@
-'use server';
-
 import { auth } from '@/auth/auth';
 import { headers } from 'next/headers';
 import Header from '@/components/app/pages/influ-shop/Header';

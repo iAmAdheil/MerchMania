@@ -1,5 +1,3 @@
-'use server';
-
 import { redirect } from 'next/navigation';
 import Navbar from '@/components/app/navbar/Main';
 import Footer from '@/components/app/ui/Footer';

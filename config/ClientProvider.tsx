@@ -1,8 +1,8 @@
 'use client';
 
-import { Provider as ChakraProvider } from '@/components/ui/provider';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from 'next-themes';
+import { AppRouterCacheProvider as MUIProvider } from '@mui/material-nextjs/v15-appRouter';
+import { Provider as ChakraProvider } from '@/components/ui/provider';
 
 const ProviderWrapper = ({
   children,
@@ -12,9 +12,9 @@ const ProviderWrapper = ({
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <ChakraProvider>
-        <AppRouterCacheProvider>
+        <MUIProvider>
           {children}
-        </AppRouterCacheProvider>
+        </MUIProvider>
       </ChakraProvider>
     </ThemeProvider>
   );

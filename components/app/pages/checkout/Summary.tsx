@@ -1,16 +1,16 @@
-import { useMemo } from "react";
-import { type CartItemSchema } from "@/types/types";
-import { CreditCard } from "lucide-react";
+'use client';
 
-export default function OrderSummary({ cartItems }: { cartItems: CartItemSchema[] }) {
+import { useMemo } from "react";
+import { CreditCard } from "lucide-react";
+import { CartItemSchema } from "@/types/types";
+
+export default function Summary({ cartItems }: { cartItems: CartItemSchema[] }) {
   const productsAmount = useMemo(() => {
     return cartItems.reduce((acc, item) => acc + Number(item.product.price) * item.quantity, 0);
   }, [cartItems]);
-
   const tax = useMemo(() => {
     return productsAmount * 0.18;
   }, [productsAmount]);
-
   const totalAmount = useMemo(() => {
     return productsAmount + tax + 100;
   }, [productsAmount, tax]);

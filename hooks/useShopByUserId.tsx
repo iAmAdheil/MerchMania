@@ -1,29 +1,25 @@
 import { useState, useEffect } from 'react';
+import { fetchShopByUserId } from '@/actions/fetch';
 import { ShopDetailsSchema } from '@/types/types';
-import { fetchShopDetailsByUserId } from '@/actions/fetch';
 
-const useShopDetails = (userId: string) => {
+const useShopByUserId = (userId: string) => {
   const [shopDetails, setShopDetails] = useState<ShopDetailsSchema | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCreatorShopDetails = async () => {
+    const fetchShop = async () => {
       try {
         setIsLoading(true);
-
-        const details: ShopDetailsSchema | null = await fetchShopDetailsByUserId(userId);
-        console.log('Fetched shop details:', details);
-
-        setShopDetails(details);
+        const shop: ShopDetailsSchema | null = await fetchShopByUserId(userId);
+        setShopDetails(shop);
       } catch (e: any) {
         console.log(e);
       } finally {
         setIsLoading(false);
       }
     };
-
     if (userId && userId.length > 0) {
-      fetchCreatorShopDetails();
+      fetchShop();
     }
   }, [userId]);
 
@@ -33,4 +29,4 @@ const useShopDetails = (userId: string) => {
   };
 };
 
-export default useShopDetails;
+export default useShopByUserId;

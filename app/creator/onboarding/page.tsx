@@ -1,10 +1,8 @@
-'use server';
-
 import { auth } from '@/auth/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Navbar from '@/components/app/navbar/Main';
-import OnboardingForm from '@/components/app/pages/influ-onboarding/form/Main';
+import Main from '@/components/app/pages/influ-onboarding/form/Main';
 import Footer from '@/components/app/ui/Footer';
 import { Roles } from '@/types/types';
 
@@ -19,7 +17,7 @@ async function Page() {
   return (
     <div className="w-full">
       <Navbar role={session.user.role as Roles || 'anonymous'} />
-      <OnboardingForm userId={session.user.id} />
+      <Main userId={session.user.id} />
       <Footer />
     </div>
   );

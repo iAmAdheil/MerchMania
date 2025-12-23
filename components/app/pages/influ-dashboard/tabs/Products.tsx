@@ -1,9 +1,11 @@
+'use client';
+
 import { Plus } from 'lucide-react';
-import useFetchCreatorProducts from '@/hooks/useShopProducts';
+import useShopProducts from '@/hooks/useShopProducts';
 import Loader from '@/components/app/ui/Loader';
 
 export default function Products({ shopId }: { shopId: string }) {
-  const { products, isLoading } = useFetchCreatorProducts(shopId);
+  const { products, isLoading } = useShopProducts(shopId);
 
   if (isLoading) {
     return (

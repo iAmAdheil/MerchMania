@@ -1,15 +1,12 @@
-'use client';
-
-import { useEffect } from 'react';
+import { auth } from '@/auth/auth';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { fetchCart } from '@/actions/fetch';
 import Navbar from '@/components/app/navbar/Main';
+import Details from '@/components/app/pages/checkout/Details';
+import Summary from '@/components/app/pages/checkout/Summary';
 import Footer from '@/components/app/ui/Footer';
-import { useSession } from '@/auth/auth-client';
-import { useRouter } from 'next/navigation';
 import { Roles } from '@/types/types';
-import Loader from '@/components/app/ui/Loader';
-import useCart from '@/hooks/useCart';
-import CheckoutDetails from '@/components/app/pages/checkout/checkoutDetails';
-import OrderSummary from '@/components/app/pages/checkout/orderSummary';
 
 export interface SavedAddress {
   id: string;
@@ -18,7 +15,7 @@ export interface SavedAddress {
   isDefault?: boolean;
 }
 
-const savedAddresses: SavedAddress[] = [
+const SavedAddresses: SavedAddress[] = [
   {
     id: '1',
     label: 'Home',
@@ -32,33 +29,25 @@ const savedAddresses: SavedAddress[] = [
   },
 ];
 
-export default function Checkout() {
-  const router = useRouter();
-  const { data: session, isPending } = useSession();
-  const { cartItems: ci, isLoading: isLoadingCart } = useCart(session?.user?.id || '');
-
-  useEffect(() => {
-    if (!isPending && session?.user?.role !== 'customer') {
-      router.push('/');
-    }
-  }, [router, session, isPending]);
-
-  if (isLoadingCart || isPending) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <Loader size={60} />
-      </div>
-    );
+async function Page() {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
+  if (!session || session.user.role !== 'customer') {
+    redirect('/');
   }
+  const cartItems = await fetchCart(session.user.id);
 
   return (
     <div className="w-full bg-gray-50">
-      <Navbar role={(session?.user?.role as Roles) || 'anonymous'} />
+      <Navbar role={session.user.role as Roles || 'anonymous'} />
       <div className="mt-4 bg-gray-50 w-full py-10 px-6 md:px-10 max-w-5xl mx-auto flex flex-col justify-center items-center gap-12 md:gap-16">
-        <CheckoutDetails savedAddresses={savedAddresses} />
-        <OrderSummary cartItems={ci} />
+        <Details savedAddresses={SavedAddresses} />
+        <Summary cartItems={cartItems} />
       </div>
       <Footer />
     </div>
   );
 }
+
+export default Page;
