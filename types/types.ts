@@ -10,6 +10,12 @@ export type ProductCardSchema = {
   image: string;
   price: string;
 };
+export interface SavedAddress {
+  id: string;
+  label: string;
+  fullAddress: string;
+  isDefault?: boolean;
+}
 
 // SHOP
 

@@ -80,18 +80,18 @@ model Verification {
 }
 
 model Shop {
-  id     String @id @default(cuid())
-  name   String
-  logo   String
-  banner String
-
+  id          String @id @default(cuid())
+  name        String
+  logo        String
+  banner      String
   description String
   location    String @default("")
   contact     String @default("")
   socialLinks Json
 
-  ownerId  String?   @unique
-  owner    User?     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String? @unique
+  owner   User?   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
   products Product[]
 
   createdAt DateTime @default(now())
@@ -114,10 +114,11 @@ model Product {
   shopId String
   shop   Shop   @relation(fields: [shopId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
   Cart      CartItem[]
   OrderItem OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("product")
 }
@@ -127,8 +128,9 @@ model CartItem {
   quantity Int
   size     SIZE
 
-  userId    String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   productId String
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
@@ -136,12 +138,16 @@ model CartItem {
 }
 
 model Order {
-  id       String       @id @default(cuid())
-  items    OrderItem[]
-  address  String
-  totalAmt String
-  paid     Boolean
-  status   ORDER_STATUS @default(PENDING)
+  id        String       @id @default(cuid())
+  items     OrderItem[]
+  address   String
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+  totalAmt  String
+  paid      Boolean
+  status    ORDER_STATUS @default(PENDING)
 
   userId String
   user   User   @relation(fields: [userId], references: [id])

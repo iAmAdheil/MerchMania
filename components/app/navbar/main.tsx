@@ -88,64 +88,62 @@ async function Navbar({ role }: { role: Roles }) {
               MerchMania
             </Link>
             <Searchbar />
-            <div className="flex flex-row items-center justify-between gap-10 xl:gap-14">
-              {role !== 'creator' ? (
-                <div className="flex flex-row items-center justify-between gap-8 xl:gap-10">
-                  <button className="text-[15px] font-roboto text-gray-600 hover:text-purple-500 duration-200">
-                    Explore
-                  </button>
-                  <button className="text-[15px] text-nowrap font-roboto text-gray-600 hover:text-purple-500 duration-200">
-                    Our Influencers
-                  </button>
-                </div>
-              ) : (
-                <div className="flex flex-row items-center gap-8 xl:gap-10">
-                  <Link
-                    className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
-                    href="/creator/dashboard"
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
-                    className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
-                    href="/creator/new-product"
-                  >
-                    Create New Product
-                  </Link>
-                </div>
-              )}
-              <div className="flex flex-row items-center gap-8 xl:gap-10">
-                {role === 'creator' && (
-                  <>
-                    <Profile />
-                  </>
-                )}
-                {role === 'customer' && (
-                  <>
-                    <Cart />
-                    <Profile />
-                  </>
-                )}
-                {(role === 'anonymous' || (role !== 'creator' && role !== 'customer')) && (
-                  <div className="flex flex-row items-center gap-4 xl:gap-6">
-                    <Link href="/signin">
-                      <div
-                        className="text-xs font-semibold font-roboto text-white bg-purple-500 border-gray-600 px-4 py-2 rounded-md hover:opacity-80 active:opacity-60"
-                      >
-                        Log In
-                      </div>
-                    </Link>
-                    <Link href="/signup">
-                      <div
-                        className="text-xs font-semibold font-roboto bg-black text-white border border-solid border-gray-600 px-4 py-2 rounded-md hover:opacity-80 active:opacity-60"
-                      >
-                        Sign Up
-                      </div>
-                    </Link>
-                  </div>
-                )}
+            {role !== 'creator' ? (
+              <div className="flex flex-row items-center justify-between gap-8 xl:gap-12">
+                <button className="text-[15px] font-roboto text-gray-600 hover:text-purple-500 duration-200">
+                  Explore
+                </button>
+                <button className="text-[15px] text-nowrap font-roboto text-gray-600 hover:text-purple-500 duration-200">
+                  Our Influencers
+                </button>
               </div>
+            ) : (
+              <div className="flex flex-row items-center gap-8 xl:gap-12">
+                <Link
+                  className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
+                  href="/creator/dashboard"
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
+                  href="/creator/new-product"
+                >
+                  Create New Product
+                </Link>
+              </div>
+            )}
+            <div className="flex flex-row items-center gap-8 xl:gap-12">
+              {role === 'creator' && (
+                <>
+                  <Profile />
+                </>
+              )}
+              {role === 'customer' && (
+                <>
+                  <Cart />
+                  <Profile />
+                </>
+              )}
             </div>
+            {(role === 'anonymous' || (role !== 'creator' && role !== 'customer')) && (
+              <div className="flex flex-row items-center gap-4">
+                <Link href="/signin">
+                  <div
+                    className="text-xs font-semibold font-roboto text-white bg-purple-500 border-gray-600 px-4 py-2 rounded-md hover:opacity-80 active:opacity-60"
+                  >
+                    Log In
+                  </div>
+                </Link>
+                <Link href="/signup">
+                  <div
+                    className="text-xs font-semibold font-roboto bg-black text-white border border-solid border-gray-600 px-4 py-2 rounded-md hover:opacity-80 active:opacity-60"
+                  >
+                    Sign Up
+                  </div>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

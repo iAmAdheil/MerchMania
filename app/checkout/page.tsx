@@ -3,17 +3,9 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { fetchCart } from '@/actions/fetch';
 import Navbar from '@/components/app/navbar/Main';
-import Details from '@/components/app/pages/checkout/Details';
-import Summary from '@/components/app/pages/checkout/Summary';
 import Footer from '@/components/app/ui/Footer';
-import { Roles } from '@/types/types';
-
-export interface SavedAddress {
-  id: string;
-  label: string;
-  fullAddress: string;
-  isDefault?: boolean;
-}
+import Main from '@/components/app/pages/checkout/Main';
+import { Roles, SavedAddress } from '@/types/types';
 
 const SavedAddresses: SavedAddress[] = [
   {
@@ -42,8 +34,7 @@ async function Page() {
     <div className="w-full bg-gray-50">
       <Navbar role={session.user.role as Roles || 'anonymous'} />
       <div className="mt-4 bg-gray-50 w-full py-10 px-6 md:px-10 max-w-5xl mx-auto flex flex-col justify-center items-center gap-12 md:gap-16">
-        <Details savedAddresses={SavedAddresses} />
-        <Summary cartItems={cartItems} />
+        <Main userId={session.user.id} savedAddresses={SavedAddresses} cartItems={cartItems} />
       </div>
       <Footer />
     </div>

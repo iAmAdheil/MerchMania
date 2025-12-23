@@ -1,28 +1,9 @@
-'use client';
+'use client'
 
-import { useMemo } from "react";
 import { CreditCard } from "lucide-react";
 import { CartItemSchema } from "@/types/types";
 
-export default function Summary({ cartItems }: { cartItems: CartItemSchema[] }) {
-  const productsAmount = useMemo(() => {
-    return cartItems.reduce((acc, item) => acc + Number(item.product.price) * item.quantity, 0);
-  }, [cartItems]);
-  const tax = useMemo(() => {
-    return productsAmount * 0.18;
-  }, [productsAmount]);
-  const totalAmount = useMemo(() => {
-    return productsAmount + tax + 100;
-  }, [productsAmount, tax]);
-
-  const handleProceedToPay = async () => {
-    try {
-      // const order = await createOrder();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
+export default function Summary({ cartItems, productsAmount, tax, totalAmount, handlePayment }: { cartItems: CartItemSchema[], productsAmount: number, tax: number, totalAmount: number, handlePayment: () => void }) {
   return (
     <div className=" w-full flex flex-col">
       <h1 className="text-2xl md:text-3xl font-bold font-roboto">Order Summary</h1>
@@ -73,7 +54,7 @@ export default function Summary({ cartItems }: { cartItems: CartItemSchema[] }) 
           <p className="text-lg md:text-xl">&#8377;{totalAmount}</p>
         </div>
         <div className="w-full my-5 flex flex-col gap-3">
-          <button className="flex flex-row justify-center items-center gap-4 w-full px-3 py-2 md:py-3 rounded-md bg-purple-500 text-white text-sm md:text-base font-semibold">
+          <button onClick={handlePayment} className="flex flex-row justify-center items-center gap-4 w-full px-3 py-2 md:py-3 rounded-md bg-purple-500 text-white text-sm md:text-base font-semibold">
             <CreditCard />
             Proceed To Pay
           </button>

@@ -23,6 +23,9 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script src="https://sdk.cashfree.com/js/v3/cashfree.js" />
+      </head>
       <body className={roboto.className}>
         <ProviderWrapper>{children}</ProviderWrapper>
       </body>
