@@ -1,6 +1,6 @@
 'use server'
 
-import { Sizes } from "@/types";
+import { Sizes } from "@/types/types";
 import prisma from "@/lib/prisma";
 
 export const addToCart = async (userId: string, productId: string, size: Sizes, quantity: number) => {
@@ -17,26 +17,25 @@ export const addToCart = async (userId: string, productId: string, size: Sizes, 
     });
 
     if (!cart) {
-      throw new Error('Failed to add to cart');
+      throw new Error('Failed to add item to cart');
     }
 
     return 1;
   } catch (error) {
-    console.error('Error adding to cart:', error);
+    console.error('Error adding item to cart:', error);
     return 0;
   }
 }
 
-export const updateCart = async (id: string, quantity: number) => {
+export const updateCartItem = async (id: string, quantity: number) => {
   try {
     await prisma.cartItem.update({
       where: { id: id },
       data: { quantity: quantity }
     });
-
     return 1;
   } catch (e: any) {
-    console.error('Error updating cart:', e.message);
+    console.error('Error updating cart item:', e.message);
     return 0;
   }
 }
@@ -46,7 +45,6 @@ export const deleteCartItem = async (id: string) => {
     await prisma.cartItem.delete({
       where: { id: id }
     });
-
     return 1;
   } catch (e: any) {
     console.error('Error deleting cart item:', e.message);

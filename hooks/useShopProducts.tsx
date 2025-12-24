@@ -1,29 +1,29 @@
 import { useState, useEffect } from 'react';
-import type { ProductCardSchema } from '@/types';
-import { fetchShopProducts } from '@/actions/fetch';
+import type { ProductCardSchema } from '@/types/types';
+import { fetchShopProductsById } from '@/actions/fetch';
 
-const useFetchCreatorProducts = (shopId: string) => {
-	const [products, setProducts] = useState<ProductCardSchema[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
+const useShopProducts = (shopId: string) => {
+  const [products, setProducts] = useState<ProductCardSchema[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-	useEffect(() => {
-		const fetchCreatorProducts = async () => {
-			setIsLoading(true);
-			const similarProducts: ProductCardSchema[] = await fetchShopProducts(shopId, 8);
-			console.log('Fetched products:', similarProducts);
-			setProducts(similarProducts);
-			setIsLoading(false);
-		};
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      const products: ProductCardSchema[] = await fetchShopProductsById(shopId, 8);
+      console.log('Fetched products:', products);
+      setProducts(products);
+      setIsLoading(false);
+    };
 
-		if (shopId && shopId.length > 0) {
-			fetchCreatorProducts();
-		}
-	}, [shopId]);
+    if (shopId && shopId.length > 0) {
+      fetchProducts();
+    }
+  }, [shopId]);
 
-	return {
-		products,
-		isLoading,
-	};
+  return {
+    products,
+    isLoading,
+  };
 };
 
-export default useFetchCreatorProducts;
+export default useShopProducts;

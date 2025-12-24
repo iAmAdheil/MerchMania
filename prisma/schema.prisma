@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../app/generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -80,18 +80,18 @@ model Verification {
 }
 
 model Shop {
-  id     String @id @default(cuid())
-  name   String
-  logo   String
-  banner String
-
+  id          String @id @default(cuid())
+  name        String
+  logo        String
+  banner      String
   description String
   location    String @default("")
   contact     String @default("")
   socialLinks Json
 
-  ownerId  String?   @unique
-  owner    User?     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String? @unique
+  owner   User?   @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+
   products Product[]
 
   createdAt DateTime @default(now())
@@ -111,13 +111,14 @@ model Product {
   inStock     Boolean  @default(true)
   tags        String[]
 
-  shopId String
-  shop   Shop   @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  shopId String? @unique
+  shop   Shop?   @relation(fields: [shopId], references: [id], onDelete: SetNull)
 
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
   Cart      CartItem[]
   OrderItem OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("product")
 }
@@ -127,24 +128,29 @@ model CartItem {
   quantity Int
   size     SIZE
 
-  userId    String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   productId String
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  @@map("cart")
+  @@map("cart_item")
 }
 
 model Order {
-  id       String       @id @default(cuid())
-  items    OrderItem[]
-  address  String
-  totalAmt String
-  paid     Boolean
-  status   ORDER_STATUS @default(PENDING)
+  id            String               @id @default(cuid())
+  items         OrderItem[]
+  address       String
+  firstName     String
+  lastName      String
+  email         String
+  phone         String
+  totalAmt      String
+  paymentStatus ORDER_PAYMENT_STATUS @default(active)
+  status        ORDER_STATUS         @default(pending)
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -157,8 +163,8 @@ model OrderItem {
   quantity Int
   size     SIZE
 
-  productId String
-  product   Product @relation(fields: [productId], references: [id])
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
 
   orderId String
   order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
@@ -187,12 +193,19 @@ enum SIZE {
   XXL
 }
 
+enum ORDER_PAYMENT_STATUS {
+  active
+  paid
+  failed
+  cancelled
+}
+
 enum ORDER_STATUS {
-  PENDING
-  PROCESSED
-  MANUFACTURED
-  SHIPPED
-  DELIVERED
-  CANCELLED
-  RETURNED
+  pending
+  processed
+  manufactured
+  shipped
+  delivered
+  cancelled
+  returned
 }
