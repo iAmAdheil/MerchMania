@@ -99,21 +99,23 @@ async function Navbar({ role }: { role: Roles }) {
               </div>
             )}
             {role === 'creator' && (
-              <div className="flex flex-row items-center gap-8 xl:gap-12">
-                <Link
-                  className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
-                  href="/creator/dashboard"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
-                  href="/creator/new-product"
-                >
-                  Create New Product
-                </Link>
+              <>
+                <div className="flex flex-row items-center gap-8 xl:gap-12">
+                  <Link
+                    className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
+                    href="/creator/dashboard"
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    className="text-sm px-2.5 py-1.5 border border-solid border-purple-600 bg-white text-black text-nowrap font-roboto font-medium rounded-sm hover:opacity-80 active:opacity-50 duration-200"
+                    href="/creator/new-product"
+                  >
+                    Create New Product
+                  </Link>
+                </div>
                 <Profile />
-              </div>
+              </>
             )}
             {role === 'customer' && (
               <div className="flex flex-row items-center gap-8 xl:gap-12">
