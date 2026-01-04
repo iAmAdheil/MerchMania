@@ -1,15 +1,15 @@
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 border-t-[0.5px] border-gray-200">
-      <div className="py-10 lg:px-12 px-3 md:px-6 flex flex-col justify-center">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-y-10">
-          <div className="flex flex-col justify-center items-center w-full">
-            <h3 className="text-xl sm:text-2xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-brand-purple to-brand-light-purple bg-clip-text text-transparent">
+    <footer className="w-full bg-gray-50 border-t border-gray-200">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-10 lg:py-12 flex flex-col justify-center">
+        <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-8">
+          <div className="md:max-w-[15rem] flex flex-col">
+            <h3 className="mb-4 text-xl sm:text-2xl font-bold">
+              <span className="bg-gradient-to-r from-brand-purple to-brand-light-purple text-transparent bg-clip-text">
                 MerchMania
               </span>
             </h3>
-            <p className="text-gray-600 text-center mb-4 text-sm sm:text-base max-w-[15rem]">
+            <p className="mb-4 max-w-[15rem] text-sm sm:text-base text-gray-600">
               The platform that helps creators turn their influence into a merchandise brand.
             </p>
             <div className="flex space-x-4">
@@ -38,8 +38,8 @@ export default function Footer() {
               </a>
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center w-full">
-            <h3 className="font-semibold text-gray-900 mb-4 mr-2 md:mr-5">For Customers</h3>
+          <div className="md:max-w-[15rem] flex flex-col">
+            <h3 className="mb-4 font-semibold text-gray-900">For Customers</h3>
             <ul className="space-y-3">
               <li>
                 <p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
@@ -63,8 +63,8 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className="flex flex-col justify-center items-center w-full">
-            <h3 className="font-semibold text-gray-900 mb-4 mr-3 md:mr-7">For Creators</h3>
+          <div className="md:max-w-[15rem] flex flex-col">
+            <h3 className="mb-4 font-semibold text-gray-900">For Creators</h3>
             <ul className="space-y-3">
               <li>
                 <p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
@@ -88,8 +88,8 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className="flex flex-col items-center justify-center w-full">
-            <h3 className="font-semibold text-gray-900 mb-4 mr-20 md:mr-24">Support</h3>
+          <div className="md:max-w-[15rem] flex flex-col">
+            <h3 className="font-semibold text-gray-900 mb-4">Support</h3>
             <ul className="space-y-3">
               <li>
                 <p className="text-sm md:text-base text-gray-600 hover:text-brand-purple transition-colors">
@@ -114,8 +114,8 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-10 pt-10 lg:mt-12 border-t border-gray-200">
-          <p className="text-gray-500 text-center text-sm md:text-base">
+        <div className="mt-10 lg:mt-12 pt-10 border-t border-gray-200">
+          <p className="text-center text-sm md:text-base text-gray-500">
             &copy; {new Date().getFullYear()} CreatorMerch. All rights reserved.
           </p>
         </div>

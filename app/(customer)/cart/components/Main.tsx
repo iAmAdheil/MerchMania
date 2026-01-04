@@ -1,11 +1,14 @@
 'use client';
 
 import { useState } from "react";
-import { CartItemSchema } from "@/types";
+
 import { updateCartItem, deleteCartItem } from "@/actions/update";
 import { useCartQty } from "@/store/cart";
+import { CartItemSchema } from "@/types";
+
 import Empty from "./Empty";
 import CartItem from "./Item";
+import Header from "./Header";
 
 export default function Main({ items }: { items: CartItemSchema[] }) {
   const { setQty } = useCartQty();
@@ -38,7 +41,8 @@ export default function Main({ items }: { items: CartItemSchema[] }) {
   };
 
   return (
-    <>
+    <div className="w-full px-6 md:px-10 lg:px-12 pt-10 pb-14 flex flex-col gap-8">
+      <Header />
       {items.length === 0 ? (
         <Empty />
       ) : (
@@ -54,6 +58,6 @@ export default function Main({ items }: { items: CartItemSchema[] }) {
           ))}
         </div>
       )}
-    </>
+    </div>
   )
 }

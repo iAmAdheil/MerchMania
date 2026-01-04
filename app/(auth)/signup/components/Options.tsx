@@ -60,16 +60,14 @@ export default function Options({
           <ArrowRight className="h-4 w-4" />
         </button>
       </div>
-      <div>
-        <p className="text-xs md:text-sm text-gray-600 font-roboto">
-          Already have an account?{' '}
-          <Link href="/login">
-            <span className="text-sm md:text-base font-semibold text-purple-600 decoration-purple-600 cursor-pointer hover:underline">
-              Sign in
-            </span>
-          </Link>
-        </p>
-      </div>
+      <p className="text-xs md:text-sm text-gray-600 font-roboto">
+        Already have an account?{' '}
+        <Link href="/login">
+          <span className="text-sm md:text-base font-semibold text-purple-600 decoration-purple-600 cursor-pointer hover:underline">
+            Sign in
+          </span>
+        </Link>
+      </p>
     </div >
   );
 }

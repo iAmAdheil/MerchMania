@@ -1,6 +1,10 @@
 import { redirect } from "next/navigation";
 
 import { getSession } from "@/lib/auth";
+import { Roles } from '@/types';
+
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 async function Layout({
   children,
@@ -8,12 +12,16 @@ async function Layout({
   children: React.ReactNode;
 }>) {
   const session = await getSession();
-  if (session) {
+  if (!session) {
     redirect('/');
   }
 
   return (
-    <>{children}</>
+    <>
+      <Navbar role={session?.user?.role as Roles || 'anonymous'} />
+      {children}
+      <Footer />
+    </>
   );
 }
 

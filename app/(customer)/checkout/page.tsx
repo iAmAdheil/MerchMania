@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { fetchCart } from '@/actions/fetch';
 import Navbar from '@/components/app/navbar/Main';
 import Footer from '@/components/Footer';
-import Main from '@/components/app/pages/checkout/Main';
+import Main from '@/app/(customer)/checkout/components/Main';
 import { Roles, SavedAddress } from '@/types';
 
 const SavedAddresses: SavedAddress[] = [

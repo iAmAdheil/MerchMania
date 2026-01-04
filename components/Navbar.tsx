@@ -128,7 +128,7 @@ async function Navbar({ role }: { role: Roles }) {
               )}
               {(role === 'anonymous' || (role !== 'creator' && role !== 'customer')) && (
                 <div className="flex flex-row items-center gap-4">
-                  <Link href="/signin">
+                  <Link href="/login">
                     <div
                       className="px-4 py-2 text-xs md:text-sm text-white font-roboto font-semibold bg-purple-500 border-gray-600 rounded-md hover:opacity-80 active:opacity-60"
                     >

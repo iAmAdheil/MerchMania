@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction, useState } from 'react';
 
@@ -185,11 +186,13 @@ export default function CustomerSignup({
             Create Account
           </button>
         </div>
-        <p className="flex flex-row justify-center items-end gap-1 text-xs md:text-sm font-roboto text-gray-600">
+        <p className="text-xs md:text-sm text-gray-600 font-roboto">
           Already have an account?{' '}
-          <a href="/login" className="text-sm md:text-base decoration-purple-500 hover:underline">
-            <span className="font-semibold text-purple-500">Sign in</span>
-          </a>
+          <Link href="/login">
+            <span className="text-sm md:text-base font-semibold text-purple-600 decoration-purple-600 cursor-pointer hover:underline">
+              Sign in
+            </span>
+          </Link>
         </p>
       </div>
     </div>

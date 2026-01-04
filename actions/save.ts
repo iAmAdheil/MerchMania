@@ -1,6 +1,6 @@
 'use server';
 
-import { generateUniqueId } from '@/utils/getCuid';
+import { generateUniqueId } from '@/utils/cuid';
 import prisma from '@/lib/prisma-client';
 import { v2 as cloudinary } from 'cloudinary';
 import { ProductDetailsSchema, ShopDetailsSchema } from '@/types';

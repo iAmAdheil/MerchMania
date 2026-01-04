@@ -1,7 +1,9 @@
+'use client'
+
 import { CartItemSchema } from '@/types';
 import { FiTrash } from 'react-icons/fi';
 
-export default function CartItem({
+export default function Item({
   item,
   handlePlus,
   handleMinus,
