@@ -1,7 +1,7 @@
 'use client'
 
 import { CreditCard } from "lucide-react";
-import { CartItemSchema } from "@/types/types";
+import { CartItemSchema } from "@/types";
 
 export default function Summary({ cartItems, productsAmount, tax, totalAmount, handlePayment }: { cartItems: CartItemSchema[], productsAmount: number, tax: number, totalAmount: number, handlePayment: () => void }) {
   return (

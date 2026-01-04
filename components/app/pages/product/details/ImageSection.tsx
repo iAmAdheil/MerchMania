@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import { ProductDisplaySchema } from "@/types/types";
+import { ProductDisplaySchema } from "@/types";
 
 export default function ImageSection({
   productDetails,

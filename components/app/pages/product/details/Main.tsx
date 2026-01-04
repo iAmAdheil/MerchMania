@@ -1,6 +1,6 @@
 'use server'
 
-import { Roles } from '@/types/types';
+import { Roles } from '@/types';
 import { fetchProductById } from '@/actions/fetch';
 import ImageSection from './ImageSection';
 import MainDetails from './MainDetails';

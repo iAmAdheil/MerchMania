@@ -1,22 +1,25 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { Dispatch, SetStateAction, useState } from 'react';
+
+import * as z from 'zod/v4';
 import { authClient } from '@/auth/auth-client';
 import { Stack, Field, Input } from '@chakra-ui/react';
-import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Display } from '@/app/signup/page';
-import * as z from 'zod/v4';
-import Loader from '../../ui/Loader';
+import { Display } from '@/app/(auth)/signup/components/Main';
 
-type UserDetails = {
+import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/Password-Input';
+import Loader from '@/components/Loader';
+
+type Details = {
+  role: "customer";
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
 };
 
-const detailsParser = z.object({
+const DetailsParser = z.object({
   role: z.literal('customer'),
   username: z.string().min(4).max(30),
   email: z.email(),
@@ -31,17 +34,28 @@ export default function CustomerSignup({
 }) {
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [userDetails, setUserDetails] = useState<UserDetails>({
+  const [loading, setLoading] = useState(false);
+  const [userDetails, setUserDetails] = useState<Details>({
+    role: 'customer',
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserDetails(prevState => {
+      return { ...prevState, [e.target.name]: e.target.value };
+    });
+  };
+
+  const handleBack = () => {
+    setDisplay('options');
+  };
+
   const handleCredSignup = async () => {
     try {
-      setIsLoading(true);
+      setLoading(true);
       const details = {
         role: 'customer',
         username: userDetails.username,
@@ -49,17 +63,13 @@ export default function CustomerSignup({
         password: userDetails.password,
         confirmPassword: userDetails.confirmPassword,
       };
-      console.log(details);
-      const result = detailsParser.safeParse(details);
-      console.log(result);
+      const result = DetailsParser.safeParse(details);
       if (!result.success) {
-        alert('Invalid credentials');
-        console.log(result.error);
+        alert(result.error.message);
         return;
       }
       if (result.data.password !== result.data.confirmPassword) {
-        //	display error -> fields do not match!
-        alert('Password fields do not match');
+        alert('Password fields must match');
         return;
       }
 
@@ -85,42 +95,31 @@ export default function CustomerSignup({
           },
         }
       );
-      console.log(data);
-      console.log(error);
     } catch (e: any) {
-      console.log(e);
       alert(e.message);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="w-full flex-1 max-w-[30rem] flex flex-col items-center justify-center gap-5 bg-white px-8 py-6 rounded-lg shadow-xl">
-      {isLoading && (
-        <div className="absolute bottom-1/2 z-10">
-          <Loader size={60} />
-        </div>
-      )}
+    <div className="max-w-[30rem] w-full px-6 py-8 bg-white flex flex-col items-center justify-center gap-6 rounded-md shadow-xl">
       <div className="flex flex-col items-center">
-        <h2 className="text-2xl font-bold">Customer Signup</h2>
-        <p className="text-xs md:text-sm font-roboto text-gray-600">
+        <h2 className="text-3xl font-bold">Customer Signup</h2>
+        <p className="text-base text-gray-600 font-roboto">
           Start shopping unique creator merchandise
         </p>
       </div>
-      <div className="w-full flex flex-col gap-4">
-        <Field.Root required className="flex flex-col gap-2">
-          <Field.Label className="text-xs md:text-sm font-roboto">
+      <div className="w-full flex flex-col gap-5">
+        <Field.Root required className="flex flex-col gap-1">
+          <Field.Label className="text-sm font-roboto">
             Username <Field.RequiredIndicator color={'purple.500'} />
           </Field.Label>
           <Input
-            onChange={e =>
-              setUserDetails(prevState => {
-                return { ...prevState, username: e.target.value };
-              })
-            }
+            name="username"
+            onChange={handleInputChange}
             placeholder="John Doe"
-            className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm pl-3 py-1"
+            className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
           />
         </Field.Root>
         <Field.Root required className="flex flex-col gap-2">
@@ -128,13 +127,10 @@ export default function CustomerSignup({
             Email <Field.RequiredIndicator color={'purple.500'} />
           </Field.Label>
           <Input
-            onChange={e =>
-              setUserDetails(prevState => {
-                return { ...prevState, email: e.target.value };
-              })
-            }
+            name="email"
+            onChange={handleInputChange}
             placeholder="you@example.com"
-            className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm pl-3 py-1"
+            className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
           />
         </Field.Root>
         <Field.Root required className="flex flex-col gap-2 w-full">
@@ -149,14 +145,11 @@ export default function CustomerSignup({
           <Stack className="w-full">
             <div className="flex flex-col gap-4">
               <PasswordInput
-                onChange={e =>
-                  setUserDetails(prevState => {
-                    return { ...prevState, password: e.target.value };
-                  })
-                }
-                className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm px-3 py-1"
+                name="password"
+                onChange={handleInputChange}
+                className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
               />
-              <PasswordStrengthMeter value={2} />
+              <PasswordStrengthMeter value={userDetails.password.length} />
             </div>
           </Stack>
         </Field.Root>
@@ -169,12 +162,9 @@ export default function CustomerSignup({
           <Stack className="w-full">
             <div className="flex flex-col gap-4">
               <PasswordInput
-                onChange={e =>
-                  setUserDetails(prevState => {
-                    return { ...prevState, confirmPassword: e.target.value };
-                  })
-                }
-                className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm px-3 py-1"
+                name="confirmPassword"
+                onChange={handleInputChange}
+                className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
               />
             </div>
           </Stack>
@@ -183,9 +173,7 @@ export default function CustomerSignup({
       <div className="w-full flex flex-col gap-4 md:gap-6 md:mt-2">
         <div className="w-full flex flex-row justify-between items-center gap-4">
           <button
-            onClick={() => {
-              setDisplay('options');
-            }}
+            onClick={handleBack}
             className="w-full py-2 rounded-md text-xs md:text-sm font-roboto font-semibold border border-solid border-gray-200 hover:bg-slate-100 duration-200"
           >
             Back
@@ -199,7 +187,7 @@ export default function CustomerSignup({
         </div>
         <p className="flex flex-row justify-center items-end gap-1 text-xs md:text-sm font-roboto text-gray-600">
           Already have an account?{' '}
-          <a href="" className="text-sm md:text-base decoration-purple-500 hover:underline">
+          <a href="/login" className="text-sm md:text-base decoration-purple-500 hover:underline">
             <span className="font-semibold text-purple-500">Sign in</span>
           </a>
         </p>

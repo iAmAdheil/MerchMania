@@ -2,10 +2,8 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import { auth } from '@/auth/auth';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
-import ProviderWrapper from '@/config/ClientProvider';
+
+import Provider from '@/Provider.client';
 
 export const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -19,19 +17,18 @@ export const metadata: Metadata = {
   description: 'MerchMania',
 };
 
-export default async function RootLayout({
+async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script src="https://sdk.cashfree.com/js/v3/cashfree.js" />
-      </head>
       <body className={roboto.className}>
-        <ProviderWrapper>{children}</ProviderWrapper>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );
 }
+
+export default RootLayout;

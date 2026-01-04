@@ -1,7 +1,7 @@
 'use server'
 
-import { Sizes } from "@/types/types";
-import prisma from "@/lib/prisma";
+import { Sizes } from "@/types";
+import prisma from "@/lib/prisma-client";
 
 export const addToCart = async (userId: string, productId: string, size: Sizes, quantity: number) => {
   try {

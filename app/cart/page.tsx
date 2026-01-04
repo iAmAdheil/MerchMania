@@ -2,11 +2,11 @@ import { auth } from "@/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { fetchCart } from "@/actions/fetch";
-import Navbar from '@/components/app/navbar/Main';
+import Navbar from '@/components/Navbar';
 import Header from '@/components/app/pages/cart/Header';
 import Main from '@/components/app/pages/cart/Main';
-import Footer from '@/components/app/ui/Footer';
-import { Roles } from '@/types/types';
+import Footer from '@/components/Footer';
+import { Roles } from '@/types';
 
 async function Page() {
   const session = await auth.api.getSession({

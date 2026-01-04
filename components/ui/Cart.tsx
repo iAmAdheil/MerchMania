@@ -1,12 +1,14 @@
 'use client'
 
+import { useRouter } from 'next/navigation';
+
 import { FiShoppingCart } from 'react-icons/fi';
 import Tooltip from '@mui/material/Tooltip';
-import { useRouter } from 'next/navigation';
 import { useCartQty } from '@/store/cart';
 
 export default function CartIcon() {
   const router = useRouter();
+
   const { qty } = useCartQty();
 
   const handleCartNavigation = () => {

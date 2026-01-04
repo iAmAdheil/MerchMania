@@ -1,8 +1,8 @@
 'use server';
 
 import { Cashfree, CFEnvironment } from "cashfree-pg";
-import prisma from "@/lib/prisma";
-import { CartItemSchema } from "@/types/types";
+import prisma from "@/lib/prisma-client";
+import { CartItemSchema } from "@/types";
 
 interface UserDets {
   firstName: string,

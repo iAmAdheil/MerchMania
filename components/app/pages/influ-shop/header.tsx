@@ -1,4 +1,4 @@
-import { ShopDetailsSchema } from '@/types/types';
+import { ShopDetailsSchema } from '@/types';
 import { MapPin, Calendar } from 'lucide-react';
 import { MdVerified } from 'react-icons/md';
 

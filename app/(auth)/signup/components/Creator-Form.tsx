@@ -1,23 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
+
+import * as z from 'zod/v4';
 import { authClient } from '@/auth/auth-client';
 import { Stack, Field, Input } from '@chakra-ui/react';
-import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/password-input';
-import { Dispatch, SetStateAction } from 'react';
-import { Display } from '@/app/signup/page';
-import Loader from '../../ui/Loader';
-import * as z from 'zod/v4';
+import { Display } from './Main';
 
-type UserDetails = {
+import { PasswordInput, PasswordStrengthMeter } from '@/components/ui/Password-Input';
+import Loader from '@/components/Loader';
+
+type Details = {
+  role: 'creator';
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
 };
 
-const detailsParser = z.object({
+const DetailsParser = z.object({
   role: z.literal('creator'),
   username: z.string().min(4).max(30),
   email: z.email(),
@@ -32,35 +34,43 @@ export default function CreatorSignup({
 }) {
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [userDetails, setUserDetails] = useState<UserDetails>({
+  const [loading, setLoading] = useState<boolean>(false);
+  const [userDetails, setUserDetails] = useState<Details>({
+    role: 'creator',
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserDetails(prevState => {
+      return { ...prevState, [e.target.name]: e.target.value };
+    });
+  };
+
+  const handleBack = () => {
+    setDisplay('options');
+  };
+
   const handleCredSignup = async () => {
     try {
-      setIsLoading(true);
-      const details = {
+      setLoading(true);
+      const details: Details = {
         role: 'creator',
         username: userDetails.username,
         email: userDetails.email,
         password: userDetails.password,
         confirmPassword: userDetails.confirmPassword,
       };
-      console.log(details);
-      const result = detailsParser.safeParse(details);
-      console.log(result);
+
+      const result = DetailsParser.safeParse(details);
       if (!result.success) {
-        alert('Invalid credentials');
-        console.log(result.error);
+        alert(result.error.message);
         return;
       }
       if (result.data.password !== result.data.confirmPassword) {
-        //	display error -> fields do not match!
-        alert('Password fields do not match');
+        alert('Password fields must match');
         return;
       }
 
@@ -79,69 +89,56 @@ export default function CreatorSignup({
           },
           onSuccess: ctx => {
             console.log(ctx);
-            router.replace('/');
+            router.replace('/creator/onboarding');
           },
           onError: ctx => {
             alert(ctx.error.message);
           },
         }
       );
-      console.log(data);
-      console.log(error);
       // throw or set errors if any
     } catch (e: any) {
       console.log(e);
       alert(e.message);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
     <div
-      className={`w-full max-w-[30rem] px-6 py-8 relative flex flex-col items-center justify-center gap-5 bg-white rounded-md shadow-xl ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}
+      className="max-w-[30rem] w-full px-6 py-8 bg-white flex flex-col items-center justify-center gap-6 rounded-md shadow-xl"
     >
-      {isLoading && (
-        <div className="absolute bottom-1/2 z-10">
-          <Loader size={60} />
-        </div>
-      )}
       <div className="flex flex-col items-center">
-        <h2 className="text-2xl font-bold">Creator Signup</h2>
-        <p className="text-sm font-roboto text-gray-600">Begin your creator journey with us</p>
+        <h2 className="text-3xl font-bold">Creator Signup</h2>
+        <p className="text-base text-gray-600 font-roboto">Begin your creator journey with us</p>
       </div>
-      <div className="w-full flex flex-col gap-4">
-        <Field.Root required className="flex flex-col gap-2">
-          <Field.Label className="text-xs md:text-sm font-roboto">
+      <div className="w-full flex flex-col gap-5">
+        <Field.Root required className="flex flex-col gap-1">
+          <Field.Label className="text-sm font-roboto">
             Full Name <Field.RequiredIndicator color={'purple.500'} />
           </Field.Label>
           <Input
-            onChange={e =>
-              setUserDetails(prevState => {
-                return { ...prevState, username: e.target.value };
-              })
-            }
+            name="username"
+            onChange={handleInputChange}
             placeholder="John Doe"
-            className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm pl-3 py-1"
+            className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
           />
         </Field.Root>
-        <Field.Root required className="flex flex-col gap-2">
-          <Field.Label className="text-xs md:text-sm font-roboto">
+        <Field.Root required className="flex flex-col gap-1">
+          <Field.Label className="text-sm font-roboto">
             Email <Field.RequiredIndicator color={'purple.500'} />
           </Field.Label>
           <Input
-            onChange={e =>
-              setUserDetails(prevState => {
-                return { ...prevState, email: e.target.value };
-              })
-            }
+            name="email"
+            onChange={handleInputChange}
             placeholder="you@example.com"
-            className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm pl-3 py-1"
+            className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
           />
         </Field.Root>
-        <Field.Root required className="flex flex-col gap-2 w-full">
+        <Field.Root required className="flex flex-col gap-1 w-full">
           <Field.Label className="flex flex-row justify-between w-full">
-            <div className="text-xs md:text-sm font-roboto">
+            <div className="text-sm font-roboto">
               Password <Field.RequiredIndicator color={'purple.500'} />
             </div>
             <a href="" className="hover:text-purple-500 duration-200">
@@ -151,19 +148,16 @@ export default function CreatorSignup({
           <Stack className="w-full">
             <div className="flex flex-col gap-4">
               <PasswordInput
-                onChange={e =>
-                  setUserDetails(prevState => {
-                    return { ...prevState, password: e.target.value };
-                  })
-                }
-                className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm px-3 py-1"
+                name="password"
+                onChange={handleInputChange}
+                className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
               />
-              <PasswordStrengthMeter value={2} />
+              <PasswordStrengthMeter value={userDetails.password.length} />
             </div>
           </Stack>
         </Field.Root>
-        <Field.Root required className="flex flex-col gap-2 w-full">
-          <Field.Label className="flex flex-row justify-between w-full">
+        <Field.Root required className="flex flex-col gap-1 w-full">
+          <Field.Label className="flex flex-row justify-between">
             <div className="text-xs md:text-sm font-roboto">
               Confirm Password <Field.RequiredIndicator color={'purple.500'} />
             </div>
@@ -171,12 +165,9 @@ export default function CreatorSignup({
           <Stack className="w-full">
             <div className="flex flex-col gap-4">
               <PasswordInput
-                onChange={e =>
-                  setUserDetails(prevState => {
-                    return { ...prevState, confirmPassword: e.target.value };
-                  })
-                }
-                className="border border-solid border-gray-200 text-xs sm:text-sm font-light rounded-sm px-3 py-1"
+                name='confirmPassword'
+                onChange={handleInputChange}
+                className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
               />
             </div>
           </Stack>
@@ -185,23 +176,21 @@ export default function CreatorSignup({
       <div className="w-full flex flex-col gap-4 md:gap-6 md:mt-2">
         <div className="w-full flex flex-row justify-between items-center gap-4">
           <button
-            onClick={() => {
-              setDisplay('options');
-            }}
-            className="w-full py-2 rounded-md text-xs md:text-sm font-roboto font-semibold border border-solid border-gray-200 hover:bg-slate-100 duration-200"
+            onClick={handleBack}
+            className="w-full py-2.5 text-xs md:text-sm font-roboto font-semibold border border-solid border-gray-200 rounded-md hover:bg-slate-100 duration-200"
           >
             Back
           </button>
           <button
             onClick={handleCredSignup}
-            className="w-full py-2 rounded-md bg-purple-500 text-white text-xs md:text-sm font-roboto font-semibold border border-solid border-gray-200 hover:opacity-80 duration-200"
+            className="w-full py-2.5 bg-purple-500 text-white text-xs md:text-sm font-roboto font-semibold border border-solid border-gray-200 rounded-md hover:opacity-80 duration-200"
           >
             Create Account
           </button>
         </div>
         <p className="flex flex-row justify-center items-end gap-1 text-xs md:text-sm font-roboto text-gray-600">
           Already have an account?{' '}
-          <a href="/signin" className="text-sm md:text-base decoration-purple-500 hover:underline">
+          <a href="/login" className="text-sm md:text-base decoration-purple-500 hover:underline">
             <span className="font-semibold text-purple-500">Sign in</span>
           </a>
         </p>

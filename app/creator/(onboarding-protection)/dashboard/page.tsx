@@ -6,8 +6,8 @@ import { headers } from 'next/headers';
 import Navbar from '@/components/app/navbar/Main';
 import Header from '@/components/app/pages/influ-dashboard/Header';
 import Tabs from '@/components/app/pages/influ-dashboard/tabs/Main';
-import Footer from '@/components/app/ui/Footer';
-import { Roles } from '@/types/types';
+import Footer from '@/components/Footer';
+import { Roles } from '@/types';
 import { fetchShopByUserId } from '@/actions/fetch';
 
 async function Page() {

@@ -4,8 +4,8 @@ import { useState, useMemo } from "react";
 import Address from "./Address";
 import UserDetails from "./UserDetails";
 import Summary from "./Summary";
-import { CartItemSchema } from "@/types/types";
-import { SavedAddress } from "@/types/types";
+import { CartItemSchema } from "@/types";
+import { SavedAddress } from "@/types";
 import { createOrder } from "@/actions/billing";
 //@ts-ignore
 import { load } from "@cashfreepayments/cashfree-js";

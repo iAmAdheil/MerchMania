@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import Navbar from '@/components/app/navbar/Main';
-import Footer from '@/components/app/ui/Footer';
+import Footer from '@/components/Footer';
 import { auth } from "@/auth/auth";
 import { headers } from "next/headers";
 import SigninCard from '@/components/app/pages/signin/Card';

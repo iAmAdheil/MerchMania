@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from 'next-themes';
 import { AppRouterCacheProvider as MUIProvider } from '@mui/material-nextjs/v15-appRouter';
-import { Provider as ChakraProvider } from '@/components/ui/provider';
+import { Provider as ChakraProvider } from '@/components/ui/Provider.Chakra';
 
 const ProviderWrapper = ({
   children,

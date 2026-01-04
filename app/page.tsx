@@ -1,8 +1,8 @@
-import Navbar from '@/components/app/navbar/Main';
+import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/app/pages/landing/HeroSection';
 import HeroFollower from '@/components/app/pages/landing/HeroFollower';
-import Footer from '@/components/app/ui/Footer';
-import { Roles } from '@/types/types';
+import Footer from '@/components/Footer';
+import { Roles } from '@/types';
 import { auth } from "@/auth/auth"; // path to your Better Auth server instance
 import { headers } from 'next/headers';
 

@@ -1,4 +1,4 @@
-import { ProductCardSchema } from '@/types/types';
+import { ProductCardSchema } from '@/types';
 
 export default function Card({
   product,

@@ -3,8 +3,8 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Navbar from '@/components/app/navbar/Main';
 import Form from '@/components/app/pages/influ-create-product/Form';
-import Footer from '@/components/app/ui/Footer';
-import { Roles } from '@/types/types';
+import Footer from '@/components/Footer';
+import { Roles } from '@/types';
 
 async function Page() {
   const session = await auth.api.getSession({

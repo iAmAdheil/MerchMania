@@ -2,7 +2,7 @@
 
 import Card from './Card';
 import { useRouter } from 'next/navigation';
-import { ProductCardSchema } from '@/types/types';
+import { ProductCardSchema } from '@/types';
 
 export default function SimilarProducts({ products }: { products: ProductCardSchema[] }) {
   const router = useRouter();

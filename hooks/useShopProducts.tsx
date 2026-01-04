@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { ProductCardSchema } from '@/types/types';
+import type { ProductCardSchema } from '@/types';
 import { fetchShopProductsById } from '@/actions/fetch';
 
 const useShopProducts = (shopId: string) => {

@@ -1,13 +1,13 @@
 'use server';
 
-import prisma from '@/lib/prisma';
+import prisma from '@/lib/prisma-client';
 import {
   ProductDetailsSchema,
   ShopDetailsSchema,
   ProductCardSchema,
   CartItemSchema,
   ProductDisplaySchema
-} from '@/types/types';
+} from '@/types';
 
 export const fetchProductById = async (productId: string): Promise<ProductDisplaySchema | null> => {
   try {

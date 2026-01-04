@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { blobUrlToFile } from '@/utils/blobToFile';
 import { saveProduct } from '@/actions/save';
 import { fetchShopByUserId } from '@/actions/fetch';
-import { ProductDetailsSchema, Sizes } from '@/types/types';
+import { ProductDetailsSchema, Sizes } from '@/types';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Field, Input, Textarea } from '@chakra-ui/react';
 import { Upload, Shirt, X } from 'lucide-react';
-import Loader from '@/components/app/ui/Loader';
+import Loader from '@/components/Loader';
 
 export default function Form({ userId: ownerId }: { userId: string }) {
   const [productName, setProductName] = useState<string>('');

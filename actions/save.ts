@@ -1,9 +1,9 @@
 'use server';
 
 import { generateUniqueId } from '@/utils/getCuid';
-import prisma from '@/lib/prisma';
+import prisma from '@/lib/prisma-client';
 import { v2 as cloudinary } from 'cloudinary';
-import { ProductDetailsSchema, ShopDetailsSchema } from '@/types/types';
+import { ProductDetailsSchema, ShopDetailsSchema } from '@/types';
 import { SIZE } from '@/generated/prisma/client';
 
 export const saveImage = async (file: File, filename: string, folder: string): Promise<string> => {

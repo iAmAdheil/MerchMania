@@ -2,7 +2,7 @@
 
 import { Plus } from 'lucide-react';
 import useShopProducts from '@/hooks/useShopProducts';
-import Loader from '@/components/app/ui/Loader';
+import Loader from '@/components/Loader';
 
 export default function Products({ shopId }: { shopId: string }) {
   const { products, isLoading } = useShopProducts(shopId);

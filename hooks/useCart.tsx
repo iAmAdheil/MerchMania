@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchCart } from '@/actions/fetch';
-import { CartItemSchema } from '@/types/types';
+import { CartItemSchema } from '@/types';
 
 export default function useCart(userId: string) {
   const [cart, setCart] = useState<CartItemSchema[]>([]);

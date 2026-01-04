@@ -1,7 +1,7 @@
 'use client'
 
 import { Youtube, Twitter, Instagram, Twitch, ExternalLink, MapPin, PhoneIcon } from 'lucide-react';
-import { ShopDetailsSchema } from '@/types/types';
+import { ShopDetailsSchema } from '@/types';
 
 const categories = ['Apparel', 'Accessories', 'Posters', 'Stickers', 'Limited Edition'];
 const socialPlatforms = [

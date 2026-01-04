@@ -1,4 +1,4 @@
-import { CartItemSchema } from '@/types/types';
+import { CartItemSchema } from '@/types';
 import { FiTrash } from 'react-icons/fi';
 
 export default function CartItem({

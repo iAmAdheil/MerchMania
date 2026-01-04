@@ -1,6 +1,6 @@
 'use client'
 
-import { ProductCardSchema } from '@/types/types';
+import { ProductCardSchema } from '@/types';
 import Link from 'next/link';
 
 export default function ProductCard({

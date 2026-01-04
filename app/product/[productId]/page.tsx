@@ -2,9 +2,9 @@
 
 import { headers } from 'next/headers';
 import { auth } from "@/auth/auth";
-import { Roles } from '@/types/types';
+import { Roles } from '@/types';
 import Navbar from '@/components/app/navbar/Main';
-import Footer from '@/components/app/ui/Footer';
+import Footer from '@/components/Footer';
 import Details from '@/components/app/pages/product/details/Main';
 import SimilarProducts from '@/components/app/pages/product/Similar';
 

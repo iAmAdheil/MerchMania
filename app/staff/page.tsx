@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { ArrowLeft, Search, Filter, RefreshCw, ChevronDown, Check, Home } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from '@/auth/auth-client';
-import Loader from "@/components/app/ui/Loader";
+import Loader from "@/components/Loader";
 
 enum ORDER_STATUS {
   PENDING = "PENDING",

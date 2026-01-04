@@ -3,8 +3,8 @@ import { headers } from 'next/headers';
 import Header from '@/components/app/pages/influ-shop/Header';
 import Main from '@/components/app/pages/influ-shop/tabs/Main';
 import Navbar from '@/components/app/navbar/Main';
-import Footer from '@/components/app/ui/Footer';
-import { Roles } from '@/types/types';
+import Footer from '@/components/Footer';
+import { Roles } from '@/types';
 import { fetchShopByShopId, fetchShopProductsById } from '@/actions/fetch';
 
 export type Tabs = 'products' | 'about';

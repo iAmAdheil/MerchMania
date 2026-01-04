@@ -12,8 +12,8 @@ import {
 import SocialLink from '@/components/app/pages/influ-onboarding/SocialLink';
 import { blobUrlToFile } from '@/utils/blobToFile';
 import { saveShop } from '@/actions/save';
-import { ShopDetailsSchema } from '@/types/types';
-import Loader from '@/components/app/ui/Loader';
+import { ShopDetailsSchema } from '@/types';
+import Loader from '@/components/Loader';
 
 export default function Main({ userId: ownerId }: { userId: string }) {
   const [loading, setLoading] = useState<boolean>(false);

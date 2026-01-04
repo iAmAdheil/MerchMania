@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { CartItemSchema } from "@/types/types";
+import { CartItemSchema } from "@/types";
 import { updateCartItem, deleteCartItem } from "@/actions/update";
 import { useCartQty } from "@/store/cart";
 import Empty from "./Empty";

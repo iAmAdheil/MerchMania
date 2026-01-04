@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { FiShoppingCart, FiHeart } from 'react-icons/fi';
-import { Sizes, Roles, ProductDisplaySchema } from '@/types/types';
+import { Sizes, Roles, ProductDisplaySchema } from '@/types';
 import { addToCart } from '@/actions/update';
 
 export default function MainDetails({ role, userId, productDetails }: {

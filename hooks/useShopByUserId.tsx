@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchShopByUserId } from '@/actions/fetch';
-import { ShopDetailsSchema } from '@/types/types';
+import { ShopDetailsSchema } from '@/types';
 
 const useShopByUserId = (userId: string) => {
   const [shopDetails, setShopDetails] = useState<ShopDetailsSchema | null>(null);

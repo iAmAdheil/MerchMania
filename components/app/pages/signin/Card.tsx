@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { HStack, Separator, Stack, Text, Button, Field, Input } from '@chakra-ui/react';
-import { PasswordInput } from '@/components/ui/password-input';
+import { PasswordInput } from '@/components/ui/Password-Input';
 import { FcGoogle } from 'react-icons/fc';
 import { signIn } from '@/auth/auth-client';
 import Link from 'next/link';

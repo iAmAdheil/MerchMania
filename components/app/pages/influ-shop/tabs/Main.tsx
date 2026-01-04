@@ -4,7 +4,7 @@ import { useState } from "react";
 import Tabs from "./Tabs";
 import Products from "./Products";
 import About from "./About";
-import { ProductCardSchema, ShopDetailsSchema } from "@/types/types";
+import { ProductCardSchema, ShopDetailsSchema } from "@/types";
 
 export type Tabs = 'products' | 'about';
 

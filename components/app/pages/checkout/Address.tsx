@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { Field, Input } from '@chakra-ui/react';
-import { SavedAddress } from '@/types/types';
+import { SavedAddress } from '@/types';
 
 interface Props {
   savedAddresses: SavedAddress[];

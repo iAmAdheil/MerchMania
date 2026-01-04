@@ -1,8 +1,9 @@
 'use client'
 
+import { useRouter } from 'next/navigation';
+
 import { User } from 'lucide-react';
 import { signOut } from '@/auth/auth-client';
-import { useRouter } from 'next/navigation';
 
 export default function Profile() {
   const router = useRouter();
