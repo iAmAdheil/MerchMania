@@ -1,7 +1,9 @@
 'use client';
 
 import 'react-international-phone/style.css';
+
 import { useState } from 'react';
+
 import { PhoneInput } from 'react-international-phone';
 import { Store, Upload, X } from 'lucide-react';
 import {
@@ -9,28 +11,49 @@ import {
   Input,
   Textarea,
 } from '@chakra-ui/react';
-import SocialLink from '@/components/app/pages/influ-onboarding/SocialLink';
-import { blobUrlToFile } from '@/utils/blobToFile';
-import { saveShop } from '@/actions/save';
-import { ShopDetailsSchema } from '@/types';
+
+import { handleShopCreate } from './Helpers';
+import SocialLink from './Social-Link';
 import Loader from '@/components/Loader';
 
+export type Details = {
+  shopName: string;
+  description: string;
+  contact: string;
+};
+
 export default function Main({ userId: ownerId }: { userId: string }) {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [shopDetails, setShopDetails] = useState<Details>({
+    shopName: '',
+    description: '',
+    contact: '',
+  });
   const [socialLinks, setSocialLinks] = useState<{ [key: string]: string }>({});
-  const [link, setLink] = useState<string>('');
   const [platform, setPlatform] = useState<string>('');
-  const [shopName, setShopName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [contact, setContact] = useState<string>('');
+  const [link, setLink] = useState<string>('');
+
   const [logoUrl, setLogoUrl] = useState<string>('');
   const [bannerUrl, setBannerUrl] = useState<string>('');
   const [logoDragActive, setLogoDragActive] = useState<boolean>(false);
   const [bannerDragActive, setBannerDragActive] = useState<boolean>(false);
 
-  const handleAdd = () => {
-    if (platform === '' || link === '') return;
+  const [loading, setLoading] = useState<boolean>(false);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setShopDetails(prevState => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleAdd = () => {
+    if (platform === '' || link === '') {
+      alert('Please choose platform and add link');
+      return;
+    }
     setSocialLinks(prevState => {
       return {
         ...prevState,
@@ -39,46 +62,6 @@ export default function Main({ userId: ownerId }: { userId: string }) {
     });
     setLink('');
     setPlatform('');
-  };
-
-  const handleShopCreate = async () => {
-    try {
-      setLoading(true);
-      const formData = new FormData();
-
-      const shopDetails: ShopDetailsSchema = {
-        name: shopName,
-        description: description,
-        location: 'USA',
-        logo: logoUrl,
-        banner: bannerUrl,
-        contact: contact,
-        socialLinks: socialLinks,
-      };
-
-      formData.append('shopDetails', JSON.stringify(shopDetails));
-
-      const logoFile = await blobUrlToFile(logoUrl, 'logo.png');
-      formData.append('logo', logoFile);
-      if (bannerUrl.length > 0) {
-        const bannerFile = await blobUrlToFile(bannerUrl, 'banner.png');
-        formData.append('banner', bannerFile);
-      }
-
-      formData.append('ownerId', ownerId);
-
-      const response = await saveShop(formData);
-      if (response === 1) {
-        alert('Shop created successfully!');
-      } else {
-        alert('Failed to create shop. Please try again.');
-      }
-    } catch (e) {
-      console.log(e);
-      alert('Failed to create shop. Please try again. ' + e);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleImageUpload = (file: File, type: 'logo' | 'banner') => {
@@ -140,43 +123,39 @@ export default function Main({ userId: ownerId }: { userId: string }) {
           </div>
         </div>
         <div className="w-full flex flex-col gap-6">
-          <div className="w-full flex flex-col gap-2">
-            <Field.Root required className="flex flex-col gap-2">
-              <Field.Label className="text-sm md:text-base font-roboto">
-                Shop Name <Field.RequiredIndicator color={'purple.500'} />
-              </Field.Label>
-            </Field.Root>
+          <Field.Root required className="flex flex-col gap-1">
+            <Field.Label className="text-sm md:text-base font-roboto">
+              Shop Name <Field.RequiredIndicator color={'purple.500'} />
+            </Field.Label>
             <Input
+              name="shopName"
+              value={shopDetails.shopName}
+              onChange={handleInputChange}
               placeholder="Cyber Ninja"
-              className="w-full border border-solid border-gray-300 text-sm md:text-base rounded-sm pl-3 py-1"
-              value={shopName}
-              onChange={e => setShopName(e.target.value)}
+              className="pl-3 py-1 w-full text-sm md:text-base border border-solid border-gray-300 rounded-sm"
             />
-          </div>
-          <div className="w-full flex flex-col gap-2">
-            <Field.Root required className="flex flex-col gap-2">
-              <Field.Label className="text-sm md:text-base font-roboto">
-                Description <Field.RequiredIndicator color={'purple.500'} />
-              </Field.Label>
-            </Field.Root>
+          </Field.Root>
+          <Field.Root required className="flex flex-col gap-1">
+            <Field.Label className="text-sm md:text-base font-roboto">
+              Description <Field.RequiredIndicator color={'purple.500'} />
+            </Field.Label>
             <Textarea
-              value={description}
-              onChange={e => setDescription(e.target.value)}
+              name="description"
+              value={shopDetails.description}
+              onChange={handleInputChange}
               minH="3lh"
               maxH="8lh"
               placeholder="Cyber Ninja is a brand that sells cyber ninja products"
-              className="text-sm md:text-base py-1.5 px-2 border border-solid placeholder:text-gray-400 border-gray-300 rounded-sm"
+              className="py-1.5 px-2 text-sm md:text-base placeholder:text-gray-400 border border-solid border-gray-300 rounded-sm"
               autoresize
             />
-          </div>
-          <div className="flex flex-col justify-center items-center gap-2">
-            <Field.Root required className="flex flex-col gap-2">
-              <Field.Label className="text-sm md:text-base font-roboto">
-                Logo <Field.RequiredIndicator color={'purple.500'} />
-              </Field.Label>
-            </Field.Root>
+          </Field.Root>
+          <Field.Root required className="flex flex-col gap-1">
+            <Field.Label className="text-sm md:text-base font-roboto">
+              Logo <Field.RequiredIndicator color={'purple.500'} />
+            </Field.Label>
             <div
-              className={`w-full flex flex-col justify-center items-center border-2 border-dashed rounded-lg p-6 text-center transition-colors duration-200 ${logoDragActive ? 'border-purple-500 bg-purple-50' : 'border-gray-300'
+              className={`p-6 w-full flex flex-col justify-center items-center text-center border-2 border-dashed rounded-lg transition-colors duration-200 ${logoDragActive ? 'border-purple-500 bg-purple-50' : 'border-gray-300'
                 }`}
               onDragOver={e => handleDragOver(e, 'logo')}
               onDragLeave={e => handleDragLeave(e, 'logo')}
@@ -231,11 +210,9 @@ export default function Main({ userId: ownerId }: { userId: string }) {
                 <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
               </div>
             </div>
-          </div>
-          <div className="flex flex-col justify-center items-center gap-2">
-            <Field.Root required className="flex flex-col gap-2">
-              <Field.Label className="text-sm md:text-base font-roboto">Banner</Field.Label>
-            </Field.Root>
+          </Field.Root>
+          <Field.Root required className="flex flex-col gap-1">
+            <Field.Label className="text-sm md:text-base font-roboto">Banner</Field.Label>
             <div
               className={`w-full flex flex-col justify-center items-center border-2 border-dashed rounded-lg p-6 text-center transition-colors duration-200 ${bannerDragActive ? 'border-purple-500 bg-purple-50' : 'border-gray-300'
                 }`}
@@ -292,7 +269,7 @@ export default function Main({ userId: ownerId }: { userId: string }) {
                 <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
               </div>
             </div>
-          </div>
+          </Field.Root>
           <div className="w-full flex flex-col mt-6 gap-10">
             <div className="w-full flex flex-col gap-2">
               <Field.Root required className="flex flex-col gap-2">
@@ -301,8 +278,9 @@ export default function Main({ userId: ownerId }: { userId: string }) {
                 </Field.Label>
               </Field.Root>
               <PhoneInput
-                value={contact}
-                onChange={e => setContact(e)}
+                name='contact'
+                value={shopDetails.contact}
+                onChange={contact => setShopDetails({ ...shopDetails, contact })}
                 countrySelectorStyleProps={{
                   buttonStyle: { paddingLeft: 15, paddingRight: 15, height: 45 },
                   dropdownStyleProps: { style: { marginTop: 10, borderRadius: 5 } },
@@ -339,7 +317,7 @@ export default function Main({ userId: ownerId }: { userId: string }) {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-col gap-2 md:gap-3 mt-2 md:mt-3">
+              <div className="mt-2 md:mt-3 flex flex-col gap-2 md:gap-3">
                 {Object.keys(socialLinks).map(key => (
                   <div className="w-full flex flex-row items-center justify-between" key={key}>
                     <div className="flex flex-row items-center gap-3">
@@ -370,13 +348,13 @@ export default function Main({ userId: ownerId }: { userId: string }) {
         </div>
         <div className="w-full flex justify-center sm:justify-start">
           <button
-            onClick={handleShopCreate}
-            className="flex items-center justify-center max-w-28 md:max-w-32 w-full bg-white text-black text-sm md:text-base font-roboto rounded-sm px-4 py-2 border border-solid border-purple-500"
+            onClick={() => handleShopCreate(shopDetails, ownerId, logoUrl, bannerUrl, socialLinks)}
+            className="max-w-28 md:max-w-32 w-full px-4 py-2 flex justify-center items-center text-black text-sm md:text-base font-roboto bg-white border border-solid border-purple-500 rounded-sm"
           >
             {loading ? <Loader size={16} /> : 'Create Shop'}
           </button>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

@@ -12,7 +12,7 @@ async function Layout({
   children: React.ReactNode;
 }>) {
   const session = await getSession();
-  if (!session || session.user.role !== 'customer') {
+  if (!session || session.user.role !== 'creator') {
     redirect('/');
   }
 
