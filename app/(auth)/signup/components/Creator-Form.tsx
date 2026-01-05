@@ -123,7 +123,7 @@ export default function CreatorSignup({
             name="username"
             onChange={handleInputChange}
             placeholder="John Doe"
-            className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
+            className="px-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
           />
         </Field.Root>
         <Field.Root required className="flex flex-col gap-1">
@@ -134,7 +134,7 @@ export default function CreatorSignup({
             name="email"
             onChange={handleInputChange}
             placeholder="you@example.com"
-            className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
+            className="px-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
           />
         </Field.Root>
         <Field.Root required className="flex flex-col gap-1 w-full">
@@ -151,7 +151,7 @@ export default function CreatorSignup({
               <PasswordInput
                 name="password"
                 onChange={handleInputChange}
-                className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
+                className="px-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
               />
               <PasswordStrengthMeter value={userDetails.password.length} />
             </div>
@@ -168,7 +168,7 @@ export default function CreatorSignup({
               <PasswordInput
                 name='confirmPassword'
                 onChange={handleInputChange}
-                className="pl-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
+                className="px-3 text-sm sm:text-base border border-solid border-gray-200 rounded-sm"
               />
             </div>
           </Stack>

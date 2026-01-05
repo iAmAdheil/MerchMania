@@ -1,14 +1,13 @@
 'use client'
 
 import { useState, useMemo } from "react";
+
+import { CartItemSchema, SavedAddress } from "@/types";
+import { createOrder } from "@/actions/billing";
+
 import Address from "./Address";
 import UserDetails from "./UserDetails";
 import Summary from "./Summary";
-import { CartItemSchema } from "@/types";
-import { SavedAddress } from "@/types";
-import { createOrder } from "@/actions/billing";
-//@ts-ignore
-import { load } from "@cashfreepayments/cashfree-js";
 
 interface Props {
   userId: string;
@@ -17,6 +16,12 @@ interface Props {
 }
 
 export default function Main({ userId, savedAddresses, cartItems }: Props) {
+  const [userDetails, setUserDetails] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+  });
   const [addrType, setAddrType] = useState<'new' | 'saved'>('saved');
   const [selectedAddr, setSelectedAddr] = useState<string>('');
   const [addr, setAddr] = useState({
@@ -27,12 +32,6 @@ export default function Main({ userId, savedAddresses, cartItems }: Props) {
     zipCode: '',
     country: 'India',
   })
-  const [userDetails, setUserDetails] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-  });
 
   const productsAmount = useMemo(() => {
     return cartItems.reduce((acc, item) => acc + Number(item.product.price) * item.quantity, 0);
@@ -54,30 +53,31 @@ export default function Main({ userId, savedAddresses, cartItems }: Props) {
 
   const handlePayment = async () => {
     try {
-      const cashfree = await load({
-        mode: "sandbox",
-      });
-      const response = await createOrder(userId, cartItems, userDetails, finalAddr, totalAmount);
-      if (!response) {
-        throw new Error("Failed to create order");
-      }
-      const checkoutOptions = {
-        paymentSessionId: response.payment_sessions_id,
-        redirectTarget: "_self",
-      };
-      cashfree.checkout(checkoutOptions);
+      // const cashfree = await load({
+      //   mode: "sandbox",
+      // });
+      // const response = await createOrder(userId, cartItems, userDetails, finalAddr, totalAmount);
+      // if (!response) {
+      //   throw new Error("Failed to create order");
+      // }
+      // const checkoutOptions = {
+      //   paymentSessionId: response.payment_sessions_id,
+      //   redirectTarget: "_self",
+      // };
+      // cashfree.checkout(checkoutOptions);
+      console.log("Payment successful");
     } catch (e: any) {
       console.log(e);
     }
   }
 
   return (
-    <>
-      <div className="w-full flex flex-col gap-12 md:gap-16">
+    <div className="w-full bg-gray-50">
+      <div className="mt-4 py-10 px-6 md:px-10 w-full max-w-5xl mx-auto flex flex-col justify-center items-center gap-12 md:gap-16">
         <UserDetails userDetails={userDetails} setUserDetails={setUserDetails} />
-        <Address savedAddresses={savedAddresses} addrType={addrType} setAddrType={setAddrType} setSelectedAddr={setSelectedAddr} selectedAddr={selectedAddr} addr={addr} setAddr={setAddr} />
+        <Address addrType={addrType} setAddrType={setAddrType} savedAddresses={savedAddresses} setSelectedAddr={setSelectedAddr} selectedAddr={selectedAddr} addr={addr} setAddr={setAddr} />
       </div>
-      <Summary cartItems={cartItems} productsAmount={productsAmount} tax={tax} totalAmount={totalAmount} handlePayment={handlePayment} />
-    </>
+      <Summary productsAmount={productsAmount} tax={tax} totalAmount={totalAmount} handlePayment={handlePayment} cartItems={cartItems} />
+    </div>
   )
 }

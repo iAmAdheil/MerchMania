@@ -1,11 +1,8 @@
-import { auth } from '@/auth/auth';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { getSession } from '@/lib/auth';
 import { fetchCart } from '@/actions/fetch';
-import Navbar from '@/components/app/navbar/Main';
-import Footer from '@/components/Footer';
-import Main from '@/app/(customer)/checkout/components/Main';
-import { Roles, SavedAddress } from '@/types';
+import { SavedAddress } from '@/types';
+
+import Main from './components/Main';
 
 const SavedAddresses: SavedAddress[] = [
   {
@@ -22,23 +19,10 @@ const SavedAddresses: SavedAddress[] = [
 ];
 
 async function Page() {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
-  if (!session || session.user.role !== 'customer') {
-    redirect('/');
-  }
-  const cartItems = await fetchCart(session.user.id);
+  const session = await getSession();
+  const cartItems = await fetchCart(session?.user?.id || '');
 
-  return (
-    <div className="w-full bg-gray-50">
-      <Navbar role={session.user.role as Roles || 'anonymous'} />
-      <div className="mt-4 bg-gray-50 w-full py-10 px-6 md:px-10 max-w-5xl mx-auto flex flex-col justify-center items-center gap-12 md:gap-16">
-        <Main userId={session.user.id} savedAddresses={SavedAddresses} cartItems={cartItems} />
-      </div>
-      <Footer />
-    </div>
-  );
+  return <Main userId={session?.user.id || ''} savedAddresses={SavedAddresses} cartItems={cartItems} />
 }
 
 export default Page;
