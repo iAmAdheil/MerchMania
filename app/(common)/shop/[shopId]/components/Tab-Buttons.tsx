@@ -2,12 +2,13 @@
 
 import { Button } from '@chakra-ui/react';
 import { ShoppingBag, Info } from 'lucide-react';
-import { type Tabs } from './Main';
+
+import { type Tabs } from './Tabs';
 
 type props = {
   productCount: number;
   activeTab: string;
-  handleTabChange: (tab: Tabs) => void;
+  handleTabClick: (tab: Tabs) => void;
 };
 
 type Tab = {
@@ -17,7 +18,7 @@ type Tab = {
   count: number | null;
 };
 
-export default function Tabs({ productCount, activeTab, handleTabChange }: props) {
+export default function TabButtons({ productCount, activeTab, handleTabClick }: props) {
   const tabs: Tab[] = [
     {
       id: 'products',
@@ -43,8 +44,8 @@ export default function Tabs({ productCount, activeTab, handleTabChange }: props
             <Button
               key={tab.id}
               variant="ghost"
-              onClick={() => handleTabChange(tab.id)}
-              className={`flex flex-row items-center text-base font-medium gap-3 px-1 py-5 border-b-2 transition-colors rounded-none ${isActive
+              onClick={() => handleTabClick(tab.id)}
+              className={`px-1 py-5 flex flex-row items-center gap-3 text-base font-medium border-b-2 transition-colors rounded-none ${isActive
                 ? 'border-purple-500 text-purple-500'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
                 }`}
@@ -52,7 +53,7 @@ export default function Tabs({ productCount, activeTab, handleTabChange }: props
               <Icon className="h-4 w-4" />
               {tab.label}
               {tab.count !== null && (
-                <span className="ml-1 bg-gray-100 text-gray-600 text-sm px-2 py-0.5 rounded-full">
+                <span className="ml-1 px-2 py-0.5 text-sm text-gray-600 bg-gray-100 rounded-full">
                   {tab.count}
                 </span>
               )}

@@ -1,4 +1,4 @@
-import { blobUrlToFile } from '@/utils/blobToFile';
+import { blobUrlToFile } from '@/utils/blob-to-file';
 import { saveShop } from '@/actions/save';
 import { ShopDetailsSchema } from '@/types';
 import { Details } from './Main';

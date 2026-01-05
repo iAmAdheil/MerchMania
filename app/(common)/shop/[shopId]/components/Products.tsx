@@ -1,7 +1,8 @@
 'use client'
 
-import ProductCard from './ProductCard';
 import { ProductCardSchema } from '@/types';
+
+import ProductCard from './Product-Card';
 
 export default function ProductsTab({ products }: { products: ProductCardSchema[] }) {
   return (

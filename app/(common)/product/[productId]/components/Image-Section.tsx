@@ -16,7 +16,7 @@ export default function ImageSection({
           <button
             key={index}
             onClick={() => setActiveImage(index)}
-            className={`w-14 h-14 sm:h-24 sm:w-24 rounded-md overflow-hidden border-2 ${activeImage === index ? 'border-brand-purple' : 'border-transparent'
+            className={`w-14 sm:w-24 h-14 sm:h-24 overflow-hidden border-2 rounded-md ${activeImage === index ? 'border-brand-purple' : 'border-transparent'
               }`}
           >
             <img
@@ -27,7 +27,7 @@ export default function ImageSection({
           </button>
         ))}
       </div>
-      <div className="w-full aspect-square bg-gray-100 rounded-lg overflow-hidden">
+      <div className="w-full aspect-square overflow-hidden bg-gray-100 rounded-lg">
         <img
           src={productDetails?.product.images[activeImage]}
           alt={productDetails?.product.name}

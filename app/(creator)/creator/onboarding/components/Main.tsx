@@ -5,7 +5,7 @@ import 'react-international-phone/style.css';
 import { useState } from 'react';
 
 import { PhoneInput } from 'react-international-phone';
-import { Store, Upload, X } from 'lucide-react';
+import { Store, X } from 'lucide-react';
 import {
   Field,
   Input,
@@ -14,6 +14,7 @@ import {
 
 import { handleShopCreate } from './Helpers';
 import SocialLink from './Social-Link';
+import ImgInput from '@/components/ui/Image-Input';
 import Loader from '@/components/Loader';
 
 export type Details = {
@@ -34,8 +35,6 @@ export default function Main({ userId: ownerId }: { userId: string }) {
 
   const [logoUrl, setLogoUrl] = useState<string>('');
   const [bannerUrl, setBannerUrl] = useState<string>('');
-  const [logoDragActive, setLogoDragActive] = useState<boolean>(false);
-  const [bannerDragActive, setBannerDragActive] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -47,7 +46,7 @@ export default function Main({ userId: ownerId }: { userId: string }) {
         [name]: value,
       };
     });
-  };
+  }
 
   const handleAdd = () => {
     if (platform === '' || link === '') {
@@ -62,53 +61,7 @@ export default function Main({ userId: ownerId }: { userId: string }) {
     });
     setLink('');
     setPlatform('');
-  };
-
-  const handleImageUpload = (file: File, type: 'logo' | 'banner') => {
-    if (file && file.type.startsWith('image/')) {
-      const url = URL.createObjectURL(file);
-      if (type === 'logo') {
-        setLogoUrl(url);
-      } else {
-        setBannerUrl(url);
-      }
-    }
-  };
-
-  const handleDragOver = (e: React.DragEvent, type: 'logo' | 'banner') => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (type === 'logo') {
-      setLogoDragActive(true);
-    } else {
-      setBannerDragActive(true);
-    }
-  };
-
-  const handleDragLeave = (e: React.DragEvent, type: 'logo' | 'banner') => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (type === 'logo') {
-      setLogoDragActive(false);
-    } else {
-      setBannerDragActive(false);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent, type: 'logo' | 'banner') => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (type === 'logo') {
-      setLogoDragActive(false);
-    } else {
-      setBannerDragActive(false);
-    }
-
-    const file = e.dataTransfer.files?.[0];
-    if (file) {
-      handleImageUpload(file, type);
-    }
-  };
+  }
 
   return (
     <div className="w-full md:py-10 bg-gray-50">
@@ -150,133 +103,13 @@ export default function Main({ userId: ownerId }: { userId: string }) {
               autoresize
             />
           </Field.Root>
-          <Field.Root required className="flex flex-col gap-1">
-            <Field.Label className="text-sm md:text-base font-roboto">
-              Logo <Field.RequiredIndicator color={'purple.500'} />
-            </Field.Label>
-            <div
-              className={`p-6 w-full flex flex-col justify-center items-center text-center border-2 border-dashed rounded-lg transition-colors duration-200 ${logoDragActive ? 'border-purple-500 bg-purple-50' : 'border-gray-300'
-                }`}
-              onDragOver={e => handleDragOver(e, 'logo')}
-              onDragLeave={e => handleDragLeave(e, 'logo')}
-              onDrop={e => handleDrop(e, 'logo')}
-            >
-              {logoUrl ? (
-                <div className="flex flex-col items-center gap-4">
-                  <img
-                    src={logoUrl}
-                    alt="Logo preview"
-                    className="max-w-[200px] max-h-[200px] object-contain rounded-lg"
-                  />
-                  <button
-                    onClick={() => {
-                      document.getElementById('logo-upload')?.click();
-                    }}
-                    className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
-                  >
-                    Change Logo
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
-                  <p className="text-sm md:text-base font-roboto mb-4">
-                    {logoDragActive ? 'Drop image here' : 'Drag and drop or click to upload'}
-                  </p>
-                  <button
-                    onClick={() => {
-                      document.getElementById('logo-upload')?.click();
-                    }}
-                    className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
-                  >
-                    Upload Logo
-                  </button>
-                </>
-              )}
-              <input
-                id="logo-upload"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={e => {
-                  const img = e.target.files?.[0];
-                  if (img) {
-                    handleImageUpload(img, 'logo');
-                  }
-                }}
-              />
-              <div className="flex flex-col gap-2">
-                <p className="text-xs text-gray-500 mt-6">Preferred dimensions: 200 x 200</p>
-                <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
-              </div>
-            </div>
-          </Field.Root>
-          <Field.Root required className="flex flex-col gap-1">
-            <Field.Label className="text-sm md:text-base font-roboto">Banner</Field.Label>
-            <div
-              className={`w-full flex flex-col justify-center items-center border-2 border-dashed rounded-lg p-6 text-center transition-colors duration-200 ${bannerDragActive ? 'border-purple-500 bg-purple-50' : 'border-gray-300'
-                }`}
-              onDragOver={e => handleDragOver(e, 'banner')}
-              onDragLeave={e => handleDragLeave(e, 'banner')}
-              onDrop={e => handleDrop(e, 'banner')}
-            >
-              {bannerUrl ? (
-                <div className="w-full flex flex-col items-center gap-4">
-                  <img
-                    src={bannerUrl}
-                    alt="Banner preview"
-                    className="max-w-full max-h-[300px] object-contain rounded-lg"
-                  />
-                  <button
-                    onClick={() => {
-                      document.getElementById('banner-upload')?.click();
-                    }}
-                    className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
-                  >
-                    Change Banner
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <Upload className="h-10 w-10 mx-auto text-gray-400 mb-4" />
-                  <p className="text-sm md:text-base font-roboto mb-4">
-                    {bannerDragActive ? 'Drop image here' : 'Drag and drop or click to upload'}
-                  </p>
-                  <button
-                    onClick={() => {
-                      document.getElementById('banner-upload')?.click();
-                    }}
-                    className="px-3 py-2 rounded-md bg-white text-sm font-semibold font-roboto border border-solid border-gray-400 hover:bg-slate-100 duration-200"
-                  >
-                    Upload Banner
-                  </button>
-                </>
-              )}
-              <input
-                id="banner-upload"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={e => {
-                  const img = e.target.files?.[0];
-                  if (img) {
-                    handleImageUpload(img, 'banner');
-                  }
-                }}
-              />
-              <div className="flex flex-col gap-2">
-                <p className="text-xs text-gray-500 mt-6">Preferred dimensions: 200 x 1000</p>
-                <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
-              </div>
-            </div>
-          </Field.Root>
+          <ImgInput title="Logo" url={logoUrl} setURL={setLogoUrl} />
+          <ImgInput title="Banner" url={bannerUrl} setURL={setBannerUrl} />
           <div className="w-full flex flex-col mt-6 gap-10">
-            <div className="w-full flex flex-col gap-2">
-              <Field.Root required className="flex flex-col gap-2">
-                <Field.Label className="text-sm md:text-base font-roboto">
-                  Contact Details <Field.RequiredIndicator color={'purple.500'} />
-                </Field.Label>
-              </Field.Root>
+            <Field.Root required className="flex flex-col gap-1">
+              <Field.Label className="text-sm md:text-base font-roboto">
+                Contact Details <Field.RequiredIndicator color={'purple.500'} />
+              </Field.Label>
               <PhoneInput
                 name='contact'
                 value={shopDetails.contact}
@@ -294,19 +127,17 @@ export default function Main({ userId: ownerId }: { userId: string }) {
                   backgroundColor: '#f9fafb',
                 }}
               />
-            </div>
+            </Field.Root>
             <div className="flex flex-col gap-2">
-              <div className="flex flex-col gap-2">
-                <Field.Root required className="flex flex-col gap-2">
-                  <Field.Label className="text-sm md:text-base font-roboto">
-                    Social Links (at least 1) <Field.RequiredIndicator color={'purple.500'} />
-                  </Field.Label>
-                </Field.Root>
+              <Field.Root required className="flex flex-col gap-1">
+                <Field.Label className="text-sm md:text-base font-roboto">
+                  Social Links (at least 1) <Field.RequiredIndicator color={'purple.500'} />
+                </Field.Label>
                 <div className="w-full flex flex-row items-center gap-3 md:gap-6">
                   <SocialLink
                     link={link}
-                    setLink={setLink}
                     platform={platform}
+                    setLink={setLink}
                     setPlatform={setPlatform}
                   />
                   <button
@@ -316,7 +147,7 @@ export default function Main({ userId: ownerId }: { userId: string }) {
                     Add
                   </button>
                 </div>
-              </div>
+              </Field.Root>
               <div className="mt-2 md:mt-3 flex flex-col gap-2 md:gap-3">
                 {Object.keys(socialLinks).map(key => (
                   <div className="w-full flex flex-row items-center justify-between" key={key}>

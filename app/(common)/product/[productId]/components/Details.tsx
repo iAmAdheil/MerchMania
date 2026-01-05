@@ -5,7 +5,7 @@ import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 import { Sizes, Roles, ProductDisplaySchema } from '@/types';
 import { addToCart } from '@/actions/update';
 
-export default function MainDetails({ role, userId, productDetails }: {
+export default function Details({ role, userId, productDetails }: {
   role: Roles,
   userId: string,
   productDetails: ProductDisplaySchema
@@ -16,7 +16,6 @@ export default function MainDetails({ role, userId, productDetails }: {
   const incrementQuantity = () => {
     setQuantity(prev => Math.min(prev + 1, 10)); // Max 10 items
   };
-
   const decrementQuantity = () => {
     setQuantity(prev => Math.max(prev - 1, 1)); // Min 1 item
   };
@@ -27,25 +26,25 @@ export default function MainDetails({ role, userId, productDetails }: {
       if (response === 1) {
         alert('Product added to cart successfully');
       } else {
-        alert('Failed to add product to cart. Please try again.');
+        alert('Failed to add product to cart, please try again');
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('Failed to add product to cart. Please try again.');
+      alert('Failed to add product to cart, please try again');
     }
   };
 
   return (
-    <div className="w-full flex flex-col gap-6 lg:max-w-lg xl:max-w-md">
+    <div className="w-full lg:max-w-lg xl:max-w-md flex flex-col gap-6">
       <div className="flex flex-row items-center gap-4">
-        <div className="h-8 w-8 rounded-full overflow-hidden">
+        <div className="h-8 w-8 overflow-hidden rounded-full">
           <img
             src={productDetails?.shop.logo || ''}
             alt={productDetails?.shop.name}
             className="h-full w-full object-cover"
           />
         </div>
-        <h3 className="text-xl font-medium font-roboto text-gray-500">
+        <h3 className="text-xl text-gray-500 font-medium font-roboto">
           {productDetails?.shop.name}
         </h3>
       </div>
@@ -56,7 +55,7 @@ export default function MainDetails({ role, userId, productDetails }: {
             &#8377;{productDetails?.product.price}
           </span>
         </div>
-        <p className="text-gray-700 font-roboto text-base">
+        <p className="text-base text-gray-700 font-roboto">
           {productDetails?.product.description}
         </p>
       </div>
@@ -68,17 +67,17 @@ export default function MainDetails({ role, userId, productDetails }: {
               <button
                 onClick={decrementQuantity}
                 disabled={quantity <= 1}
-                className={`px-3 py-1 rounded-l-sm text-lg font-roboto border-y-[1px] border-l-[1px] border-solid border-gray-300 ${quantity <= 1 ? 'opacity-20' : ''}`}
+                className={`px-3 py-1 text-lg font-roboto border-y border-l border-solid border-gray-300 ${quantity <= 1 ? 'opacity-20' : ''} rounded-l-sm`}
               >
                 -
               </button>
-              <p className="px-3 py-1 text-lg font-roboto border-[1px] border-solid border-gray-300">
+              <p className="px-3 py-1 text-lg font-roboto border-y border-x border-solid border-gray-300">
                 {quantity}
               </p>
               <button
                 onClick={incrementQuantity}
                 disabled={quantity >= 10}
-                className={`px-3 py-1 rounded-r-sm text-lg font-roboto border-y-[1px] border-r-[1px] border-solid border-gray-300 ${quantity >= 10 ? 'opacity-20' : ''}`}
+                className={`px-3 py-1 text-lg font-roboto border-y border-r border-solid border-gray-300 ${quantity >= 10 ? 'opacity-20' : ''} rounded-r-sm`}
               >
                 +
               </button>
@@ -91,7 +90,7 @@ export default function MainDetails({ role, userId, productDetails }: {
                 {productDetails?.product.sizes.map((s: Sizes) => (
                   <button
                     key={s}
-                    className={`px-3 py-1 rounded-sm text-base font-roboto border-solid border-gray-300 ${size === s ? 'border-[1px] border-purple-500' : ''}`}
+                    className={`px-3 py-1 text-base font-roboto border-solid border-gray-300 ${size === s ? 'border border-purple-500' : ''} rounded-sm`}
                     onClick={() => setSize(s)}
                   >
                     {s}
@@ -102,13 +101,13 @@ export default function MainDetails({ role, userId, productDetails }: {
             <div className="w-full flex flex-col sm:flex-row lg:flex-col justify-center gap-4 sm:gap-6 lg:gap-4 duration-150">
               <button
                 onClick={handleAddToCart}
-                className="w-full flex flex-row items-center justify-center bg-purple-500 rounded-md sm:hover:opacity-80 text-white py-2 gap-4 duration-150"
+                className="py-2 gap-4 w-full flex flex-row justify-center items-center text-white bg-purple-500 rounded-md sm:hover:opacity-80 duration-150"
               >
-                <FiShoppingCart className="text-white text-base md:text-lg" />
+                <FiShoppingCart className="text-base md:text-lg text-white" />
                 <p className="text-base md:text-lg font-medium font-roboto">Add to Cart</p>
               </button>
-              <button className="w-full flex flex-row items-center justify-center bg-black rounded-md sm:hover:opacity-80 text-white py-2 gap-4 duration-150">
-                <FiHeart className="text-white text-base md:text-lg" />
+              <button className="py-2 w-full flex flex-row justify-center items-center gap-4 text-white bg-black sm:hover:opacity-80 rounded-md duration-150 ">
+                <FiHeart className="text-base md:text-lg text-white" />
                 <p className="text-base md:text-lg font-medium font-roboto">Add to Favourites</p>
               </button>
             </div>

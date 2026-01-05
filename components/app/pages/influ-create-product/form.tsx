@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { blobUrlToFile } from '@/utils/blobToFile';
+import { blobUrlToFile } from '@/utils/blob-to-file';
 import { saveProduct } from '@/actions/save';
 import { fetchShopByUserId } from '@/actions/fetch';
 import { ProductDetailsSchema, Sizes } from '@/types';
