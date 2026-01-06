@@ -4,15 +4,16 @@ import { fetchShopProductsById } from '@/actions/fetch';
 
 const useShopProducts = (shopId: string) => {
   const [products, setProducts] = useState<ProductCardSchema[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      setIsLoading(true);
+      setLoading(true);
       const products: ProductCardSchema[] = await fetchShopProductsById(shopId, 8);
       console.log('Fetched products:', products);
       setProducts(products);
-      setIsLoading(false);
+      setLoading(false);
     };
 
     if (shopId && shopId.length > 0) {
@@ -22,7 +23,8 @@ const useShopProducts = (shopId: string) => {
 
   return {
     products,
-    isLoading,
+    loading,
+    err
   };
 };
 

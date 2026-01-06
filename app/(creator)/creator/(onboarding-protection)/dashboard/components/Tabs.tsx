@@ -1,22 +1,24 @@
 'use client';
 
 import { useState } from 'react';
+
 import { Tabs } from '@chakra-ui/react';
+
 import Overview from './Overview';
 import Products from './Products';
 import Orders from './Orders';
 import Analytics from './Analytics';
 
-export default function TabContent({ shopId }: { shopId: string }) {
+export default function PageTabs({ shopId }: { shopId: string }) {
   const [activeTab, setActiveTab] = useState('overview');
   return (
-    <div className="bg-gray-50 px-6 md:px-8 lg:px-12 py-10">
+    <div className="px-6 md:px-8 lg:px-12 py-10 bg-gray-50">
       <Tabs.Root value={activeTab} variant={'subtle'} className="flex flex-col gap-6" lazyMount>
-        <Tabs.List className="flex flex-row justify-between bg-gray-200 p-1 rounded-sm">
+        <Tabs.List className="p-1 flex flex-row justify-between bg-gray-200 rounded-sm">
           <Tabs.Trigger
             onClick={() => setActiveTab('overview')}
             value="overview"
-            className={`flex justify-center items-center flex-1 md:text-base text-sm font-roboto text-light text-black ${activeTab === 'overview' ? 'bg-white' : ''
+            className={`flex-1 flex justify-center items-center text-sm md:text-base text-black font-roboto text-light ${activeTab === 'overview' ? 'bg-white' : ''
               }`}
           >
             Overview
@@ -24,7 +26,7 @@ export default function TabContent({ shopId }: { shopId: string }) {
           <Tabs.Trigger
             onClick={() => setActiveTab('products')}
             value="products"
-            className={`flex justify-center items-center flex-1 md:text-base text-sm font-roboto text-light text-black ${activeTab === 'products' ? 'bg-white' : ''
+            className={`flex-1 flex justify-center items-center text-sm md:text-base text-black font-roboto text-light ${activeTab === 'products' ? 'bg-white' : ''
               }`}
           >
             Products
@@ -32,7 +34,7 @@ export default function TabContent({ shopId }: { shopId: string }) {
           <Tabs.Trigger
             onClick={() => setActiveTab('orders')}
             value="orders"
-            className={`flex justify-center items-center flex-1 md:text-base text-sm font-roboto text-light text-black ${activeTab === 'orders' ? 'bg-white' : ''
+            className={`flex-1 flex justify-center items-center text-sm md:text-base text-black font-roboto text-light ${activeTab === 'orders' ? 'bg-white' : ''
               }`}
           >
             Orders
@@ -40,7 +42,7 @@ export default function TabContent({ shopId }: { shopId: string }) {
           <Tabs.Trigger
             onClick={() => setActiveTab('analytics')}
             value="analytics"
-            className={`flex justify-center items-center flex-1 md:text-base text-sm font-roboto text-light text-black ${activeTab === 'analytics' ? 'bg-white' : ''
+            className={`flex-1 flex justify-center items-center text-sm md:text-base text-black font-roboto text-light ${activeTab === 'analytics' ? 'bg-white' : ''
               }`}
           >
             Analytics

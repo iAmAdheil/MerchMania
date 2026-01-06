@@ -4,18 +4,19 @@ import { ShopDetailsSchema } from '@/types';
 
 const useShopByUserId = (userId: string) => {
   const [shopDetails, setShopDetails] = useState<ShopDetailsSchema | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchShop = async () => {
       try {
-        setIsLoading(true);
+        setLoading(true);
         const shop: ShopDetailsSchema | null = await fetchShopByUserId(userId);
         setShopDetails(shop);
       } catch (e: any) {
         console.log(e);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
     if (userId && userId.length > 0) {
@@ -25,7 +26,8 @@ const useShopByUserId = (userId: string) => {
 
   return {
     shopDetails,
-    isLoading,
+    loading,
+    err
   };
 };
 

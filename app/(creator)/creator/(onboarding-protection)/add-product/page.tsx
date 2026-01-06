@@ -1,11 +1,11 @@
 import { getSession } from "@/lib/auth";
 
-import Form from './components/form';
+import Main from './components/Main';
 
 async function Page() {
   const session = await getSession();
   return (
-    <Form userId={session?.user?.id || ''} />
+    <Main userId={session?.user?.id || ''} />
   );
 };
 

@@ -4,18 +4,20 @@ import { CartItemSchema } from '@/types';
 
 export default function useCart(userId: string) {
   const [cart, setCart] = useState<CartItemSchema[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
     const fetch = async () => {
       try {
-        setIsLoading(true);
+        setLoading(true);
         const items = await fetchCart(userId);
         setCart(items);
       } catch (e: any) {
         console.log(e);
+        setErr(e.message);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
@@ -24,5 +26,5 @@ export default function useCart(userId: string) {
     }
   }, [userId]);
 
-  return { cart, isLoading };
+  return { cart, loading, err };
 }
