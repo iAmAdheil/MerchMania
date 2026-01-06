@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 
 import { auth } from "@/auth/auth";
 
-import Main from './components/Main';
+import Main from './_components/Main';
 
 async function Page() {
   const session = await auth.api.getSession({

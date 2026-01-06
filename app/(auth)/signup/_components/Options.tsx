@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import { Users, ArrowRight, Star } from 'lucide-react';
 
-import { Display } from '../components/Main';
+import { Display } from './Main';
 
 export default function Options({
   setDisplay,

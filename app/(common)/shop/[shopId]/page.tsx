@@ -1,7 +1,7 @@
 import { fetchShopByShopId, fetchShopProductsById } from '@/actions/fetch';
 // import { getSession } from '@/lib/auth';
 
-import Main from './components/Main';
+import Main from './_components/Main';
 
 interface Props {
   params: Promise<{

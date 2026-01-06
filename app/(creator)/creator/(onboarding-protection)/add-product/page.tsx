@@ -1,6 +1,6 @@
 import { getSession } from "@/lib/auth";
 
-import Main from './components/Main';
+import Main from './_components/Main';
 
 async function Page() {
   const session = await getSession();

@@ -2,7 +2,7 @@ import { getSession } from '@/lib/auth';
 import { fetchCart } from '@/actions/fetch';
 import { SavedAddress } from '@/types';
 
-import Main from './components/Main';
+import Main from './_components/Main';
 
 const SavedAddresses: SavedAddress[] = [
   {

@@ -1,7 +1,7 @@
 import { getSession } from "@/lib/auth";
 import { fetchCart } from "@/actions/fetch";
 
-import Main from './components/Main';
+import Main from './_components/Main';
 
 async function Page() {
   const session = await getSession();

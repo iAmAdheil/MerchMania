@@ -1,4 +1,4 @@
-import Main from "./components/Main";
+import Main from "./_components/Main";
 
 async function Page() {
   return (
